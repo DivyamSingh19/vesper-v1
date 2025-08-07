@@ -2,10 +2,9 @@ import Hero from "@/components/Landing/Hero";
 import React from "react";
 import FeaturesCard from "@/components/Landing/features"
 import Analysis from "@/components/Landing/analysis";
-
+import  Testimonials  from "@/components/Landing/testimonials";
 function page() {
-  return (
-    <div className="flex flex-col min-h-screen w-full overflow-hidden">
+  return <>
       {/* Header */}
       <Hero
         title="All your Business Expenses in one place"
@@ -14,8 +13,9 @@ function page() {
       />
       <Analysis />
       <FeaturesCard />
-    </div>
-  );
+      <Testimonials/>
+    </>
+
 }
 
 export default page;
