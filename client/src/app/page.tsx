@@ -1,18 +1,17 @@
 import Hero from "@/components/Landing/Hero";
 import React from "react";
-import FeaturesCard from "@/components/Landing/features"
+import FeaturesCard from "@/components/Landing/features";
 function page() {
   return (
     <>
       {/* Header */}
       <Hero
-        title="All your Business Expenses in one place"
-        subTitle="It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English."
+        title="Your Legal Ally in the Digital Age"
+        subTitle="Simplify complex legal documents with AI-powered summaries, and book verified lawyers in minutes — all on a secure Web2 and blockchain-enabled platform. Whether you’re an individual or a business, navigate legal challenges with confidence and clarity."
         // backgroundImg="/images/dg.jpg"
       />
-    <FeaturesCard/>
+      <FeaturesCard />
     </>
-    
   );
 }
 
