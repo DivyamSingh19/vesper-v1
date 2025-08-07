@@ -3,8 +3,8 @@ import { CardSpotlight } from "../ui/card-spotlight";
 import { Brain, Share, Lock } from "lucide-react";
 const FeaturesCard = () => {
   return (
-    <div className="flex flex-col gap-20 md:flex-row justify-evenly items-center">
-      <CardSpotlight className="w-75 h-75 text-white text-center shadow-black shadow-2xl">
+    <div className="flex flex-col md:flex-row flex-wrap gap-8 md:gap-12 justify-center items-center px-4 md:px-0">
+      <CardSpotlight className="w-full max-w-md text-white text-center shadow-black shadow-2xl">
         <Brain className="h-12 w-12 text-white mx-auto mb-4 relative z-20" />
         <h3 className="relative z-20 text-lg md:text-xl font-semibold md:font-bold mt-2">
           AI-Powered Summarization
@@ -15,7 +15,7 @@ const FeaturesCard = () => {
         </p>
       </CardSpotlight>
 
-      <CardSpotlight className="w-75 h-75 text-white text-center shadow-black shadow-2xl">
+      <CardSpotlight className="w-full max-w-md text-white text-center shadow-black shadow-2xl">
         <Lock className="h-12 w-12 text-white mx-auto mb-4 relative z-20" />
         <h3 className="relative z-20 text-lg md:text-xl font-semibold md:font-bold mt-2">
           Blockchain Security
@@ -25,7 +25,7 @@ const FeaturesCard = () => {
         </p>
       </CardSpotlight>
 
-      <CardSpotlight className="w-75 h-75 text-white text-center shadow-black shadow-2xl">
+      <CardSpotlight className="w-full max-w-md text-white text-center shadow-black shadow-2xl">
         <Share className="h-12 w-12 text-white mx-auto mb-4 relative z-20" />
         <h3 className="relative z-20 text-lg md:text-xl font-semibold md:font-bold mt-2">
           One-Click Sharing
