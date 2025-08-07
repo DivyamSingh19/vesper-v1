@@ -3,6 +3,9 @@ import React from "react";
 import FeaturesCard from "@/components/Landing/features"
 import Analysis from "@/components/Landing/analysis";
 import  Testimonials  from "@/components/Landing/testimonials";
+import Flowchart from "@/components/Landing/flowchart";
+import F  from "@/components/Landing/footer";
+
 function page() {
   return <>
       {/* Header */}
@@ -12,8 +15,10 @@ function page() {
         // backgroundImg="/images/dg.jpg"
       />
       <Analysis />
+      <Flowchart/>
       <FeaturesCard />
       <Testimonials/>
+      <F/>
     </>
 
 }

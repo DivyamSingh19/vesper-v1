@@ -3,7 +3,7 @@ import { CardSpotlight } from "../ui/card-spotlight";
 import { Brain, Share, Lock } from "lucide-react";
 const FeaturesCard = () => {
   return (
-    <div className="flex flex-col md:flex-row flex-wrap gap-8 md:gap-12 justify-center items-center px-4 md:px-0">
+    <div className="flex flex-col md:flex-row flex-wrap gap-8 md:gap-12 justify-center items-center px-4 md:px-0 mt-25">
       <CardSpotlight className="w-full max-w-md text-white text-center shadow-black shadow-2xl">
         <Brain className="h-12 w-12 text-white mx-auto mb-4 relative z-20" />
         <h3 className="relative z-20 text-lg md:text-xl font-semibold md:font-bold mt-2">

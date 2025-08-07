@@ -27,8 +27,8 @@ const Analysis = () => {
   ];
 
   return (
-    <div className="mb-20">
-      <h3 className="text-3xl font-playfair font-semibold text-center text-white mb-12">
+    <div className="mt-15">
+      <h3 className="text-3xl font-playfair font-semibold text-center text-white mb-13">
         How It Works
       </h3>
       <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
