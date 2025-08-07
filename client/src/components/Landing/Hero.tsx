@@ -17,7 +17,7 @@ const Hero: React.FC<HeroProps> = ({ title, subTitle, backgroundImg }) => {
       }}
     >
       <section className="min-h-screen text-center w-[95%] mx-auto flex flex-col gap-6 justify-center items-center">
-        <div className=" w-[50%]">
+        <div className=" w-[50%] text-white">
           <h1 className="text-6xl  mb-6">{title}</h1>
           <p>{subTitle}</p>
         </div>
