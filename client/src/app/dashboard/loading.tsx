@@ -1,9 +1,12 @@
-import React from 'react'
+import React from "react";
+import { LoaderOne } from "@/components/ui/loader";
 
 const loading = () => {
   return (
-    <div>loading</div>
-  )
-}
+    <div>
+      <LoaderOne />
+    </div>
+  );
+};
 
-export default loading
+export default loading;
