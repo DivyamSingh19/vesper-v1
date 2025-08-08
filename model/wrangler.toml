@@ -1,5 +1,0 @@
-name = "model"
-compatibility_date = "2025-08-01"
-
-[vars]
-GEMINI_API_KEY = ""
