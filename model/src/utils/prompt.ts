@@ -19,7 +19,7 @@ export const summarizePrompt = ({
     .trim()
     .slice(0, 14000);
 
-  return `You are an AI assistant in the legal domain. Summarize the following PDF content clearly and concisely.
+  return `You are an AI assistant with expertise in the legal domain. Summarize the following PDF content clearly and concisely.
 
 DOCUMENT INFO:
 - Pages: ${numPages}

@@ -1,5 +1,5 @@
 import { getDocument } from "pdfjs-serverless";
-import { parsedResult, pdfInfo } from "../types/metadata";
+import type { pdfInfo } from "../types/metadata";
 
 export async function parsePdf(buffer: ArrayBuffer) {
   const loadingPdf = getDocument({ data: buffer });
@@ -11,8 +11,7 @@ export async function parsePdf(buffer: ArrayBuffer) {
 
   const title = info.Title || metadata?.["dc:title"] || "Untitled";
   const author = info.Author || metadata?.["dc:creator"] || "Unknown";
-  const subject =
-    info.Subject || metadata?.["dc:description"] || "Not specified";
+  const subject = info.Subject || metadata?.["dc:description"] || "Not specified";
   const keywords = info.Keywords || metadata?.["pdf:Keywords"] || "None";
 
   let fullText = "";
