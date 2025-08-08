@@ -1,6 +1,7 @@
 import { div } from "framer-motion/client";
 import { MagicCard } from "../magicui/magic-card";
 import {
+  ArrowDown,
   GitBranch,
   ArrowRight,
   CheckCircle,
@@ -42,7 +43,7 @@ const Flowchart = () => {
       title: "File EEOC Complaint",
       description: "Within 180 days of incident",
       icon: Users,
-      color: "bg-grey-300/10 text-gray-300",
+      color: "bg-blue-300/10 text-gray-300",
     },
   ];
 
@@ -68,61 +69,68 @@ const Flowchart = () => {
   ];
 
   return (
-    <div className="flex flex-col lg:flex-row justify-center items-center gap-12 px-4 py-10 mt-25">
+    <div className="flex flex-col lg:flex-row justify-center items-center gap-12 py-10 px-4 ">
       <MagicCard
-        className="w-full max-w-xl p-8 rounded-2xl text-white"
+        className="w-full max-w-lg p-5 rounded-2xl text-white"
         backgroundClass="bg-black"
       >
-        <div className="flex flex-col ">
-          {" "}
-          <h3 className="flex items-center gap-2 text-xl md:text-3xl font-playfair font-bold text-white">
+        <div className="flex flex-col text-center p-4">
+          <h3 className="flex items-self-center  gap-2 text-xl md:text-3xl font-playfair font-bold text-white">
             <GitBranch className="h-8 w-8" />
             Employment Law Example
           </h3>
-          <p className="text-xl text-muted-foreground m-4">
+          <p className="text-xl text-muted-foreground mt-2">
             Interactive flowchart for workplace discrimination issues
           </p>
         </div>
 
-        <div className="flex flex-col gap-4">
+        <div className="p-8">
           {flowchartExample.map((content, index) => (
-            <div key={content.id} className="flex items-center space-x-4">
-              <div className={`p-3 rounded-full ${content.color}`}>
-                <content.icon className="h-6 w-6" />
+            <div key={content.id} className="relative">
+              <div className="flex items-center space-x-4 p-4 rounded-lg bg-white/5 hover:bg-white/10">
+                <div className={`p-3 rounded-full ${content.color}`}>
+                  <content.icon className="h-6 w-6" />
+                </div>
+                <div className="flex-1">
+                  <h4>{content.title}</h4>
+                  <p>{content.description}</p>
+                </div>
               </div>
-              <div className="flex flex-col">
-                <h4>{content.title}</h4>
-                <p>{content.description}</p>
-              </div>
+              {index < flowchartExample.length - 1 && (
+                <div className="flex justify-center py-1">
+                  <ArrowDown className="h-6 w-6 text-gray-100" />
+                </div>
+              )}
             </div>
           ))}
         </div>
-
-        <div className="mt-6 p-4 bg-white/10 rounded-lg">
+        <div className="mt-2 p-4 bg-white/10 rounded-lg">
           <p className="text-sm text-gray-500">
             <strong>AI Insight:</strong> Based on your situation, you have 180
             days to file an EEOC complaint. Document all incidents and consider
             consulting with an employment attorney.
           </p>
         </div>
-        <Button className="bg-[#294b88] mt-5">Create Flowchart</Button>
+        <Button className="bg-[#294b88] mt-5 w-full">Create Flowchart</Button>
       </MagicCard>
 
-      <div className="space-y-15 ">
-        {features.map((feature, index) => (
-          <div key={index} className="flex items-start space-x-4">
-            <div className="p-3 bg-grey-300 text-gray-300 rounded-full">
-              <feature.icon className="h-6 w-6" />
+      <div className="flex flex-col items-center">
+        <div className="space-y-15">
+          {features.map((feature, index) => (
+            <div key={index} className="flex  items-start space-x-4 ml-10">
+              <div className="p-3 bg-blue-300/10 text-gray-300 rounded-full">
+                <feature.icon className="h-6 w-6" />
+              </div>
+              <div>
+                <h3 className="text-xl font-semibold text-white mb-2">
+                  {feature.title}
+                </h3>
+                <p className="text-muted-foreground">{feature.description}</p>
+              </div>
             </div>
-            <div>
-              <h3 className="text-xl font-semibold text-white mb-2">
-                {feature.title}
-              </h3>
-              <p className="text-muted-foreground">{feature.description}</p>
-            </div>
-          </div>
-        ))}
-        <div className="mt-8 p-6 bg-white/10 rounded-xl border border-white/20 max-w-md">
+          ))}
+        </div>
+        <div className="mt-8 p-6 bg-white/10 rounded-xl border border-white/20 max-w-xl">
           <h3 className="text-2xl font-playfair font-semibold text-white mb-4">
             Ready to Get Started?
           </h3>
