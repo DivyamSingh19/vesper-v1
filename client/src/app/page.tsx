@@ -2,22 +2,19 @@ import Hero from "@/components/Landing/Hero";
 import React from "react";
 import FeaturesCard from "@/components/Landing/features";
 import Analysis from "@/components/Landing/analysis";
-import Testimonials from "@/components/Landing/testimonials";
+// import Testimonials from "@/components/Landing/testimonials";
 import Flowchart from "@/components/Landing/flowchart";
 import F from "@/components/Landing/footer";
+import Header from "@/components/Landing/header";
 
 function page() {
   return (
     <>
-      {/* Header */}
-      <Hero
-        title="Your Legal Ally in the Digital Age"
-        subTitle="Simplify complex legal documents with AI-powered summaries, and book verified lawyers in minutes — all on a secure Web2 and blockchain-enabled platform. Whether you’re an individual or a business, navigate legal challenges with confidence and clarity."
-        // backgroundImg="/images/dg.jpg"
-      />
+      <Header />
+      <Hero />
       <Analysis />
-      <div className="flex flex-col gap-5 justify-center items-center text-center text-white mt-30 ">
-        <h2 className="text-3xl font-playfair font-semibold ">
+      <div className="flex flex-col gap-5 justify-center items-center text-[#d1cfc0] text-center mt-50">
+        <h2 className="text-4xl font-playfair font-semibold ">
           Legal Flowcharts
         </h2>
         <p className="text-xl text-muted-foreground max-w-3xl">
@@ -28,8 +25,8 @@ function page() {
       </div>
       <Flowchart />
       <FeaturesCard />
-      <Testimonials />
-      <F/>
+      {/* <Testimonials /> */}
+      <F />
     </>
   );
 }

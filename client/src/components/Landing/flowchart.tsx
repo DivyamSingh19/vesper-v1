@@ -1,5 +1,3 @@
-import { div } from "framer-motion/client";
-import { MagicCard } from "../magicui/magic-card";
 import {
   ArrowDown,
   GitBranch,
@@ -10,138 +8,134 @@ import {
   Users,
 } from "lucide-react";
 import { Button } from "../ui/button";
+import { MagicCard } from "../magicui/magic-card";
+import ButtonSec from "../buttons/buttonSec";
+import ButtonPrime from "../buttons/buttonPrime";
+
+const flowchartExample = [
+  {
+    id: 1,
+    title: "Employment Issue",
+    description: "Something happened at work",
+    icon: HelpCircle,
+    color: "bg-blue-400 text-white", 
+  },
+  {
+    id: 2,
+    title: "Was it discrimination?",
+    description: "Based on protected class",
+    icon: AlertCircle,
+    color: "bg-[#d1cfc0]/10 text-[#d1cfc0]",
+  },
+  {
+    id: 3,
+    title: "Document Everything",
+    description: "Gather evidence and witnesses",
+    icon: CheckCircle,
+    color: "bg-green-400/10 text-green-400",
+  },
+  {
+    id: 4,
+    title: "File EEOC Complaint",
+    description: "Within 180 days of incident",
+    icon: Users,
+    color: "bg-[#a9b2c0]/10 text-[#a9b2c0]",
+  },
+];
+
+const features = [
+  {
+    title: "Personalized Guidance",
+    description:
+      "AI creates custom flowcharts based on your specific legal situation",
+    icon: GitBranch,
+  },
+  {
+    title: "Step-by-Step Actions",
+    description:
+      "Clear action items with deadlines, required documents, and next steps",
+    icon: CheckCircle,
+  },
+  {
+    title: "Interactive Decision Trees",
+    description:
+      "Dynamic flowcharts that adapt based on your answers and circumstances",
+    icon: ArrowRight,
+  },
+];
 
 const Flowchart = () => {
-  const flowchartExample = [
-    {
-      id: 1,
-      type: "start",
-      title: "Employment Issue",
-      description: "Something happened at work",
-      icon: HelpCircle,
-      color: "bg-yellow-300/10 text-yellow-300",
-    },
-    {
-      id: 2,
-      type: "question",
-      title: "Was it discrimination?",
-      description: "Based on protected class",
-      icon: AlertCircle,
-      color: "bg-blue-300/10 text-blue-300",
-    },
-    {
-      id: 3,
-      type: "action",
-      title: "Document Everything",
-      description: "Gather evidence and witnesses",
-      icon: CheckCircle,
-      color: "bg-green-300/10 text-green-300",
-    },
-    {
-      id: 4,
-      type: "outcome",
-      title: "File EEOC Complaint",
-      description: "Within 180 days of incident",
-      icon: Users,
-      color: "bg-blue-300/10 text-gray-300",
-    },
-  ];
-
-  const features = [
-    {
-      title: "Personalized Guidance",
-      description:
-        "AI creates custom flowcharts based on your specific legal situation and jurisdiction",
-      icon: GitBranch,
-    },
-    {
-      title: "Step-by-Step Actions",
-      description:
-        "Clear action items with deadlines, required documents, and next steps",
-      icon: CheckCircle,
-    },
-    {
-      title: "Interactive Decision Trees",
-      description:
-        "Dynamic flowcharts that adapt based on your answers and circumstances",
-      icon: ArrowRight,
-    },
-  ];
-
   return (
-    <div className="flex flex-col lg:flex-row justify-center items-center gap-12 py-10 px-4 ">
-      <MagicCard
-        className="w-full max-w-lg p-5 rounded-2xl text-white"
-        backgroundClass="bg-black"
-      >
-        <div className="flex flex-col text-center p-4">
-          <h3 className="flex items-self-center  gap-2 text-xl md:text-3xl font-playfair font-bold text-white">
-            <GitBranch className="h-8 w-8" />
-            Employment Law Example
-          </h3>
-          <p className="text-xl text-muted-foreground mt-2">
-            Interactive flowchart for workplace discrimination issues
-          </p>
-        </div>
+    <div className="flex flex-col lg:flex-row items-center justify-center gap-28 mt-10">
+      {/* Flowchart Card */}
+      <MagicCard className="w-full max-w-lg p-8 text-[#d1cfc0] bg-[#1f1f1f]/90 border border-white/5 rounded-2xl shadow-lg">
+        <h3 className="flex items-center gap-2 text-2xl font-playfair font-semibold">
+          <GitBranch className="h-8 w-8" />
+          Employment Law Example
+        </h3>
+        <p className="mt-2 text-sm text-[#d1cfc0]/80">
+          Interactive flowchart for workplace discrimination issues
+        </p>
 
-        <div className="p-8">
-          {flowchartExample.map((content, index) => (
-            <div key={content.id} className="relative">
-              <div className="flex items-center space-x-4 p-4 rounded-lg bg-white/5 hover:bg-white/10">
-                <div className={`p-3 rounded-full ${content.color}`}>
-                  <content.icon className="h-6 w-6" />
+        <div className="mt-8 space-y-4">
+          {flowchartExample.map((step, i) => (
+            <div key={step.id} className="relative">
+              <div className="flex items-center space-x-4 p-4 rounded-xl border border-white/5 bg-[#2a2a2a]/80">
+                <div className={`p-3 rounded-full ${step.color}`}>
+                  <step.icon className="h-6 w-6" />
                 </div>
-                <div className="flex-1">
-                  <h4>{content.title}</h4>
-                  <p>{content.description}</p>
+                <div>
+                  <h4 className="text-white font-semibold">{step.title}</h4>
+                  <p className="text-sm text-[#d1cfc0]/80">
+                    {step.description}
+                  </p>
                 </div>
               </div>
-              {index < flowchartExample.length - 1 && (
+              {i < flowchartExample.length - 1 && (
                 <div className="flex justify-center py-1">
-                  <ArrowDown className="h-6 w-6 text-gray-100" />
+                  <ArrowDown className="h-6 w-6 text-[#a9b2c0]/60" />
                 </div>
               )}
             </div>
           ))}
         </div>
-        <div className="mt-2 p-4 bg-white/10 rounded-lg">
-          <p className="text-sm text-gray-500">
-            <strong>AI Insight:</strong> Based on your situation, you have 180
-            days to file an EEOC complaint. Document all incidents and consider
-            consulting with an employment attorney.
+
+        <div className="mt-6 p-4 bg-[#2a2a2a]/80 rounded-xl border border-white/5">
+          <p className="text-sm text-[#d1cfc0]/80">
+            <strong className="text-[#f97316]">AI Insight:</strong> You have 180
+            days to file an EEOC complaint. Document everything and consult an
+            attorney.
           </p>
         </div>
-        <Button className="bg-[#294b88] mt-5 w-full">Create Flowchart</Button>
+
+        <ButtonPrime children="Create Flowchart" className="bg-blue-400 mt-6 text-white" />
       </MagicCard>
 
-      <div className="flex flex-col items-center">
-        <div className="space-y-15">
-          {features.map((feature, index) => (
-            <div key={index} className="flex  items-start space-x-4 ml-10">
-              <div className="p-3 bg-blue-300/10 text-gray-300 rounded-full">
-                <feature.icon className="h-6 w-6" />
-              </div>
-              <div>
-                <h3 className="text-xl font-semibold text-white mb-2">
-                  {feature.title}
-                </h3>
-                <p className="text-muted-foreground">{feature.description}</p>
-              </div>
+      {/* Features & CTA */}
+      <div className="flex flex-col gap-8 max-w-xl">
+        {features.map((f, i) => (
+          <div
+            key={i}
+            className="flex items-start space-x-4 bg-[#2a2a2a]/80 p-4 rounded-xl border border-white/5"
+          >
+            <div className="p-3 bg-[#f97316]/10 text-[#f97316] rounded-full">
+              <f.icon className="h-6 w-6" />
             </div>
-          ))}
-        </div>
-        <div className="mt-8 p-6 bg-white/10 rounded-xl border border-white/20 max-w-xl">
-          <h3 className="text-2xl font-playfair font-semibold text-white mb-4">
+            <div>
+              <h3 className="text-lg font-semibold text-white">{f.title}</h3>
+              <p className="text-sm text-[#d1cfc0]/80">{f.description}</p>
+            </div>
+          </div>
+        ))}
+
+        <div className="p-6 bg-[#2a2a2a]/90 rounded-xl border border-white/5">
+          <h3 className="text-2xl font-playfair font-semibold text-white">
             Ready to Get Started?
           </h3>
-          <p className="text-muted-foreground mb-6">
-            Answer a few questions about your legal situation and get a
-            personalized flowchart with actionable next steps.
+          <p className="mb-4 text-[#d1cfc0]/80 text-sm">
+            Answer a few questions to get your personalized legal roadmap.
           </p>
-          <Button className="btn-primary">
-            Create My Legal Roadmap
-            <ArrowRight className="ml-2 h-5 w-5" />
-          </Button>
+          <ButtonPrime children="Create My Legal Roadmap" />
         </div>
       </div>
     </div>
