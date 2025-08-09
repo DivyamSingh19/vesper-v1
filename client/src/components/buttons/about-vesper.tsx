@@ -1,12 +1,12 @@
 import React from "react";
-import { Button } from "../ui/button";
+import { RippleButton } from "../magicui/ripple-button";
 
 const AboutVesper = () => {
   return (
     <div>
-      <Button className="px-5 py-4 w-25 bg-white hover:bg-white/50 text-black font-playfair text-md">
+      <RippleButton className="rounded-md w-25 bg-white font-semibold hover:bg-white/50 text-black font-playfair text-md">
         About
-      </Button>
+      </RippleButton>
     </div>
   );
 };
