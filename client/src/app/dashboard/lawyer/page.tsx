@@ -1,11 +1,10 @@
-import React from 'react'
+"use client"
+import React from "react";
+import { useParams } from "next/navigation";
 
 const page = () => {
-  return (
-    <div>
-      
-    </div>
-  )
-}
+  const { role } = useParams();
+  return <div>Dashboard for {role}</div>;
+};
 
-export default page
+export default page;

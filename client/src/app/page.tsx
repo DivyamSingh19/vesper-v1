@@ -1,3 +1,4 @@
+"use client"
 import Hero from "@/components/Landing/Hero";
 import React from "react";
 import FeaturesCard from "@/components/Landing/features";
