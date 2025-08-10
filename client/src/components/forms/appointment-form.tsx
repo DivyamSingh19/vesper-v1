@@ -8,17 +8,18 @@ import { RenderCalendar } from "../calendar/rendercalendar";
 import { TimeTable } from "../calendar/timetable";
 
 // fetch the image from db and pass it later in to this form
-const AppointmentForm = ({ searchParams }: { params: {username:string; eventUrl:string}
-searchParams:{date?:string} }) => {
-  const selectedDate = searchParams.date
-    ? new Date(searchParams.date)
-    : new Date();
+const AppointmentForm = () => {
+//   { searchParams }: { params: {username:string; eventUrl:string}
+// searchParams:{date?:string} }
+//   const selectedDate = searchParams.date
+//     ? new Date(searchParams.date)
+//     : new Date();
 
-  const formattedDate = new Intl.DateTimeFormat("en-IN", {
-    weekday: "long",
-    day: "numeric",
-    month: "long",
-  }).format(selectedDate);
+  // const formattedDate = new Intl.DateTimeFormat("en-IN", {
+  //   weekday: "long",
+  //   day: "numeric",
+  //   month: "long",
+  // }).format(selectedDate);
   return (
     <div className="min-h-screen w-screen flex items-center justify-center">
       <Card className="max-w-xl w-full mx-auto">
@@ -73,7 +74,7 @@ searchParams:{date?:string} }) => {
             orientation="horizontal"
             className=" h-screen w-px bg-border"
           />
-          <TimeTable selectedDate={selectedDate} />
+          {/* <TimeTable selectedDate={selectedDate} /> */}
         </CardContent>
       </Card>
     </div>
