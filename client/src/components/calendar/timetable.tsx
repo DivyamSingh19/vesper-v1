@@ -4,8 +4,6 @@ import { format } from "date-fns";
 
 // display the availability/time slots and then like a small form to fill the details
 
-
-
 interface iAppProps {
   selectedDate: Date;
 }

@@ -41,7 +41,7 @@ export const CalendarCell = ({
         <div
           className={cn(
             "size-full rounded-sm flex items-center justify-center text-sm font-semibold",
-            isDisabled ? "text-muted-foreground cursor-not-alloweds" : "",
+            isDisabled ? "text-muted-foreground cursor-not-allowed" : "",
             isSelected ? "bg-gray-500 text-white" : "",
             !isSelected && !isDisabled ? "bg-gray-500/10" : ""
           )}
@@ -50,7 +50,7 @@ export const CalendarCell = ({
           {isDateToday && (
             <div
               className={cn(
-                "absolute bottom-5 left-1/2 transform -translate-x-1/2 translate-y-1/2 size-1.5 bg-gray-600 rounded-full",
+                "absolute bottom-3 left-1/2 transform -translate-x-1/2 translate-y-1/2 size-1.5 bg-gray-600 rounded-full",
                 isSelected && "bg-white"
               )}
             />

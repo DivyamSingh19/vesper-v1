@@ -1,88 +1,108 @@
-"use client";
-import React from "react";
-import { Card, CardContent, CardDescription } from "@/components/ui/card";
-import { Separator } from "@/components/ui/separator";
-import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
-import { CalendarX2, Clock, VideoIcon } from "lucide-react";
-import { RenderCalendar } from "../calendar/rendercalendar";
-import { TimeTable } from "../calendar/timetable";
+import React, { useState } from "react";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Textarea } from "@/components/ui/textarea";
+import ConfirmBooking from "../buttons/confirmbooking";
 
-// { searchParams }: { params: {username:string; eventUrl:string}
-// searchParams:{date?:string} }
+interface AppointmentFormProps {
+  selectedTime: string;
+  onBack: () => void;
+}
 
-// fetch the image from db and pass it later in to this form
-const AppointmentForm = () => {
-  //   { searchParams }: { params: {username:string; eventUrl:string}
-  // searchParams:{date?:string} }
-  //   const selectedDate = searchParams.date
-  //     ? new Date(searchParams.date)
-  //     : new Date();
+const AppointmentForm = ({ selectedTime, onBack }: AppointmentFormProps) => {
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [meetTitle, setMeetTitle] = useState("");
+  const [meetDescription, setMeetDescription] = useState("");
 
-  // const formattedDate = new Intl.DateTimeFormat("en-IN", {
-  //   weekday: "long",
-  //   day: "numeric",
-  //   month: "long",
-  // }).format(selectedDate);
+  const handleSubmit = () => {
+    if (!name || !email || !meetTitle || !meetDescription) {
+      alert("Please fill in all fields!");
+      return;
+    }
+    console.log("Form submitted:", {
+      name,
+      email,
+      meetTitle,
+      meetDescription,
+      selectedTime,
+    });
+  };
+
   return (
-    <div className="min-h-screen flex items-center justify-center">
-      <Card className="w-[90%] md:w-[40%] mx-auto ">
-        <CardContent className="p-5  flex gap-2 flex-col md:flex-row justify-center ">
-          <div className="flex-1 max-md:border-b-4 pb-6 md:border-r-2  ">
-            <div className="flex gap-2 items-center">
-              <Avatar>
-                {/* <AvatarImage src="#" alt="User avatar" /> */}
-                <AvatarFallback>M</AvatarFallback>
-              </Avatar>
-              {/* fetch the name of the user from the db */}
-              <p className="text-md font-medium font-sans text-muted-foreground mt-1">
-                Momo
-              </p>
-            </div>
+    <Card className="w-full max-w-md mx-auto">
+      <CardHeader>
+        <CardTitle>Book Your Meeting</CardTitle>
+        <p className="text-sm text-muted-foreground">
+          Selected time: {selectedTime}
+        </p>
+      </CardHeader>
+      <CardContent>
+        <div className="space-y-4">
+          <div className="flex flex-col gap-2">
+            <Label htmlFor="name">Name</Label>
+            <Input
+              id="name"
+              type="text"
+              placeholder="Your full name"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              required
+            />
+          </div>
 
-            {/* fetch the meet title from the db */}
-            <h1 className="text-lg font-semibold mt-2">meet title</h1>
-            {/* fetch the meet description from the db */}
-            <p className="text-sm font-medium text-muted-foreground">
-              meet description
-            </p>
-            {/*fetch date,duration n meet ka platform from db */}
-            <div className="mt-5 flex flex-col gap-y-3">
-              <p className="flex items-center">
-                <CalendarX2 className="size-4 mr-2 text-primary" />
-                <span className="text-sm font-medium text-muted-foreground">
-                  09 August 2025
-                </span>
-              </p>
-              <p className="flex items-center">
-                <Clock className="size-4 mr-2 text-primary" />
-                <span className="text-sm font-medium text-muted-foreground">
-                  30 minutes
-                </span>
-              </p>
-              <p className="flex items-center">
-                <VideoIcon className="size-4 mr-2 text-primary" />
-                <span className="text-sm font-medium text-muted-foreground">
-                  meet platform
-                </span>
-              </p>
-            </div>
+          <div className="flex flex-col gap-2">
+            <Label htmlFor="email">Email</Label>
+            <Input
+              id="email"
+              type="email"
+              placeholder="your@email.com"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
+            />
           </div>
-          {/* vertical nahi ho raha hai separator */}
-          {/* <Separator
-            orientation="vertical"
-            className=" h-[500px] border-4 bg-orange-400"
-          /> */}
-          <div className="flex-1">
-            <RenderCalendar />
+
+          <div className="flex flex-col gap-2">
+            <Label htmlFor="meetTitle">Meeting Title</Label>
+            <Input
+              id="meetTitle"
+              type="text"
+              placeholder="What's this meeting about?"
+              value={meetTitle}
+              onChange={(e) => setMeetTitle(e.target.value)}
+              required
+            />
           </div>
-          {/* <Separator
-            orientation="vertical"
-            className=" h-screen  border-4 bg-orange-400"
-          /> */}
-          {/* <div className="flex-1 bg-amber-200">GG</div> */}
-        </CardContent>
-      </Card>
-    </div>
+
+          <div className="flex flex-col gap-2">
+            <Label htmlFor="meetDescription">Meeting Description</Label>
+            <Textarea
+              id="meetDescription"
+              placeholder="Provide more details about the meeting..."
+              value={meetDescription}
+              onChange={(e) => setMeetDescription(e.target.value)}
+              required
+              rows={3}
+            />
+          </div>
+
+          <div className="flex justify-around gap-2 pt-4">
+            <Button
+              type="button"
+              variant="default"
+              onClick={onBack}
+              className="w-50 font-playfair font-semibold text-md"
+            >
+              Back
+            </Button>
+            <ConfirmBooking onClick={handleSubmit} className="w-50" />
+          </div>
+        </div>
+      </CardContent>
+    </Card>
   );
 };
 

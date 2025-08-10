@@ -1,3 +1,4 @@
+"use client"
 import React from "react";
 import { RainbowButton } from "../magicui/rainbow-button";
 import { Download } from "lucide-react";

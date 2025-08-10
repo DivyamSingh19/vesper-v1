@@ -36,7 +36,7 @@ export const CalendarHeader = ({
       </VisuallyHidden>
 
       <h2 className="font-semibold flex-1">
-        {monthName}
+        {monthName}{" "}
         <span className="text-muted-foreground text-sm font-medium">
           {year}
         </span>
