@@ -26,10 +26,10 @@ const AppointmentForm = () => {
   //   month: "long",
   // }).format(selectedDate);
   return (
-    <div className="min-h-screen w-screen flex items-center justify-center">
-      <Card className="max-w-xl w-full mx-auto">
-        <CardContent className="p-5 md:grid md:grid-cols-[1fr,auto,1fr,auto,1fr] md:gap-4">
-          <div>
+    <div className="min-h-screen flex items-center justify-center">
+      <Card className="w-[70%] mx-auto ">
+        <CardContent className="p-5  flex gap-4">
+          <div className="flex-[.5]">
             <div className="flex gap-2 items-center">
               <Avatar>
                 {/* <AvatarImage src="#" alt="User avatar" /> */}
@@ -71,13 +71,15 @@ const AppointmentForm = () => {
           </div>
           {/* vertical nahi ho raha hai separator */}
           <Separator
-            orientation="horizontal"
-            className=" h-screen w-px bg-border"
+            orientation="vertical"
+            className=" h-[500px] border-4 bg-orange-400"
           />
-          <RenderCalendar />
+          <div className="flex-1">
+            <RenderCalendar />
+          </div>
           <Separator
-            orientation="horizontal"
-            className=" h-screen w-px bg-border"
+            orientation="vertical"
+            className=" h-screen  border-4 bg-orange-400"
           />
           {/* <TimeTable selectedDate={selectedDate} /> */}
         </CardContent>
