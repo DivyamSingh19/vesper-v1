@@ -14,17 +14,17 @@ import { TimeTable } from "../calendar/timetable";
 
 // fetch the image from db and pass it later in to this form
 const AppointmentForm = () => {
-  // const selectedDate = searchParams.date
-  //   ? new Date(searchParams.date)
-  //   : new Date();
+//   { searchParams }: { params: {username:string; eventUrl:string}
+// searchParams:{date?:string} }
+//   const selectedDate = searchParams.date
+//     ? new Date(searchParams.date)
+//     : new Date();
 
   // const formattedDate = new Intl.DateTimeFormat("en-IN", {
   //   weekday: "long",
   //   day: "numeric",
   //   month: "long",
   // }).format(selectedDate);
-
-
   return (
     <div className="min-h-screen w-screen flex items-center justify-center">
       <Card className="max-w-xl w-full mx-auto">
