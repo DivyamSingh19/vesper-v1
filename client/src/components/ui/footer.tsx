@@ -31,16 +31,16 @@ export function Footer({
   copyright,
 }: FooterProps) {
   return (
-    <footer className="pb-6 pt-16 lg:pb-8 lg:pt-24">
+    <footer className="pb-6 pt-16 lg:pb-8 lg:pt-24 mt-20">
       <div className="px-4 lg:px-8">
         <div className="md:flex md:items-start md:justify-between">
           <a
             href="/"
-            className="flex items-center gap-x-2"
+            className="flex items-center gap-x-2 "
             aria-label={brandName}
           >
             {logo}
-            <span className="font-bold text-xl text-white">{brandName}</span>
+            <span className="font-bold text-xl">{brandName}</span>
           </a>
           <ul className="flex list-none mt-6 md:mt-0 space-x-3">
             {socialLinks.map((link, i) => (
