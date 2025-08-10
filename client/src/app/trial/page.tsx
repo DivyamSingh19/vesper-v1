@@ -12,7 +12,6 @@ const page = () => {
       {/* <AboutVesper/>
       <DownloadPPT/> */}
      
-    
     </div>
   );
 };
