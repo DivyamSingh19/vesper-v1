@@ -3,7 +3,7 @@ import { ChevronDown, Sun, Hexagon } from "lucide-react";
 
 const Header: React.FC = () => {
   return (
-    <header className="w-[90%] mx-auto text-[#d1cfc0] px-6 py-3 flex items-center justify-between">
+    <header className="w-[90%] mx-auto text-[#d1cfc0] border-b-2 bg-transparent px-6 py-3 flex items-center justify-between">
       {/* Logo + Brand */}
       <div className="flex items-center gap-2">
         <Hexagon className="h-8 w-8 text-orange-500" />
