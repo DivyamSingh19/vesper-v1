@@ -1,3 +1,4 @@
+"use client"
 import React from "react";
 import { AnimatedSubscribeButton } from "../magicui/animated-subscribe-button";
 

@@ -1,18 +1,12 @@
- 
-import React from 'react'
-import HeroVideoDialog from '@/components/magicui/hero-video-dialog'
+import React from "react";
+import { AboutCard } from "@/components/ui/about-card";
+
 const page = () => {
   return (
-    <div className='flex min-h-screen justify-center items-center'>
-      <HeroVideoDialog
-        className="block "
-        animationStyle="from-center"
-        videoSrc="https://www.example.com/dummy-video"
-        thumbnailSrc="https://www.example.com/dummy-thumbnail.png"
-        thumbnailAlt="Dummy Video Thumbnail"
-      />
+    <div className="flex min-h-screen justify-center items-center p-5 xl:p-10 ">
+      <AboutCard/>
     </div>
   );
-}
+};
 
-export default page
+export default page;
