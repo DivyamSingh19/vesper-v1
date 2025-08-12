@@ -1,5 +1,6 @@
 import React from "react";
 import { FileText, Upload, Brain } from "lucide-react";
+import { motion } from "framer-motion";
 
 const Analysis = () => {
   const analysisSteps = [
@@ -26,27 +27,70 @@ const Analysis = () => {
     },
   ];
 
+  // Animation variants for the whole section to fade in and stagger children
+  const sectionVariants = {
+    hidden: { opacity: 0, y: 50 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: {
+        duration: 0.5, // Slightly faster
+        when: "beforeChildren",
+        staggerChildren: 0.2, // Reduced stagger delay
+      },
+    },
+  };
+
+  // Animation for the individual step cards
+  const cardVariants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: { opacity: 1, y: 0, transition: { duration: 0.5 } }, // Slightly faster
+  };
+
+  // Animation for the heading and its underline
+  const headingVariants = {
+    hidden: { opacity: 0, y: -20 },
+    visible: { opacity: 1, y: 0, transition: { duration: 0.5 } }, // Slightly faster
+  };
+
+  const lineVariants = {
+    hidden: { width: 0 },
+    visible: { width: "85%", transition: { duration: 0.6, delay: 0.2 } }, // Faster duration and reduced delay
+  };
+
   return (
-    <section className=" w-[95%] mx-auto">
+    <motion.section
+      className="w-[95%] mx-auto"
+      variants={sectionVariants}
+      initial="hidden"
+      whileInView="visible"
+      viewport={{ once: true, amount: 0.2 }}
+    >
       {/* Heading with orange underline */}
       <div className="text-center mb-16">
-        <h3 className="text-4xl md:text-6xl font-playfair font-semibold text-[#d1cfc0] inline-block relative">
+        <motion.h3
+          className="text-4xl md:text-6xl font-playfair font-semibold text-[#d1cfc0] inline-block relative"
+          variants={headingVariants}
+        >
           How It Works
-          <span className="block h-[3px] w-[85%] bg-orange-500 mx-auto mt-2 rounded-full"></span>
-        </h3>
+          <motion.span
+            className="block h-[3px] bg-orange-500 mx-auto mt-2 rounded-full"
+            variants={lineVariants}
+          ></motion.span>
+        </motion.h3>
       </div>
 
       {/* Steps Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+      <motion.div className="grid grid-cols-1 md:grid-cols-3 gap-8">
         {analysisSteps.map((step, index) => (
-          <div
+          <motion.div
             key={index}
             className="flex flex-col items-center text-center rounded-2xl border-1 border-white p-8 shadow-lg transition-transform hover:scale-[1.02]"
             style={{
-              animationDelay: `${index * 0.2}s`,
               backgroundColor: "rgba(64, 64, 64, 0.9)",
               color: "#d1cfc0",
             }}
+            variants={cardVariants}
           >
             <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-white text-[#1f1f1f] shadow-md mb-6">
               <step.icon className="h-8 w-8" />
@@ -60,10 +104,10 @@ const Analysis = () => {
             <p className="text-[.9rem] leading-relaxed text-white max-w-xs">
               {step.description}
             </p>
-          </div>
+          </motion.div>
         ))}
-      </div>
-    </section>
+      </motion.div>
+    </motion.section>
   );
 };
 
