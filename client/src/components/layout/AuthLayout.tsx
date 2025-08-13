@@ -1,11 +1,8 @@
-import React from 'react'
+import React from "react";
 
-const AuthLayout = () => {
-  return (
-    <div>
-      
-    </div>
-  )
-}
+// auth status and role pass karna haina
+const AuthLayout = ({ children }: { children: React.ReactNode }) => {
+  return <>{children}</>;
+};
 
-export default AuthLayout
+export default AuthLayout;
