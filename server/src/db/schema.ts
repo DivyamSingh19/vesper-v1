@@ -18,6 +18,7 @@ export const lawyers = pgTable('lawyers',{
     name:varchar('name',{length:255}).notNull(),
     password:varchar('password',{length:300}).notNull(),
     walletAddress:text('wallet_address').notNull(),
+    stateRollNumber:text('state_roll_number').notNull().unique(),
     createdAt : timestamp('created_at').defaultNow().notNull(),
     updatedAt : timestamp('updated_at').defaultNow().notNull(),
 })
