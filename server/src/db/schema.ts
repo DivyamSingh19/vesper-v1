@@ -25,6 +25,8 @@ export const lawyers = pgTable('lawyers',{
 
 export const appointments = pgTable('appointments',{
     id:uuid('id').primaryKey().defaultRandom().notNull(),
+    userName:text('user_name').notNull(),
+    description:text('description').notNull(),
     userId:uuid('user_id').references(()=>users.id).notNull(),
     lawyerId:uuid('lawyer_id').references(()=>lawyers.id).notNull(),
     scheduledAt:timestamp('scheduled_at',{withTimezone:true}).notNull(),
