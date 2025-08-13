@@ -8,12 +8,38 @@ import { useState } from "react";
 import { User, Gavel } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { registerAdv, registerUser } from "@/app/services/authService";
+import Image from "next/image";
+import { ethers } from "ethers";
+import { toast } from "sonner";
+declare global {
+  interface Window {
+    ethereum?: any;
+  }
+}
 
 export function RegisterForm() {
   const router = useRouter();
   const [role, setRole] = useState<"user" | "lawyer">("user");
   const [loading, setLoading] = useState(false);
+  const [walletAddress, setWalletAddress] = useState("");
 
+  const connectMetaMask = async () => {
+    if (!window.ethereum) {
+      toast.error("MetaMask not detected. Please install it.");
+      return;
+    }
+    try {
+      const provider = new ethers.BrowserProvider(window.ethereum);
+      const accounts = await provider.send("eth_requestAccounts", []);
+      if (accounts.length > 0) {
+        setWalletAddress(accounts[0]);
+        toast.success(`Connected: ${accounts[0]}`);
+      }
+    } catch (error) {
+      console.error("MetaMask connection error:", error);
+      toast.error("Failed to connect to MetaMask.");
+    }
+  };
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setLoading(true);
@@ -24,6 +50,7 @@ export function RegisterForm() {
       name: String(formData.get("name") || "").trim(),
       password: String(formData.get("password") || "").trim(),
       role,
+      walletAddress,
     };
 
     try {
@@ -36,14 +63,14 @@ export function RegisterForm() {
 
         const res = await registerAdv(payload);
         console.log(res);
-        
+
         router.push("/dashboard/lawyer");
       } else {
         const res = await registerUser(payload);
       }
     } catch (error) {
       console.error("Registration failed:", error);
-      // toast
+      toast.error("Registration Failed");
     } finally {
       setLoading(false);
     }
@@ -131,6 +158,23 @@ export function RegisterForm() {
 
         <Button type="submit" className="w-full" disabled={loading}>
           {loading ? "Registering..." : "Register"}
+        </Button>
+
+        <Button
+          type="button"
+          variant="secondary"
+          onClick={connectMetaMask}
+          className="w-full"
+        >
+          <div className="flex items-center gap-2">
+            <span>Connect to MetaMask</span>
+            <Image
+              src="/images/metamask-icon.svg"
+              width={24}
+              height={24}
+              alt="Metamask Logo"
+            />
+          </div>
         </Button>
       </div>
 

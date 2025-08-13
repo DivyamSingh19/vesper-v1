@@ -8,11 +8,38 @@ import { useState } from "react";
 import axios from "axios";
 import { User, Gavel } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
+import { ethers } from "ethers";
+import { toast } from "sonner";
+import Image from "next/image";
+declare global {
+  interface Window {
+    ethereum?: any;
+  }
+}
 
 export function LoginForm() {
   const router = useRouter();
   const [role, setRole] = useState<"user" | "lawyer">("user");
   const [loading, setLoading] = useState(false);
+  const [walletAddress, setWalletAddress] = useState("");
+
+ const connectMetaMask = async () => {
+   if (!window.ethereum) {
+     toast.error("MetaMask not detected. Please install it.");
+     return;
+   }
+   try {
+     const provider = new ethers.BrowserProvider(window.ethereum);
+     const accounts = await provider.send("eth_requestAccounts", []);
+     if (accounts.length > 0) {
+       setWalletAddress(accounts[0]);
+       toast.success(`Connected: ${accounts[0]}`);
+     }
+   } catch (error) {
+     console.error("MetaMask connection error:", error);
+     toast.error("Failed to connect to MetaMask.");
+   }
+ };
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -23,6 +50,7 @@ export function LoginForm() {
       email: String(formData.get("email") || "").trim(),
       password: String(formData.get("password") || "").trim(),
       role,
+      walletAddress,
     };
 
     if (role === "lawyer") {
@@ -116,6 +144,23 @@ export function LoginForm() {
 
         <Button type="submit" className="w-full" disabled={loading}>
           {loading ? "Logging in..." : "Login"}
+        </Button>
+
+        <Button
+          type="button"
+          variant="secondary"
+          onClick={connectMetaMask}
+          className="w-full"
+        >
+          <div className="flex items-center gap-2">
+            <span>Connect to MetaMask</span>
+            <Image
+              src="/images/metamask-icon.svg"
+              width={24}
+              height={24}
+              alt="Metamask Logo"
+            />
+          </div>
         </Button>
       </div>
 
