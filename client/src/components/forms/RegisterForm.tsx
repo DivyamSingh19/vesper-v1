@@ -5,9 +5,9 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import axios from "axios";
 import { User, Gavel } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
+import { registerAdv, registerUser } from "@/app/services/authService";
 
 export function RegisterForm() {
   const router = useRouter();
@@ -26,18 +26,21 @@ export function RegisterForm() {
       role,
     };
 
-    if (role === "lawyer") {
-      let stateRollNumber = String(
-        formData.get("stateRollNumber") || ""
-      ).trim();
-      stateRollNumber = stateRollNumber.replace(/\//g, "");
-      payload.stateRollNumber = stateRollNumber;
-    }
-
     try {
-      // await axios.post("/api/register", payload);
-      console.log(payload);
-      router.push("/dashboard");
+      if (role === "lawyer") {
+        let stateRollNumber = String(
+          formData.get("stateRollNumber") || ""
+        ).trim();
+        stateRollNumber = stateRollNumber.replace(/\//g, "");
+        payload.stateRollNumber = stateRollNumber;
+
+        const res = await registerAdv(payload);
+        console.log(res);
+        
+        router.push("/dashboard/lawyer");
+      } else {
+        const res = await registerUser(payload);
+      }
     } catch (error) {
       console.error("Registration failed:", error);
       // toast
