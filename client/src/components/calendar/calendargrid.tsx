@@ -24,6 +24,7 @@ export const CalendarGrid = ({
     state
   );
   const weeksInMonth = getWeeksInMonth(startDate, locale);
+
   return (
     <table {...gridProps} cellPadding={0} className="flex-1">
       <thead {...headerProps} className="text-sm font-medium">
