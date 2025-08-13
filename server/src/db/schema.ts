@@ -37,3 +37,14 @@ export const lawyerRelations = relations(lawyers,({many})=>({
 export const userRelations = relations(users,({many})=>({
     appointments:many(appointments)
 }))
+
+export const appointmentRelations = relations(appointments, ({ one }) => ({
+  lawyer: one(lawyers, {
+    fields: [appointments.lawyerId],
+    references: [lawyers.id],
+  }),
+  users: one(users, {
+    fields: [appointments.userId],
+    references: [users.id],
+  }),
+}));
