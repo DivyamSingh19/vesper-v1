@@ -11,7 +11,7 @@ export const users = pgTable('users',{
     updatedAt : timestamp('updated_at').defaultNow().notNull(),
 })
 
-export const lawyers = pgTable('users',{
+export const lawyers = pgTable('lawyers',{
     id:uuid('id').primaryKey().defaultRandom(),
     email:varchar('email',{length:255}).notNull().unique(),
     name:varchar('name',{length:255}).notNull(),
@@ -20,7 +20,20 @@ export const lawyers = pgTable('users',{
     updatedAt : timestamp('updated_at').defaultNow().notNull(),
 })
 
-export const appointments = pgTable('users',{
-
+export const appointments = pgTable('appointments',{
+    id:uuid('id').primaryKey().defaultRandom().notNull(),
+    userId:uuid('user_id').references(()=>users.id).notNull(),
+    lawyerId:uuid('lawyer_id').references(()=>lawyers.id).notNull(),
+    scheduledAt:timestamp('scheduled_at',{withTimezone:true}).notNull(),
+    createdAt:timestamp('created_at').defaultNow().notNull(),
+    updatedAt:timestamp('updated_at').defaultNow().notNull()
 })
 
+
+export const lawyerRelations = relations(lawyers,({many})=>({
+    appointments:many(appointments)
+}))
+
+export const userRelations = relations(users,({many})=>({
+    appointments:many(appointments)
+}))
