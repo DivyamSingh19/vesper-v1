@@ -2,14 +2,16 @@
 import { Calendar } from "./calendar";
 import { today, getLocalTimeZone } from "@internationalized/date";
 
-// interface iappProps {
-//   availability: {
-//     day: string;
-//     isActive: boolean;
-//   }[];
-// }
+interface props {
+  // availability: {
+  //   day: string;
+  //   isActive: boolean;
+  // }[];
+ 
+}
 
-// { availability }: iappProps
-export const RenderCalendar = () => {
-  return <Calendar minValue={today(getLocalTimeZone())} />;
+export const RenderCalendar = ({}:props) => {
+  return (
+    <Calendar  minValue={today(getLocalTimeZone())} />
+  );
 };

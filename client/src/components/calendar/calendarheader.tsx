@@ -30,7 +30,7 @@ export const CalendarHeader = ({
     .map((part) => part.value);
 
   return (
-    <div className="flex items-center pb-4">
+    <div className="flex justify-between items-center pb-4">
       <VisuallyHidden>
         <h2>{calendarProps["aria-label"]}</h2>
       </VisuallyHidden>

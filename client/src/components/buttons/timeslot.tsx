@@ -55,17 +55,17 @@ const TimeSlot = ({
   className,
 }: TimeSlotProps) => {
   return (
-    <div className={`flex ${className}`}>
+    <div className={`w-full ${className}`}>
       {format === "12h" ? (
-        <div className="flex flex-col">
+        <div className="flex flex-col w-full space-y-2">
           {twelvehr.map((times, index) => {
             return (
-              <div key={index} className="mb-2">
+              <div key={index} className="w-full">
                 {selectedTime === times.time ? (
-                  <Next  onClick={onNext} />
+                  <Next onClick={onNext} className="w-full rounded-md" />
                 ) : (
                   <ShinyButton
-                    className="w-full"
+                    className="w-full h-10 text-sm font-medium"
                     onClick={() => onTimeSelect(times.time)}
                   >
                     {times.time}
@@ -76,15 +76,15 @@ const TimeSlot = ({
           })}
         </div>
       ) : (
-        <div className="flex flex-col">
+        <div className="flex flex-col w-full space-y-2">
           {twentyfourhr.map((times, index) => {
             return (
-              <div key={index} className="mb-2">
+              <div key={index} className="w-full">
                 {selectedTime === times.time ? (
-                  <Next  onClick={onNext} />
+                  <Next onClick={onNext} className="w-full rounded-md" />
                 ) : (
                   <ShinyButton
-                    className="w-full"
+                    className="w-full h-10 text-sm font-medium"
                     onClick={() => onTimeSelect(times.time)}
                   >
                     {times.time}

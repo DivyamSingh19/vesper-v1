@@ -1,108 +1,144 @@
+"use client";
 import React, { useState } from "react";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
-import ConfirmBooking from "../buttons/confirmbooking";
-
+import { ArrowLeft, User, Mail, MessageSquare } from "lucide-react";
+import ConfirmBooking from "@/components/buttons/confirmbooking";
+import Back from "../buttons/back-button";
 interface AppointmentFormProps {
   selectedTime: string;
   onBack: () => void;
 }
 
 const AppointmentForm = ({ selectedTime, onBack }: AppointmentFormProps) => {
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [meetTitle, setMeetTitle] = useState("");
-  const [meetDescription, setMeetDescription] = useState("");
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    message: "",
+  });
 
-  const handleSubmit = () => {
-    if (!name || !email || !meetTitle || !meetDescription) {
-      alert("Please fill in all fields!");
-      return;
-    }
-    console.log("Form submitted:", {
-      name,
-      email,
-      meetTitle,
-      meetDescription,
-      selectedTime,
-    });
+  const handleSubmit = (e?: React.FormEvent) => {
+    if (e) e.preventDefault();
+
+    console.log("Form submitted:", { ...formData, selectedTime });
+  };
+
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
   return (
-    <Card className="w-full max-w-md mx-auto">
-      <CardHeader>
-        <CardTitle>Book Your Meeting</CardTitle>
-        <p className="text-sm text-muted-foreground">
-          Selected time: {selectedTime}
-        </p>
-      </CardHeader>
-      <CardContent>
-        <div className="space-y-4">
-          <div className="flex flex-col gap-2">
-            <Label htmlFor="name">Name</Label>
+    <div className="w-full space-y-6">
+      <div className="flex flex-col sm:flex-row sm:items-center gap-4">
+        <Back
+          onClick={onBack}
+          className="self-start sm:self-auto flex items-center gap-2 px-3 py-2"
+        />
+
+        <div className="flex-1">
+          <h3 className="text-lg sm:text-xl font-semibold">
+            Appointment Details
+          </h3>
+          <p className="text-sm text-muted-foreground mt-1">
+            Selected time: <span className="font-medium">{selectedTime}</span>
+          </p>
+        </div>
+      </div>
+
+      <form onSubmit={handleSubmit} className="space-y-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
+          <div className="space-y-2 sm:col-span-1">
+            <Label
+              htmlFor="name"
+              className="text-sm font-medium flex items-center gap-2"
+            >
+              <User className="w-4 h-4" />
+              Full Name *
+            </Label>
             <Input
               id="name"
+              name="name"
               type="text"
-              placeholder="Your full name"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
+              placeholder="Enter your full name"
+              value={formData.name}
+              onChange={handleChange}
               required
+              className="h-11"
             />
           </div>
 
-          <div className="flex flex-col gap-2">
-            <Label htmlFor="email">Email</Label>
+          <div className="space-y-2 sm:col-span-1">
+            <Label
+              htmlFor="email"
+              className="text-sm font-medium flex items-center gap-2"
+            >
+              <Mail className="w-4 h-4" />
+              Email Address *
+            </Label>
             <Input
               id="email"
+              name="email"
               type="email"
-              placeholder="your@email.com"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
+              placeholder="Enter your email"
+              value={formData.email}
+              onChange={handleChange}
               required
+              className="h-11"
             />
-          </div>
-
-          <div className="flex flex-col gap-2">
-            <Label htmlFor="meetTitle">Meeting Title</Label>
-            <Input
-              id="meetTitle"
-              type="text"
-              placeholder="What's this meeting about?"
-              value={meetTitle}
-              onChange={(e) => setMeetTitle(e.target.value)}
-              required
-            />
-          </div>
-
-          <div className="flex flex-col gap-2">
-            <Label htmlFor="meetDescription">Meeting Description</Label>
-            <Textarea
-              id="meetDescription"
-              placeholder="Provide more details about the meeting..."
-              value={meetDescription}
-              onChange={(e) => setMeetDescription(e.target.value)}
-              required
-              rows={3}
-            />
-          </div>
-
-          <div className="flex justify-around gap-2 pt-4">
-            <Button
-              type="button"
-              variant="default"
-              onClick={onBack}
-              className="w-50 font-playfair font-semibold text-md"
-            >
-              Back
-            </Button>
-            <ConfirmBooking onClick={handleSubmit} className="w-50" />
           </div>
         </div>
-      </CardContent>
-    </Card>
+
+        <div className="space-y-2">
+          <Label
+            htmlFor="message"
+            className="text-sm font-medium flex items-center gap-2"
+          >
+            <MessageSquare className="w-4 h-4" />
+            Message (Optional)
+          </Label>
+          <Textarea
+            id="message"
+            name="message"
+            placeholder="Add any additional notes or questions..."
+            value={formData.message}
+            onChange={handleChange}
+            rows={4}
+            className="resize-none"
+          />
+        </div>
+
+        <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 pt-4">
+          <Button
+            type="button"
+            variant="outline"
+            onClick={onBack}
+            className="flex-1 sm:flex-none sm:px-8 h-11"
+          >
+            Cancel
+          </Button>
+          <div className="flex-1 sm:flex-none sm:min-w-[200px]">
+            <ConfirmBooking
+              onClick={handleSubmit}
+              className="h-11 rounded-md"
+            />
+          </div>
+        </div>
+      </form>
+
+      <div className="mt-8 p-4 bg-muted rounded-lg">
+        <h4 className="text-sm font-medium mb-2">What happens next?</h4>
+        <ul className="text-xs sm:text-sm text-muted-foreground space-y-1">
+          <li>• You'll receive a confirmation email</li>
+          <li>• Meeting details will be sent 24 hours before</li>
+          <li>• You can reschedule up to 2 hours before the meeting</li>
+        </ul>
+      </div>
+    </div>
   );
 };
 
