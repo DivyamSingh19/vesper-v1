@@ -1,3 +1,4 @@
+"use client"
 import React from "react";
 import { InteractiveHoverButton } from "../magicui/interactive-hover-button";
 

@@ -13,3 +13,5 @@ const AboutVesper = () => {
 };
 
 export default AboutVesper;
+
+// ye hero comp me daaldena instead of learn more n i was thinking instead of ripple button ek pulsating button use kartey hai
