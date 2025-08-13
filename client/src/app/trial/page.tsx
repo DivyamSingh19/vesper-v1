@@ -10,14 +10,15 @@ import AppointmentWidget from "@/components/core/appointment-widget";
 import { AboutCard } from "@/components/ui/about-card";
 import ViewRepo from "@/components/buttons/view-repo";
 import Back from "@/components/buttons/back-button";
+
 const page = () => {
   return (
     <div>
       {/* <AiChat/> */}
-      {/* <AboutVesper/>
-      <DownloadPPT/> */}
+      <AboutVesper/>
+      {/* <DownloadPPT/> */}
       {/* <AppointmentForm/> */}
-      <AppointmentWidget/>
+      {/* <AppointmentWidget/> */}
       {/* <ConfirmBooking/> */}
       {/* <FormatSwitcher format={format} setFormat={setFomat}/> */}
       {/* <TimeSlot format={"12h"}/> */}

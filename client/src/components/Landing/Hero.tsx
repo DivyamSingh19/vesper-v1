@@ -3,6 +3,7 @@ import { Briefcase, Shield, Scale, Users } from "lucide-react";
 import ButtonPrime from "../buttons/buttonPrime";
 import ButtonSec from "../buttons/buttonSec";
 import { motion } from "framer-motion";
+import AboutVesper from "../buttons/about-vesper";
 
 // Variants for entrance animation
 const containerVariants = {
@@ -86,7 +87,8 @@ export default function Hero() {
           variants={itemVariants}
         >
           <ButtonPrime children="Get Started" />
-          <ButtonSec children="Learn more" />
+          {/* <ButtonSec children="Learn more" /> */}
+        <AboutVesper/>
         </motion.div>
 
         <motion.div
