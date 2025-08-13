@@ -3,7 +3,7 @@
 import { useCalendar, useLocale } from "react-aria";
 import { useCalendarState } from "react-stately";
 import { createCalendar } from "@internationalized/date";
-import { CalendarProps, DateValue } from "@react-types/calendar";
+import { CalendarProps, DateValue} from "@react-types/calendar";
 import { CalendarHeader } from "./calendarheader";
 import { CalendarGrid } from "./calendargrid";
 
@@ -22,7 +22,7 @@ export const Calendar = (props: CalendarProps<DateValue>) => {
   );
 
   return (
-    <div {...calendarProps} className="inline-block">
+    <div {...calendarProps} className="inline-block sm:p-4 ">
       <CalendarHeader
         state={state}
         calendarProps={calendarProps}
@@ -30,8 +30,8 @@ export const Calendar = (props: CalendarProps<DateValue>) => {
         nextButtonProps={nextButtonProps}
       />
 
-      <div className="flex gap-8">
-        <CalendarGrid state={state}/>
+      <div className="flex gap-8 ">
+        <CalendarGrid state={state} />
       </div>
     </div>
   );

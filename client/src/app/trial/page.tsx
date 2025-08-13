@@ -17,7 +17,7 @@ const page = () => {
       {/* <AboutVesper/>
       <DownloadPPT/> */}
       {/* <AppointmentForm/> */}
-      {/* <AppointmentWidget/> */}
+      <AppointmentWidget/>
       {/* <ConfirmBooking/> */}
       {/* <FormatSwitcher format={format} setFormat={setFomat}/> */}
       {/* <TimeSlot format={"12h"}/> */}
