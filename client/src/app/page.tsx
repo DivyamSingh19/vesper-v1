@@ -14,7 +14,7 @@ function page() {
       <Header />
       <Hero />
       <Analysis />
-      <div className="flex flex-col gap-5 justify-center items-center text-[#d1cfc0] text-center mt-50">
+      <div className="flex flex-col gap-5 justify-center items-center text-[#d1cfc0] text-center mt-29">
         <h2 className="text-4xl font-playfair font-semibold ">
           Legal Flowcharts
         </h2>

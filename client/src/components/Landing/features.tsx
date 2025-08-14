@@ -1,30 +1,34 @@
 import React from "react";
-import { CardSpotlight } from "../ui/card-spotlight";
-import { Brain, Share, Lock } from "lucide-react";
+import { Shield, Zap, Users } from "lucide-react";
 import { motion } from "framer-motion";
 
 const features = [
   {
-    icon: Brain,
-    title: "AI-Powered Summarization",
+    icon: Shield,
+    title: "Compliance Ready",
     description:
-      "Advanced AI breaks down complex legal jargon into understandable language",
+      "Built-in compliance features ensure your legal processes meet industry standards",
+    points: ["GDPR compliant", "SOC 2 certified", "Legal industry standards"],
+    iconColor: "from-blue-400 to-cyan-300", // lighter, cooler tones
   },
   {
-    icon: Lock,
-    title: "Blockchain Security",
+    icon: Zap,
+    title: "Lightning Fast",
     description:
-      "IPFS technology ensures your documents are tamper-proof and encrypted",
+      "Process complex legal documents in seconds, not hours or days",
+    points: ["Real-time processing", "Instant results", "24/7 availability"],
+    iconColor: "from-cyan-300 to-green-300",
   },
   {
-    icon: Share,
-    title: "One-Click Sharing",
+    icon: Users,
+    title: "Team Collaboration",
     description:
-      "Securely share analysis with legal teams or clients with encrypted links",
+      "Work together with your legal team in real-time with shared workspaces",
+    points: ["Real-time collaboration", "Role-based access", "Version control"],
+    iconColor: "from-violet-400 to-indigo-300",
   },
 ];
 
-// Animation variants for the heading and line
 const headingVariants = {
   hidden: { opacity: 0, y: -20 },
   visible: { opacity: 1, y: 0, transition: { duration: 0.6 } },
@@ -35,15 +39,11 @@ const lineVariants = {
   visible: { width: "85%", transition: { duration: 0.8, delay: 0.2 } },
 };
 
-// Animation variants for the card container and individual cards
 const cardContainerVariants = {
   hidden: { opacity: 0 },
   visible: {
     opacity: 1,
-    transition: {
-      staggerChildren: 0.2, // Stagger effect for children cards
-      delayChildren: 0.4,
-    },
+    transition: { staggerChildren: 0.2, delayChildren: 0.4 },
   },
 };
 
@@ -54,7 +54,8 @@ const cardItemVariants = {
 
 const FeaturesCard = () => {
   return (
-    <section className="mt-40">
+    <section className="mt-40 mb-20">
+      {/* Heading */}
       <div className="text-center mb-16">
         <motion.h3
           className="text-4xl md:text-6xl font-playfair font-semibold text-[#d1cfc0] inline-block relative"
@@ -67,10 +68,11 @@ const FeaturesCard = () => {
           <motion.span
             className="block h-[3px] bg-orange-500 mx-auto mt-2 rounded-full"
             variants={lineVariants}
-          ></motion.span>
+          />
         </motion.h3>
       </div>
 
+      {/* Cards */}
       <motion.div
         className="flex flex-col md:flex-row flex-wrap justify-center items-center gap-8"
         variants={cardContainerVariants}
@@ -79,32 +81,60 @@ const FeaturesCard = () => {
         viewport={{ once: true, amount: 0.4 }}
       >
         {features.map((feature, i) => (
-          <motion.div key={i} variants={cardItemVariants}>
-            <CardSpotlight
-              className="relative w-full max-w-md text-center rounded-2xl p-6 bg-[#404040]/80 backdrop-blur-sm border border-white/10 shadow-lg 
-          hover:shadow-blue-500/20 hover:scale-[1.02] transition-all duration-300"
+          <motion.div
+            key={i}
+            variants={cardItemVariants}
+            className="relative w-full max-w-sm text-center rounded-2xl p-6 bg-[#2d2d2d]/80 border border-white/10 shadow-lg hover:scale-[1.03] transition-all duration-300"
+          >
+            {/* Hover Glow */}
+            <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-white/5 via-transparent to-transparent opacity-0 hover:opacity-100 transition-opacity duration-300 pointer-events-none"></div>
+
+            {/* Icon */}
+            <div
+              className={`relative z-10 p-4 rounded-full bg-gradient-to-tr ${feature.iconColor} text-white w-16 h-16 flex items-center justify-center mx-auto mb-4 shadow-lg`}
             >
-              {/* Glow Border on Hover */}
-              <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-blue-500 via-orange-400 to-transparent opacity-0 hover:opacity-100 transition-opacity duration-300 pointer-events-none"></div>
+              <feature.icon className="h-8 w-8" />
+            </div>
 
-              {/* Icon */}
-              <div className="relative z-10 p-4 rounded-full bg-gradient-to-tr from-blue-500 to-orange-400 text-white w-16 h-16 flex items-center justify-center mx-auto mb-4 shadow-lg">
-                <feature.icon className="h-8 w-8" />
-              </div>
+            {/* Title */}
+            <h3 className="relative z-10 text-xl font-semibold text-[#f3f3f3]">
+              {feature.title}
+            </h3>
 
-              {/* Title */}
-              <h3 className="relative z-10 text-xl font-semibold text-[#d1cfc0]">
-                {feature.title}
-              </h3>
+            {/* Description */}
+            <p className="relative z-10 mt-2 text-gray-400 text-base leading-relaxed">
+              {feature.description}
+            </p>
 
-              {/* Description */}
-              <p className="relative z-10 mt-4 text-gray-400 text-base leading-relaxed">
-                {feature.description}
-              </p>
-            </CardSpotlight>
+            {/* Bullet Points */}
+            <ul className="mt-4 text-left space-y-1 text-sm text-gray-300">
+              {feature.points.map((point, idx) => (
+                <li key={idx} className="flex items-center gap-2">
+                  <span className="text-cyan-300">•</span> {point}
+                </li>
+              ))}
+            </ul>
+
+            {/* Learn More */}
+            <button className="mt-4 text-cyan-300 hover:text-cyan-200 text-sm transition-colors">
+              Learn more →
+            </button>
           </motion.div>
         ))}
       </motion.div>
+
+      {/* Bottom Text & Button */}
+      <div className="text-center mt-12">
+        <p className="text-gray-300 mb-4">
+          Ready to experience the future of legal document processing?
+        </p>
+        <button
+              className="px-6 py-3 rounded-xl  text-white mt-6 bg-blue-500/70 shadow-lg shadow-blue-500/30 
+             transition-all duration-300 ease-in-out hover:bg-[#1e40af] hover:shadow-blue-500/50 hover:scale-[1.02]"
+            >
+              Explore All Features →
+            </button>
+      </div>
     </section>
   );
 };
