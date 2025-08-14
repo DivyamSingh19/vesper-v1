@@ -77,7 +77,7 @@ const Header: React.FC<HeaderProps> = ({
     // },
     {
       label: "About",
-      href: "/about",
+      href: "/about-project",
     },
   ];
 

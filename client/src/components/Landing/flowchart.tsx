@@ -180,7 +180,7 @@ const Flowchart = () => {
           className="p-6 bg-[#252525]/90 rounded-xl border border-white/5"
           variants={itemVariants}
         >
-          <h1 className="text-2xl sm:text-3xl md:text-[1.875rem] lg:text-3xl xl:text-4xl font-semibold text-white mb-3 leading-[1.2] tracking-tight font-sans">
+          <h1 className="text-2xl sm:text-3xl md:text-[1.875rem] lg:text-3xl xl:text-4xl font-semibold text-white mb-3 leading-[1.2] tracking-tight font-playfair">
             Ready to Get Started?
           </h1>
           <p className="mb-4 text-[#d1cfc0]/80 text-sm md:text-base leading-relaxed">
