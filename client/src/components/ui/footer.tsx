@@ -1,25 +1,28 @@
-import { Button } from "@/components/ui/button"
+import { Button } from "@/components/ui/button";
+import React from "react";
 
 interface FooterProps {
-  logo: React.ReactNode
-  brandName: string
+  logo: React.ReactNode;
+  brandName: string;
   socialLinks: Array<{
-    icon: React.ReactNode
-    href: string
-    label: string
-  }>
+    icon: React.ReactNode;
+    href: string;
+    label: string;
+  }>;
   mainLinks: Array<{
-    href: string
-    label: string
-  }>
+    href: string;
+    label: string;
+  }>;
   legalLinks: Array<{
-    href: string
-    label: string
-  }>
+    href: string;
+    label: string;
+  }>;
   copyright: {
-    text: string
-    license?: string
-  }
+    text: string;
+    license?: string;
+  };
+  className?: string;
+  children?: React.ReactNode;
 }
 
 export function Footer({
@@ -29,14 +32,16 @@ export function Footer({
   mainLinks,
   legalLinks,
   copyright,
+  className = "",
+  children,
 }: FooterProps) {
   return (
-    <footer className="pb-6 pt-16 lg:pb-8 lg:pt-24 mt-20">
+    <footer className={`pb-6 pt-16 lg:pb-8 lg:pt-24 mt-20 ${className}`}>
       <div className="px-4 lg:px-8">
         <div className="md:flex md:items-start md:justify-between">
           <a
             href="/"
-            className="flex items-center gap-x-2 "
+            className="flex items-center gap-x-2"
             aria-label={brandName}
           >
             {logo}
@@ -59,6 +64,9 @@ export function Footer({
             ))}
           </ul>
         </div>
+
+        {children && <div className="mt-8">{children}</div>}
+
         <div className="border-t mt-6 pt-6 md:mt-4 md:pt-8 lg:grid lg:grid-cols-10">
           <nav className="lg:mt-0 lg:col-[4/11]">
             <ul className="list-none flex flex-wrap -my-1 -mx-2 lg:justify-end">
@@ -95,5 +103,5 @@ export function Footer({
         </div>
       </div>
     </footer>
-  )
+  );
 }

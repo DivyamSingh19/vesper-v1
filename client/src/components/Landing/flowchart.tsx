@@ -6,9 +6,15 @@ import {
   HelpCircle,
   Users,
 } from "lucide-react";
-import { MagicCard } from "../magicui/magic-card";
-import ButtonPrime from "../buttons/buttonPrime";
 import { motion } from "framer-motion";
+import {
+  Card,
+  CardHeader,
+  CardTitle,
+  CardDescription,
+  CardContent,
+} from "@/components/ui/card";
+import ButtonPrime from "../buttons/buttonPrime";
 
 const flowchartExample = [
   {
@@ -80,7 +86,7 @@ const itemVariants = {
 const Flowchart = () => {
   return (
     <motion.div
-      className="flex flex-col lg:flex-row items-center justify-center gap-28 mt-10"
+      className="flex flex-col lg:flex-row items-center justify-center gap-16 lg:gap-28 mt-10 px-4"
       variants={containerVariants}
       initial="hidden"
       whileInView="visible"
@@ -88,58 +94,62 @@ const Flowchart = () => {
     >
       {/* Flowchart Card */}
       <motion.div className="w-full max-w-lg" variants={itemVariants}>
-        <MagicCard className="p-8 text-[#d1cfc0] border border-white/5 rounded-2xl shadow-2xl">
-          <h3 className="flex items-center gap-2 text-2xl font-playfair font-semibold border-b-2 border-[#f97316] pb-2">
-            <GitBranch className="h-8 w-8" />
-            Employment Law Example
-          </h3>
-          <p className="mt-2 text-sm text-[#d1cfc0]/80">
-            Interactive flowchart for workplace discrimination issues
-          </p>
+        <Card className="p-6 lg:p-8 text-[#d1cfc0] border border-white/5 rounded-2xl shadow-2xl bg-[#1a1a1a]/80">
+          <CardHeader className="p-0 mb-4">
+            <CardTitle className="flex items-center gap-2 text-xl lg:text-2xl font-playfair font-semibold border-b-2 border-[#f97316] pb-2">
+              <GitBranch className="h-6 w-6 lg:h-8 lg:w-8" />
+              Employment Law Example
+            </CardTitle>
+            <CardDescription className="mt-2 text-sm text-[#d1cfc0]/80">
+              Interactive flowchart for workplace discrimination issues
+            </CardDescription>
+          </CardHeader>
 
-          <div className="mt-8 space-y-4">
-            {flowchartExample.map((step, i) => (
-              <motion.div key={step.id} variants={itemVariants}>
-                <div className="flex items-center space-x-4 p-4 rounded-xl border border-white/5 bg-[#2e2e2e]/80 hover:scale-[1.02] hover:shadow-xl hover:shadow-blue-500/10 transition-transform duration-200">
-                  <div className={`p-3 rounded-full ${step.color}`}>
-                    <step.icon className="h-6 w-6" />
+          <CardContent className="p-0">
+            <div className="mt-2 space-y-3">
+              {flowchartExample.map((step, i) => (
+                <motion.div key={step.id} variants={itemVariants}>
+                  <div className="flex items-center space-x-4 p-4 rounded-xl border border-white/5 bg-[#2e2e2e]/80 hover:scale-[1.02] hover:shadow-xl hover:shadow-orange-500/10 transition-transform duration-200">
+                    <div className={`p-3 rounded-full ${step.color}`}>
+                      <step.icon className="h-6 w-6" />
+                    </div>
+                    <div>
+                      <h4 className="text-white font-semibold">{step.title}</h4>
+                      <p className="text-sm text-[#d1cfc0]/80">
+                        {step.description}
+                      </p>
+                    </div>
                   </div>
-                  <div>
-                    <h4 className="text-white font-semibold">{step.title}</h4>
-                    <p className="text-sm text-[#d1cfc0]/80">
-                      {step.description}
-                    </p>
-                  </div>
-                </div>
-                {i < flowchartExample.length - 1 && (
-                  <div className="flex justify-center py-1">
-                    <ArrowDown className="h-6 w-6 text-[#a9b2c0]/60" />
-                  </div>
-                )}
-              </motion.div>
-            ))}
-          </div>
+                  {i < flowchartExample.length - 1 && (
+                    <div className="flex justify-center my-0.2">
+                      <ArrowDown className="h-8 w-8 text-[#a9b2c0]/60" />
+                    </div>
+                  )}
+                </motion.div>
+              ))}
+            </div>
 
-          <motion.div
-            className="mt-6 p-4 bg-[#2e2e2e]/80 rounded-xl border border-white/5"
-            variants={itemVariants}
-          >
-            <p className="text-sm text-[#d1cfc0]/80">
-              <strong className="text-[#f97316]">AI Insight:</strong> You have
-              180 days to file an EEOC complaint. Document everything and
-              consult an attorney.
-            </p>
-          </motion.div>
-
-          <motion.div variants={itemVariants}>
-            <button
-              className="px-6 py-3 rounded-xl w-full text-white mt-6 bg-blue-500/70 shadow-lg shadow-blue-500/30 
-             transition-all duration-300 ease-in-out hover:bg-[#1e40af] hover:shadow-blue-500/50 hover:scale-[1.02]"
+            <motion.div
+              className="mt-6 p-4 bg-[#2e2e2e]/80 rounded-xl border border-white/5"
+              variants={itemVariants}
             >
-              Create Flowchart
-            </button>
-          </motion.div>
-        </MagicCard>
+              <p className="text-sm text-[#d1cfc0]/80">
+                <strong className="text-[#f97316]">AI Insight:</strong> You have
+                180 days to file an EEOC complaint. Document everything and
+                consult an attorney.
+              </p>
+            </motion.div>
+
+            <motion.div variants={itemVariants}>
+              <button
+                className="px-6 py-3 rounded-xl w-full text-white mt-6 bg-[#f97316] shadow-lg shadow-orange-500/30 
+               transition-all duration-300 ease-in-out hover:bg-[#f97316] hover:shadow-orange-500/50 hover:scale-[1.02]"
+              >
+                Create Flowchart
+              </button>
+            </motion.div>
+          </CardContent>
+        </Card>
       </motion.div>
 
       {/* Features & CTA */}
@@ -147,7 +157,7 @@ const Flowchart = () => {
         className="flex flex-col gap-8 max-w-xl"
         variants={containerVariants}
       >
-        <h3 className="text-3xl font-playfair font-semibold text-white border-b-2 border-[#f97316] pb-2">
+        <h3 className="text-2xl md:text-3xl font-playfair font-semibold text-white border-b-2 border-[#f97316] pb-2">
           How it Works
         </h3>
         {features.map((f, i) => (
@@ -170,13 +180,22 @@ const Flowchart = () => {
           className="p-6 bg-[#252525]/90 rounded-xl border border-white/5"
           variants={itemVariants}
         >
-          <p className="mb-4 text-[#d1cfc0]/80 text-sm">
+          <h1 className="text-2xl sm:text-3xl md:text-[1.875rem] lg:text-3xl xl:text-4xl font-semibold text-white mb-3 leading-[1.2] tracking-tight font-sans">
+            Ready to Get Started?
+          </h1>
+          <p className="mb-4 text-[#d1cfc0]/80 text-sm md:text-base leading-relaxed">
             Answer a few questions to get your personalized legal roadmap.
           </p>
-          <ButtonPrime
-            children="Create My Legal Roadmap"
-            className="w-full bg-[#d1cfc0] text-[#1f1f1f] hover:bg-[#c2c0b2] shadow-md"
-          />
+          <div className="flex flex-col sm:flex-row gap-4 justify-between">
+            <ButtonPrime
+              children="Create My Legal Roadmap"
+              className="flex-1 w-full bg-[#f97316] text-white shadow-md md:w-auto text-sm md:text-base px-4 py-2 md:px-6 md:py-3"
+            />
+            <ButtonPrime
+              children="Learn More"
+              className="flex-1 w-full md:w-auto text-sm md:text-base px-4 py-2 md:px-6 md:py-3"
+            />
+          </div>
         </motion.div>
       </motion.div>
     </motion.div>

@@ -1,29 +1,29 @@
 import React from "react";
-import { Shield, Zap, Users } from "lucide-react";
+import { Brain,Shield, Zap, Users,Lock, Upload } from "lucide-react";
 import { motion } from "framer-motion";
 
 const features = [
   {
-    icon: Shield,
-    title: "Compliance Ready",
+    icon: Brain,
+    title: "AI-Powered Summarization",
     description:
-      "Built-in compliance features ensure your legal processes meet industry standards",
+      "AI breaks down complex legal jargon into understandable language",
     points: ["GDPR compliant", "SOC 2 certified", "Legal industry standards"],
     iconColor: "from-blue-400 to-cyan-300", // lighter, cooler tones
   },
   {
-    icon: Zap,
-    title: "Lightning Fast",
+    icon: Lock,
+    title: "Blockchain Security",
     description:
-      "Process complex legal documents in seconds, not hours or days",
+      "IPFS technology ensures your documents are tamper-proof and encrypted",
     points: ["Real-time processing", "Instant results", "24/7 availability"],
     iconColor: "from-cyan-300 to-green-300",
   },
   {
-    icon: Users,
-    title: "Team Collaboration",
+    icon: Upload,
+    title: "One-Click Sharing",
     description:
-      "Work together with your legal team in real-time with shared workspaces",
+      "Secure share analysis with legal teams or clients with encrypted links ",
     points: ["Real-time collaboration", "Role-based access", "Version control"],
     iconColor: "from-violet-400 to-indigo-300",
   },
@@ -62,7 +62,7 @@ const FeaturesCard = () => {
           variants={headingVariants}
           initial="hidden"
           whileInView="visible"
-          viewport={{ once: true }}
+          viewport={{ once: false }}
         >
           Our Features
           <motion.span
@@ -84,10 +84,17 @@ const FeaturesCard = () => {
           <motion.div
             key={i}
             variants={cardItemVariants}
+            className="relative w-full max-w-sm text-center rounded-2xl p-6 bg-[#2d2d2d]/80 border border-white/10 shadow-lg hover:scale-[1.03] hover:shadow-[0_0_30px_rgba(249,115,22,0.5)] transition-all duration-300"
+          >
+            <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-orange-400 via-orange-500 to-orange-600 opacity-0 hover:opacity-100 blur-xl transition-opacity duration-300 pointer-events-none"></div>
+
+            {/* <motion.div
+            key={i}
+            variants={cardItemVariants}
             className="relative w-full max-w-sm text-center rounded-2xl p-6 bg-[#2d2d2d]/80 border border-white/10 shadow-lg hover:scale-[1.03] transition-all duration-300"
           >
-            {/* Hover Glow */}
-            <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-white/5 via-transparent to-transparent opacity-0 hover:opacity-100 transition-opacity duration-300 pointer-events-none"></div>
+             Hover Glow
+            <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-white/5 via-transparent to-transparent opacity-0 hover:opacity-100 transition-opacity duration-300 pointer-events-none"></div> */}
 
             {/* Icon */}
             <div
@@ -107,13 +114,13 @@ const FeaturesCard = () => {
             </p>
 
             {/* Bullet Points */}
-            <ul className="mt-4 text-left space-y-1 text-sm text-gray-300">
+            {/* <ul className="mt-4 text-left space-y-1 text-sm text-gray-300">
               {feature.points.map((point, idx) => (
                 <li key={idx} className="flex items-center gap-2">
                   <span className="text-cyan-300">•</span> {point}
                 </li>
               ))}
-            </ul>
+            </ul> */}
 
             {/* Learn More */}
             <button className="mt-4 text-cyan-300 hover:text-cyan-200 text-sm transition-colors">
@@ -122,19 +129,6 @@ const FeaturesCard = () => {
           </motion.div>
         ))}
       </motion.div>
-
-      {/* Bottom Text & Button */}
-      <div className="text-center mt-12">
-        <p className="text-gray-300 mb-4">
-          Ready to experience the future of legal document processing?
-        </p>
-        <button
-              className="px-6 py-3 rounded-xl  text-white mt-6 bg-blue-500/70 shadow-lg shadow-blue-500/30 
-             transition-all duration-300 ease-in-out hover:bg-[#1e40af] hover:shadow-blue-500/50 hover:scale-[1.02]"
-            >
-              Explore All Features →
-            </button>
-      </div>
     </section>
   );
 };
