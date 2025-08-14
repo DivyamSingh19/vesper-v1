@@ -67,6 +67,8 @@ export function RegisterForm() {
         router.push("/dashboard/lawyer");
       } else {
         const res = await registerUser(payload);
+        router.push("/dashboard/user");
+        
       }
     } catch (error) {
       console.error("Registration failed:", error);
