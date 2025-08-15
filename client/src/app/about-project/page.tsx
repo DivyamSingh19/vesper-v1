@@ -1,10 +1,11 @@
 import React from "react";
-import HeroVideoDialog from "@/components/magicui/hero-video-dialog";
-
 import Header from "@/components/Landing/header";
 
+import { AboutCard } from "@/components/ui/about-card";
 const page = () => {
-  return;
+  return (
+    <AboutCard className="" />
+  );
 };
 
 export default page;

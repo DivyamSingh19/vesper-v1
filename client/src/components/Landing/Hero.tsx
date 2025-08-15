@@ -1,18 +1,15 @@
 import React from "react";
 import { Briefcase, Shield, Scale, Users } from "lucide-react";
-import ButtonPrime from "../buttons/buttonPrime";
-import ButtonSec from "../buttons/buttonSec";
 import { motion } from "framer-motion";
+import ButtonPrime from "../buttons/buttonPrime";
+import AboutVesper from "../buttons/about-vesper";
 
-// Variants for entrance animation
+// Animation Variants
 const containerVariants = {
   hidden: { opacity: 0 },
   visible: {
     opacity: 1,
-    transition: {
-      staggerChildren: 0.1,
-      delayChildren: 0.2,
-    },
+    transition: { staggerChildren: 0.1, delayChildren: 0.2 },
   },
 };
 
@@ -43,34 +40,32 @@ const lineAnimation = {
 export default function Hero() {
   return (
     <section className="relative min-h-screen flex flex-col justify-center items-center bg-[#1f1f1f] text-center px-6 overflow-hidden">
-      {/* Subtle, glowing half-circle at the bottom right, now more noticeable */}
+      {/* Softer Glow Above Heading */}
       <motion.div
-        className="absolute bottom-0 right-0 w-[500px] h-[250px] bg-[#f76f53] rounded-t-full blur-[100px] opacity-20"
-        animate={{
-          scale: [1, 1.05, 1],
-          opacity: [0.2, 0.4, 0.2], // Increased opacity values
-        }}
-        transition={{
-          duration: 8,
-          repeat: Infinity,
-          ease: "easeInOut",
-        }}
-      ></motion.div>
+        className="absolute top-[12%] left-1/2 -translate-x-1/2 w-[450px] h-[220px] 
+                   bg-gradient-to-r from-[#fbbf77] via-[#fcd7a3] to-[#fbbf77] 
+                   rounded-full blur-[140px] opacity-15"
+        animate={{ scale: [1, 1.05, 1], opacity: [0.15, 0.25, 0.15] }}
+        transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
+      />
 
+      {/* Content */}
       <motion.div
         className="z-10 flex flex-col items-center"
         variants={containerVariants}
         initial="hidden"
         animate="visible"
       >
+        {/* Heading */}
         <motion.h1
-          className="text-[2.5rem] md:text-[4rem] lg:text-[6rem] font-serif leading-tight text-[#d1cfc0]"
+          className="text-[2.5rem] md:text-[4rem] lg:text-[6rem] font-playfair leading-tight text-[#d1cfc0]"
           variants={itemVariants}
         >
-          Your <span className="italic text-[#f76f53]">Legal Ally</span> in
-          digital Age
+          Your <span className="italic text-[#f76f53]">Legal Ally</span> in the
+          Digital Age
         </motion.h1>
 
+        {/* Subtitle */}
         <motion.p
           className="mt-6 text-base md:text-lg text-gray-400 max-w-xl"
           variants={itemVariants}
@@ -81,14 +76,16 @@ export default function Hero() {
           business, navigate legal challenges with confidence and clarity.
         </motion.p>
 
+        {/* Buttons */}
         <motion.div
           className="mt-8 flex gap-4 flex-wrap justify-center"
           variants={itemVariants}
         >
-          <ButtonPrime children="Get Started" />
-          <ButtonSec children="Learn more" />
+          <ButtonPrime>Get Started</ButtonPrime>
+          <AboutVesper />
         </motion.div>
 
+        {/* Trusted By Section */}
         <motion.div
           className="mt-10 text-sm text-gray-500 flex flex-col items-center gap-3"
           variants={itemVariants}
@@ -96,24 +93,21 @@ export default function Hero() {
           <span className="text-gray-300 font-medium">
             Trusted by 500+ lawyers and professionals worldwide
           </span>
+
           <div className="relative flex flex-col items-center gap-1 w-full">
+            {/* Icons */}
             <motion.div
               className="flex gap-6 text-gray-500"
               variants={containerVariants}
             >
-              <motion.div variants={iconVariants}>
-                <Briefcase size={28} strokeWidth={1.5} />
-              </motion.div>
-              <motion.div variants={iconVariants}>
-                <Shield size={28} strokeWidth={1.5} />
-              </motion.div>
-              <motion.div variants={iconVariants}>
-                <Scale size={28} strokeWidth={1.5} />
-              </motion.div>
-              <motion.div variants={iconVariants}>
-                <Users size={28} strokeWidth={1.5} />
-              </motion.div>
+              {[Briefcase, Shield, Scale, Users].map((Icon, i) => (
+                <motion.div key={i} variants={iconVariants}>
+                  <Icon size={28} strokeWidth={1.5} />
+                </motion.div>
+              ))}
             </motion.div>
+
+            {/* Animated Underline */}
             <motion.div
               className="absolute left-0 right-0 bottom-[-5px] h-[1px] bg-[#f76f53]"
               initial="initial"

@@ -1,11 +1,9 @@
 "use client";
 import React, { useState } from "react";
 import { Card, CardContent, CardDescription } from "@/components/ui/card";
-import { Separator } from "@/components/ui/separator";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 import { CalendarX2, Clock, VideoIcon } from "lucide-react";
 import { RenderCalendar } from "../calendar/rendercalendar";
-import { TimeTable } from "../calendar/timetable";
 import TimeSlot from "../buttons/timeslot";
 import FormatSwitcher from "../buttons/formatswitcher";
 import { ScrollArea, ScrollBar } from "../ui/scroll-area";
@@ -14,11 +12,18 @@ import AppointmentForm from "../forms/appointment-form";
 const AppointmentWidget = () => {
   const [format, setFormat] = useState("12h");
   const [selectedTime, setSelectedTime] = useState<string>("");
+  const [selectedDate, setSelectedDate] = useState<Date>(new Date());
   const [showForm, setShowForm] = useState(false);
 
   const handleTimeSelect = (time: string) => {
     setSelectedTime(time);
     console.log("Selected time:", time);
+  };
+
+  const handleDateSelect = (date: Date) => {
+    setSelectedDate(date);
+    setSelectedTime("");
+    console.log("Selected date:", date);
   };
 
   const handleNext = () => {
@@ -38,20 +43,15 @@ const AppointmentWidget = () => {
           <Card className="w-full">
             <CardContent className="p-4 sm:p-6 lg:p-8">
               <div className="space-y-6">
-                {/* Header */}
-                <div className="text-center space-y-2">
+                <div className="flex-1 text-center space-y-2">
                   <h2 className="text-xl sm:text-2xl lg:text-3xl font-semibold">
                     Book Your Appointment
                   </h2>
-                  <p className="text-sm sm:text-base text-muted-foreground">
-                    Selected time: {selectedTime}
-                  </p>
                 </div>
-
-                {/* Form Content */}
                 <div className="max-w-2xl mx-auto">
                   <AppointmentForm
                     selectedTime={selectedTime}
+                    selectedDate={selectedDate}
                     onBack={handleBack}
                   />
                 </div>
@@ -67,7 +67,6 @@ const AppointmentWidget = () => {
     <div className="min-h-screen flex items-center justify-center p-2 sm:p-4">
       <Card className="w-full max-w-7xl mx-auto">
         <CardContent className="p-3 sm:p-5">
-          {/* mobile layout */}
           <div className="md:hidden">
             <div className="flex flex-col items-center text-center pb-4 border-b">
               <div className="flex gap-3 items-center mb-3">
@@ -88,7 +87,11 @@ const AppointmentWidget = () => {
                 <div className="flex items-center justify-center">
                   <CalendarX2 className="size-4 mr-3 text-primary flex-shrink-0" />
                   <span className="text-sm font-medium text-muted-foreground">
-                    09 August 2025
+                    {selectedDate.toLocaleDateString("en-IN", {
+                      day: "numeric",
+                      month: "long",
+                      year: "numeric",
+                    })}
                   </span>
                 </div>
                 <div className="flex items-center justify-center">
@@ -108,11 +111,26 @@ const AppointmentWidget = () => {
 
             <div className="py-4 border-b">
               <div className="flex justify-center">
-                <RenderCalendar />
+                <RenderCalendar onDateSelect={handleDateSelect} />
               </div>
             </div>
 
             <div className="pt-4">
+              <div className="text-center mb-4">
+                <p className="text-lg font-semibold">
+                  {selectedDate.toLocaleDateString("en-US", {
+                    weekday: "long",
+                  })}{" "}
+                  <span className="text-base text-muted-foreground font-medium">
+                    {selectedDate.toLocaleDateString("en-US", {
+                      month: "short",
+                      day: "numeric",
+                      year: "numeric",
+                    })}
+                  </span>
+                </p>
+              </div>
+
               <div className="flex justify-center mb-4">
                 <FormatSwitcher format={format} setFormat={setFormat} />
               </div>
@@ -129,7 +147,6 @@ const AppointmentWidget = () => {
             </div>
           </div>
 
-          {/* tablet layout */}
           <div className="hidden md:flex lg:hidden flex-col gap-6">
             <div className="flex justify-center">
               <div className="flex flex-col items-center text-center">
@@ -151,7 +168,11 @@ const AppointmentWidget = () => {
                   <div className="flex items-center">
                     <CalendarX2 className="size-4 mr-2 text-primary" />
                     <span className="text-sm font-medium text-muted-foreground">
-                      09 August 2025
+                      {selectedDate.toLocaleDateString("en-IN", {
+                        day: "numeric",
+                        month: "long",
+                        year: "numeric",
+                      })}
                     </span>
                   </div>
                   <div className="flex items-center">
@@ -172,10 +193,25 @@ const AppointmentWidget = () => {
 
             <div className="flex gap-6 justify-center">
               <div className="flex-1 max-w-md">
-                <RenderCalendar />
+                <RenderCalendar onDateSelect={handleDateSelect} />
               </div>
 
               <div className="flex-1 max-w-xs">
+                <div className="text-center mb-4">
+                  <p className="text-lg font-semibold">
+                    {selectedDate.toLocaleDateString("en-US", {
+                      weekday: "long",
+                    })}{" "}
+                    <span className="text-base text-muted-foreground font-medium">
+                      {selectedDate.toLocaleDateString("en-US", {
+                        month: "short",
+                        day: "numeric",
+                        year: "numeric",
+                      })}
+                    </span>
+                  </p>
+                </div>
+
                 <div className="flex justify-center mb-4">
                   <FormatSwitcher format={format} setFormat={setFormat} />
                 </div>
@@ -194,8 +230,7 @@ const AppointmentWidget = () => {
             </div>
           </div>
 
-          {/* desktop layout */}
-          <div className="hidden lg:flex gap-0 justify-center items-stretch min-h-[300px]">
+          <div className="hidden lg:flex gap-0 justify-center items-stretch min-h-[600px]">
             <div className="flex-1 max-w-xs px-8 py-6 border-r border-border flex flex-col justify-start">
               <div className="flex flex-col items-center text-center h-full">
                 <div className="flex gap-3 items-center mb-6">
@@ -217,7 +252,11 @@ const AppointmentWidget = () => {
                   <div className="flex items-center">
                     <CalendarX2 className="size-5 mr-4 text-primary flex-shrink-0" />
                     <span className="text-sm font-medium text-muted-foreground">
-                      09 August 2025
+                      {selectedDate.toLocaleDateString("en-IN", {
+                        day: "numeric",
+                        month: "long",
+                        year: "numeric",
+                      })}
                     </span>
                   </div>
                   <div className="flex items-center">
@@ -238,17 +277,33 @@ const AppointmentWidget = () => {
 
             <div className="flex-1 max-w-md px-8 py-6 border-r border-border flex flex-col justify-start">
               <div className="h-full flex items-start justify-center">
-                <RenderCalendar />
+                <RenderCalendar onDateSelect={handleDateSelect} />
               </div>
             </div>
 
-            <div className="flex-1 max-w-xl px-8 py-6 flex flex-col justify-start">
+            <div className="flex-1 max-w-xs px-8 py-6 flex flex-col justify-start">
               <div className="flex flex-col gap-6 h-full">
-                <div className="flex justify-end">
-                  <FormatSwitcher format={format} setFormat={setFormat} />
+                <div className="flex items-center gap-3">
+                  <div className="text-right">
+                    <p className="text-lg font-semibold">
+                      {selectedDate.toLocaleDateString("en-IN", {
+                        weekday: "short",
+                      })}{" "}
+                      <span className="text-base text-muted-foreground font-medium">
+                        {selectedDate.toLocaleDateString("en-IN", {
+                          month: "short",
+                          day: "numeric",
+                          year: "numeric",
+                        })}
+                      </span>
+                    </p>
+                  </div>
+                  <div className="flex justify-end">
+                    <FormatSwitcher format={format} setFormat={setFormat} />
+                  </div>
                 </div>
 
-                <div className="flex-1">
+                <div className="flex-1 flex items-center">
                   <ScrollArea className="h-[480px] w-full rounded-md border p-3">
                     <TimeSlot
                       format={format}

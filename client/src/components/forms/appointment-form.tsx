@@ -1,18 +1,24 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useMemo } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { ArrowLeft, User, Mail, MessageSquare } from "lucide-react";
-import ConfirmBooking from "@/components/buttons/confirmbooking";
+import ConfirmBooking from "../buttons/confirmbooking";
 import Back from "../buttons/back-button";
+
 interface AppointmentFormProps {
   selectedTime: string;
+  selectedDate?: Date;
   onBack: () => void;
 }
 
-const AppointmentForm = ({ selectedTime, onBack }: AppointmentFormProps) => {
+const AppointmentForm = ({
+  selectedTime,
+  selectedDate,
+  onBack,
+}: AppointmentFormProps) => {
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -21,7 +27,6 @@ const AppointmentForm = ({ selectedTime, onBack }: AppointmentFormProps) => {
 
   const handleSubmit = (e?: React.FormEvent) => {
     if (e) e.preventDefault();
-
     console.log("Form submitted:", { ...formData, selectedTime });
   };
 
@@ -32,6 +37,10 @@ const AppointmentForm = ({ selectedTime, onBack }: AppointmentFormProps) => {
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
+  const isFormIncomplete = useMemo(() => {
+    return !formData.name || !formData.email;
+  }, [formData.name, formData.email]);
+
   return (
     <div className="w-full space-y-6">
       <div className="flex flex-col sm:flex-row sm:items-center gap-4">
@@ -41,12 +50,27 @@ const AppointmentForm = ({ selectedTime, onBack }: AppointmentFormProps) => {
         />
 
         <div className="flex-1">
-          <h3 className="text-lg sm:text-xl font-semibold">
+          <h3 className="text-lg sm:text-xl text-center font-semibold">
             Appointment Details
           </h3>
-          <p className="text-sm text-muted-foreground mt-1">
-            Selected time: <span className="font-medium">{selectedTime}</span>
-          </p>
+          <div className="text-sm text-center text-muted-foreground mt-1 space-y-1">
+            {selectedDate && (
+              <p>
+                Date:{" "}
+                <span className="font-medium">
+                  {selectedDate.toLocaleDateString("en-IN", {
+                    weekday: "long",
+                    year: "numeric",
+                    month: "long",
+                    day: "numeric",
+                  })}
+                </span>
+              </p>
+            )}
+            <p>
+              Time: <span className="font-medium">{selectedTime}</span>
+            </p>
+          </div>
         </div>
       </div>
 
@@ -124,6 +148,7 @@ const AppointmentForm = ({ selectedTime, onBack }: AppointmentFormProps) => {
           <div className="flex-1 sm:flex-none sm:min-w-[200px]">
             <ConfirmBooking
               onClick={handleSubmit}
+              disabled={isFormIncomplete}
               className="h-11 rounded-md"
             />
           </div>
