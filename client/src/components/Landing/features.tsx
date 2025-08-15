@@ -1,5 +1,5 @@
 import React from "react";
-import { Brain,Shield, Zap, Users,Lock, Upload } from "lucide-react";
+import { Brain, Shield, Zap, Users, Lock, Upload } from "lucide-react";
 import { motion } from "framer-motion";
 
 const features = [
