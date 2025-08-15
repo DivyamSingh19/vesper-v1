@@ -7,7 +7,7 @@ export const users = pgTable('users',{
     email:varchar('email',{length:255}).notNull().unique(),
     name:varchar('name',{length:255}).notNull(),
     password:varchar('password',{length:300}).notNull(),
-    walletAddress:text('wallet_address').notNull(),
+    walletAddress:text('wallet_address'),
     createdAt : timestamp('created_at').defaultNow().notNull(),
     updatedAt : timestamp('updated_at').defaultNow().notNull(),
 })
@@ -17,7 +17,7 @@ export const lawyers = pgTable('lawyers',{
     email:varchar('email',{length:255}).notNull().unique(),
     name:varchar('name',{length:255}).notNull(),
     password:varchar('password',{length:300}).notNull(),
-    walletAddress:text('wallet_address').notNull(),
+    walletAddress:text('wallet_address'),
     stateRollNumber:text('state_roll_number').notNull().unique(),
     createdAt : timestamp('created_at').defaultNow().notNull(),
     updatedAt : timestamp('updated_at').defaultNow().notNull(),
