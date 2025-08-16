@@ -36,6 +36,13 @@
       "when": 1755094666933,
       "tag": "0004_thin_manta",
       "breakpoints": true
+    },
+    {
+      "idx": 5,
+      "version": "7",
+      "when": 1755273218050,
+      "tag": "0005_remarkable_calypso",
+      "breakpoints": true
     }
   ]
 }

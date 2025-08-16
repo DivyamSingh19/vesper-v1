@@ -28,10 +28,10 @@ const verifyPassword = async (password: string, hashedPassword: string): Promise
 export const registerUser = async (c: Context) => {
   try {
     const db = getDb(c.env.DATABASE_URL);
-    const { email, name, password, walletAddress } = await c.req.json();
+    const { email, name, password } = await c.req.json();
 
     
-    if (!email || !name || !password || !walletAddress) {
+    if (!email || !name || !password ) {
       return c.json({
         success: false,
         message: "Email, name, password, and wallet address are required"
@@ -67,7 +67,7 @@ export const registerUser = async (c: Context) => {
       email,
       name,
       password: hashedPassword,
-      walletAddress,
+    
     }).returning();
 
     
@@ -93,10 +93,10 @@ export const registerUser = async (c: Context) => {
 export const registerAdv = async (c: Context) => {
   try {
     const db = getDb(c.env.DATABASE_URL);
-    const { email, name, password, walletAddress,stateRollNumber } = await c.req.json();
+    const { email, name, password,stateRollNumber } = await c.req.json();
 
     
-    if (!email || !name || !password || !walletAddress ||!stateRollNumber) {
+    if (!email || !name || !password  ||!stateRollNumber) {
       return c.json({
         success: false,
         message: "Email, name, password, and wallet address are required"
@@ -131,7 +131,7 @@ export const registerAdv = async (c: Context) => {
       email,
       name,
       password: hashedPassword,
-      walletAddress,
+   
       stateRollNumber
     }).returning();
 
@@ -202,7 +202,7 @@ export const loginUser = async (c: Context) => {
       token,
       email: userData.email,
       id: userData.id,
-      walletAddress: userData.walletAddress
+     
     });
 
   } catch (error) {
@@ -260,7 +260,7 @@ export const loginAdv = async (c: Context) => {
       token,
       email: lawyerData.email,
       id: lawyerData.id,
-      walletAddress: lawyerData.walletAddress,
+       
       stateRollNumber:lawyerData.stateRollNumber
     });
 
