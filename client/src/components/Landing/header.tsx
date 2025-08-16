@@ -75,10 +75,10 @@ const Header: React.FC<HeaderProps> = ({
     //   label: "Pricing",
     //   href: "/pricing",
     // },
-    {
-      label: "About",
-      href: "/about-project",
-    },
+    // {
+    //   label: "About",
+    //   href: "/about-project",
+    // },
   ];
 
   const handleRegisterClick = useCallback(() => {

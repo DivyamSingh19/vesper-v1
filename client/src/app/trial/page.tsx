@@ -15,10 +15,10 @@ const page = () => {
   return (
     <div>
       {/* <AiChat/> */}
-      <AboutVesper/>
+      {/* <AboutVesper/> */}
       {/* <DownloadPPT/> */}
       {/* <AppointmentForm/> */}
-      {/* <AppointmentWidget/> */}
+      <AppointmentWidget/>
       {/* <ConfirmBooking/> */}
       {/* <FormatSwitcher format={format} setFormat={setFomat}/> */}
       {/* <TimeSlot format={"12h"}/> */}

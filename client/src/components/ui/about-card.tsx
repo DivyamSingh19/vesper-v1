@@ -1,89 +1,142 @@
 "use client";
 import React from "react";
-import {
-  Card,
-  CardAction,
-  CardContent,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "./card";
-import Image from "next/image";
 import ViewRepo from "../buttons/view-repo";
-import Back from "../buttons/back-button";
 import { useRouter } from "next/navigation";
-
+import { motion } from "framer-motion";
 interface props {
   className?: string;
 }
+
+const headingVariants = {
+  hidden: { opacity: 0, y: -20 },
+  visible: { opacity: 1, y: 0, transition: { duration: 0.6 } },
+};
+
+const lineVariants = {
+  hidden: { width: 0 },
+  visible: { width: "15%", transition: { duration: 0.8, delay: 0.2 } },
+};
+
+const contentVariants = {
+  hidden: { opacity: 0, y: 20 },
+  visible: { opacity: 1, y: 0, transition: { duration: 0.6, delay: 0.3 } },
+};
 
 const AboutCard = ({ className }: props) => {
   const router = useRouter();
   return (
     <div
-      className={`flex min-h-screen justify-center items-center p-4 sm:p-6 md:p-10${
+      className={`flex flex-col gap-10 min-h-screen  p-4 sm:p-6 md:p-10${
         className || ""
       }`}
     >
-      <Card className="max-w-full p-4 rounded-2xl">
-        <CardHeader className="flex flex-row justify-between items-center gap-4 ">
-          <CardTitle className="font-playfair text-2xl sm:text-3xl ">
-            Vesper
-          </CardTitle>
-          <CardAction>
-            <ViewRepo
-              onClick={() =>
-                window.open(
-                  "https://github.com/DivyamSingh19/vesper-v1",
-                  "_blank"
-                )
-              }
+      <motion.div className="flex flex-col gap-8">
+        <div className="flex flex-col gap-3">
+          <motion.h2
+            className="text-4xl"
+            variants={headingVariants}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: false }}
+          >
+            The{" "}
+            <span className="bg-gradient-to-r from-orange-500 to-pink-500 bg-clip-text text-transparent">
+              Problem
+            </span>
+            <motion.span
+              className="block h-[3px] bg-orange-500 mt-5 rounded-full"
+              variants={lineVariants}
             />
-          </CardAction>
-        </CardHeader>
-
-        <CardContent className="flex flex-col lg:flex-row lg:justify-between gap-5 lg:gap-8">
-          <div className="flex flex-col gap-3 md:gap-5 lg:max-w-5xl lg:w-full font-sans text-sm sm:text-base md:text-lg lg:text-xl order-2 lg:order-1">
-            <p className="leading-relaxed">
-              Vesper is a comprehensive legal aid platform that democratizes
-              access to legal understanding through advanced AI-powered document
-              summarization and interactive flowchart generation for
-              personalized legal guidance.
-            </p>
-            <p className="leading-relaxed">
-              The platform features complete multilingual support,
-              text-to-speech and speech-to-text capabilities for accessibility,
-              and leverages IPFS blockchain technology for secure, tamper-proof
-              document storage and one-click encrypted sharing between clients
-              and legal teams.
-            </p>
-            <p className="leading-relaxed">
-              With integrated appointment booking systems for both legal
-              professionals and clients, Vesper's core mission is to decode
-              complex legal jargon into understandable language, ensuring
-              everyone knows their rights regardless of their background or
-              abilities, while providing free, universal access to legal care
-              and eliminating barriers to justice through technology-driven
-              solutions.
-            </p>
-          </div>
-
-          <div className="relative w-full h-48 sm:h-56 md:h-64 lg:w-80 lg:h-80 xl:w-96 xl:h-96 flex-shrink-0 order-1 lg:order-2 rounded-lg overflow-hidden">
-            <Image
-              src="/images/kdot.jpg"
-              alt="kenny"
-              fill
-              className="object-cover"
-              sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 400px"
-              priority
+          </motion.h2>
+          <motion.p
+            className="leading-relaxed text-sm sm:text-base md:text-lg lg:text-xl"
+            variants={contentVariants}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: false }}
+          >
+            Legal documents are notoriously difficult to understand, filled with
+            complex terminology and intricate clauses that can overwhelm
+            non-legal professionals. This creates a significant barrier for
+            individuals and small businesses who need to comprehend important
+            legal information but lack specialized legal knowledge.
+          </motion.p>
+        </div>
+        <div className="flex flex-col gap-3">
+          <motion.h2
+            className="text-4xl"
+            variants={headingVariants}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: false }}
+          >
+            Our{" "}
+            <span className="bg-gradient-to-r from-orange-500 to-pink-500 bg-clip-text text-transparent">
+              Solution
+            </span>
+            <motion.span
+              className="block h-[3px] bg-orange-500 mt-5 rounded-full"
+              variants={lineVariants}
             />
-          </div>
-        </CardContent>
+          </motion.h2>
+          <motion.p
+            className="leading-relaxed text-sm sm:text-base md:text-lg lg:text-xl"
+            variants={contentVariants}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: false }}
+          >
+            Vesper bridges this gap by leveraging artificial intelligence to
+            break down legal documents into digestible, understandable content.
+            We transform dense legal text into clear summaries and create visual
+            flowcharts that outline actionable steps, making legal information
+            accessible to everyone.
+          </motion.p>
+        </div>
+      </motion.div>
 
-        <CardFooter className="pt-4 sm:pt-6">
-          <Back className="" onClick={() => router.push("/")} />
-        </CardFooter>
-      </Card>
+      <motion.div className="flex flex-col gap-5">
+        <motion.h2
+          className="text-4xl"
+          variants={headingVariants}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: false }}
+        >
+          Our{" "}
+          <span className="bg-gradient-to-r from-orange-500 to-pink-500 bg-clip-text text-transparent">
+            Mission
+          </span>
+          <motion.span
+            className="block h-[3px] bg-orange-500  mt-5 rounded-full"
+            variants={lineVariants}
+          />
+        </motion.h2>
+        <motion.p
+          className="leading-relaxed text-sm sm:text-base md:text-lg lg:text-xl"
+          variants={contentVariants}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: false }}
+        >
+          To make legal information accessible and understandable for everyone,
+          regardless of their background or education
+        </motion.p>
+      </motion.div>
+
+      <motion.div
+        className="mt-5"
+        variants={contentVariants}
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: false }}
+      >
+        <ViewRepo
+          onClick={() =>
+            window.open("https://github.com/DivyamSingh19/vesper-v1", "_blank")
+          }
+        />
+      </motion.div>
     </div>
   );
 };
