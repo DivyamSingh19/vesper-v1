@@ -40,6 +40,7 @@ export function RegisterForm() {
       toast.error("Failed to connect to MetaMask.");
     }
   };
+
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setLoading(true);
@@ -62,7 +63,6 @@ export function RegisterForm() {
         payload.stateRollNumber = stateRollNumber;
 
         const res = await registerAdv(payload);
-        console.log(res);
 
         router.push("/dashboard/lawyer");
       } else {

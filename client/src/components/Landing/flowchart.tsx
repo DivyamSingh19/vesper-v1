@@ -143,7 +143,7 @@ const Flowchart = () => {
             <motion.div variants={itemVariants}>
               <button
                 className="px-6 py-3 rounded-xl w-full text-white mt-6 bg-blue-500 shadow-lg shadow-blue-500/30 
-               transition-all duration-300 ease-in-out hover:bg-blue-300 hover:shadow-blue-500/50 hover:scale-[1.02]"
+               transition-all duration-300 ease-in-out hover:bg-blue-300 hover:shadow-blue-500/50 hover:scale-[1.02] hover:text-black hover:font-bold"
               >
                 Create Flowchart
               </button>

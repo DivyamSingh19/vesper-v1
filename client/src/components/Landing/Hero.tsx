@@ -58,7 +58,7 @@ export default function Hero() {
       >
         {/* Heading */}
         <motion.h1
-          className="text-[2.5rem] md:text-[4rem] lg:text-[6rem] font-playfair leading-tight text-[#d1cfc0]"
+          className="text-[2rem] md:text-[4rem] lg:text-[5rem] font-playfair leading-tight text-[#d1cfc0]"
           variants={itemVariants}
         >
           Your <span className="italic text-[#f76f53]">Legal Ally</span> in the

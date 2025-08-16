@@ -36,6 +36,8 @@ export const loginAdv = async (payload: any) => {
       stateRollNumber: res.data.stateRollNumber,
       role: "lawyer",
     });
+
+    
   }
   return res.data;
 };

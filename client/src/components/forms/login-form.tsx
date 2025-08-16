@@ -5,12 +5,12 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import axios from "axios";
 import { User, Gavel } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { ethers } from "ethers";
 import { toast } from "sonner";
 import Image from "next/image";
+import { loginAdv, loginUser } from "@/app/services/authService";
 declare global {
   interface Window {
     ethereum?: any;
@@ -23,23 +23,23 @@ export function LoginForm() {
   const [loading, setLoading] = useState(false);
   const [walletAddress, setWalletAddress] = useState("");
 
- const connectMetaMask = async () => {
-   if (!window.ethereum) {
-     toast.error("MetaMask not detected. Please install it.");
-     return;
-   }
-   try {
-     const provider = new ethers.BrowserProvider(window.ethereum);
-     const accounts = await provider.send("eth_requestAccounts", []);
-     if (accounts.length > 0) {
-       setWalletAddress(accounts[0]);
-       toast.success(`Connected: ${accounts[0]}`);
-     }
-   } catch (error) {
-     console.error("MetaMask connection error:", error);
-     toast.error("Failed to connect to MetaMask.");
-   }
- };
+  const connectMetaMask = async () => {
+    if (!window.ethereum) {
+      toast.error("MetaMask not detected. Please install it.");
+      return;
+    }
+    try {
+      const provider = new ethers.BrowserProvider(window.ethereum);
+      const accounts = await provider.send("eth_requestAccounts", []);
+      if (accounts.length > 0) {
+        setWalletAddress(accounts[0]);
+        toast.success(`Connected: ${accounts[0]}`);
+      }
+    } catch (error) {
+      console.error("MetaMask connection error:", error);
+      toast.error("Failed to connect to MetaMask.");
+    }
+  };
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -53,19 +53,22 @@ export function LoginForm() {
       walletAddress,
     };
 
-    if (role === "lawyer") {
-      let stateRollNumber = String(
-        formData.get("stateRollNumber") || ""
-      ).trim();
-      stateRollNumber = stateRollNumber.replace(/\//g, "");
-      payload.stateRollNumber = stateRollNumber;
-    }
-
     try {
-      // await axios.post("/api/login", payload);
-      console.log(payload);
+      if (role === "lawyer") {
+        let stateRollNumber = String(
+          formData.get("stateRollNumber") || ""
+        ).trim();
+        stateRollNumber = stateRollNumber.replace(/\//g, "");
+        payload.stateRollNumber = stateRollNumber;
 
-      router.push("/dashboard");
+        const res = await loginAdv(payload);
+
+        router.push("/dashboard/lawyer");
+      }
+
+      const res = await loginUser(payload);
+
+      router.push("/dashboard/user");
     } catch (error) {
       console.error(error);
     } finally {
