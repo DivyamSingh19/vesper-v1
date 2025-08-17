@@ -326,7 +326,7 @@ export function AnimatedAIChat() {
                             animate={{ opacity: 1 }}
                             transition={{ delay: 0.3 }}
                         >
-                            Type a command or ask a question
+                            Enter a PDF for summarization
                         </motion.p>
                     </div>
 
@@ -448,7 +448,7 @@ export function AnimatedAIChat() {
                                         layoutId="button-highlight"
                                     />
                                 </motion.button>
-                                <motion.button
+                                {/* <motion.button
                                     type="button"
                                     data-command-button
                                     onClick={(e) => {
@@ -466,7 +466,7 @@ export function AnimatedAIChat() {
                                         className="absolute inset-0 bg-white/[0.05] rounded-lg opacity-0 group-hover:opacity-100 transition-opacity"
                                         layoutId="button-highlight"
                                     />
-                                </motion.button>
+                                </motion.button> */}
                             </div>
                             
                             <motion.button
