@@ -1,20 +1,20 @@
 "use client";
-
+import axios from "axios";
 import { useEffect, useRef, useCallback, useTransition } from "react";
 import { useState } from "react";
 import { cn } from "@/lib/utils";
 import {
-  ImageIcon,
+  Image,
   FileUp,
   Figma,
-  MonitorIcon,
+  Monitor,
   CircleUserRound,
-  ArrowUpIcon,
+  ArrowUp,
   Paperclip,
-  PlusIcon,
-  SendIcon,
-  XIcon,
-  LoaderIcon,
+  Plus,
+  Send,
+  X,
+  Loader,
   Sparkles,
   Command,
   User,
@@ -22,6 +22,7 @@ import {
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import * as React from "react";
+import { log } from "console";
 
 interface Message {
   id: string;
@@ -154,7 +155,7 @@ export function AnimatedAIChat() {
 
   const commandSuggestions: CommandSuggestion[] = [
     {
-      icon: <ImageIcon className="w-4 h-4" />,
+      icon: <Image className="w-4 h-4" />,
       label: "Clone UI",
       description: "Generate a UI from a screenshot",
       prefix: "/clone",
@@ -166,7 +167,7 @@ export function AnimatedAIChat() {
       prefix: "/figma",
     },
     {
-      icon: <MonitorIcon className="w-4 h-4" />,
+      icon: <Monitor className="w-4 h-4" />,
       label: "Create Page",
       description: "Generate a new web page",
       prefix: "/page",
@@ -263,13 +264,12 @@ export function AnimatedAIChat() {
     setIsTyping(true);
 
     try {
-      const response = await fetch("/api/chat", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ message: value }),
-      });
+      const response = await axios.post(
+        "https://model.morpheus4077.workers.dev/api/v1/chat",
+        { text: value }
+      );
 
-      const result = await response.json();
+      const result = await response.data;
 
       const aiMessage: Message = {
         id: (Date.now() + 1).toString(),
@@ -337,7 +337,7 @@ export function AnimatedAIChat() {
 
       let aiContent = "";
       if (response.ok) {
-        aiContent = `**${result.title}** (${result.numPages} pages)\n\n${result.summary}`;
+        aiContent = `${result.summary}`;
       } else {
         aiContent = "Error processing PDF: " + result.error;
       }
@@ -432,13 +432,13 @@ export function AnimatedAIChat() {
 
                 <div
                   className={cn(
-                    "max-w-[85%] rounded-2xl px-5 py-4 text-sm leading-relaxed",
+                    "max-w-[85%] rounded-2xl px-5 py-4 text-sm whitespace-pre-wrap leading-relaxed",
                     message.sender === "user"
-                      ? "bg-white text-black ml-auto"
+                      ? "bg-white/[0.05] text-white border border-white/[0.05] ml-auto"
                       : "bg-white/[0.05] text-white border border-white/[0.05]"
                   )}
                 >
-                  {message.content.includes("**") ? (
+                  {message.content && message.content.includes("**") ? (
                     <div
                       dangerouslySetInnerHTML={{
                         __html: message.content
@@ -448,12 +448,12 @@ export function AnimatedAIChat() {
                       }}
                     />
                   ) : (
-                    message.content
+                    message.content || "No content"
                   )}
                 </div>
 
                 {message.sender === "user" && (
-                  <div className="w-8 h-8 rounded-full bg-white/20 flex items-center justify-center flex-shrink-0 mt-1">
+                  <div className="w-8 h-8 rounded-full bg-orange-500/20 flex items-center justify-center flex-shrink-0 mt-1">
                     <User className="w-4 h-4 text-white" />
                   </div>
                 )}
@@ -531,7 +531,7 @@ export function AnimatedAIChat() {
                 onKeyDown={handleKeyDown}
                 onFocus={() => setInputFocused(true)}
                 onBlur={() => setInputFocused(false)}
-                placeholder="Message ChatGPT..."
+                placeholder="Message Vesper-AI to answer your legal queries"
                 containerClassName="w-full"
                 className={cn(
                   "w-full px-4 py-3 resize-none bg-transparent border-none",
@@ -562,7 +562,7 @@ export function AnimatedAIChat() {
                         onClick={() => removeAttachment(index)}
                         className="text-white/40 hover:text-white"
                       >
-                        <XIcon className="w-3 h-3" />
+                        <X className="w-3 h-3" />
                       </button>
                     </motion.div>
                   ))}
@@ -596,9 +596,9 @@ export function AnimatedAIChat() {
                 )}
               >
                 {isTyping || isProcessingPdf ? (
-                  <LoaderIcon className="w-4 h-4 animate-spin" />
+                  <Loader className="w-4 h-4 animate-spin" />
                 ) : (
-                  <SendIcon className="w-4 h-4" />
+                  <Send className="w-4 h-4" />
                 )}
                 <span>Send</span>
               </motion.button>
