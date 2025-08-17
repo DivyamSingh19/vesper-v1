@@ -17,9 +17,18 @@ import {
   LoaderIcon,
   Sparkles,
   Command,
+  User,
+  Bot,
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import * as React from "react";
+
+interface Message {
+  id: string;
+  content: string;
+  sender: "user" | "ai";
+  timestamp: Date;
+}
 
 interface UseAutoResizeTextareaProps {
   minHeight: number;
@@ -107,21 +116,11 @@ const Textarea = React.forwardRef<HTMLTextAreaElement, TextareaProps>(
 
         {showRing && isFocused && (
           <motion.span
-            className="absolute inset-0 rounded-md pointer-events-none ring-2 ring-offset-0 ring-violet-500/30"
+            className="absolute inset-0 rounded-md pointer-events-none ring-2 ring-offset-0 ring-orange-500/30"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.2 }}
-          />
-        )}
-
-        {props.onChange && (
-          <div
-            className="absolute bottom-2 right-2 opacity-0 w-2 h-2 bg-violet-500 rounded-full"
-            style={{
-              animation: "none",
-            }}
-            id="textarea-ripple"
           />
         )}
       </div>
@@ -132,6 +131,7 @@ Textarea.displayName = "Textarea";
 
 export function AnimatedAIChat() {
   const [value, setValue] = useState("");
+  const [messages, setMessages] = useState<Message[]>([]);
   const [attachments, setAttachments] = useState<string[]>([]);
   const [isTyping, setIsTyping] = useState(false);
   const [isPending, startTransition] = useTransition();
@@ -145,44 +145,47 @@ export function AnimatedAIChat() {
   });
   const [inputFocused, setInputFocused] = useState(false);
   const commandPaletteRef = useRef<HTMLDivElement>(null);
+  const messagesEndRef = useRef<HTMLDivElement>(null);
 
   // PDF-related state
   const [pdfFile, setPdfFile] = useState<File | null>(null);
   const [isProcessingPdf, setIsProcessingPdf] = useState(false);
-  const [pdfSummary, setPdfSummary] = useState<string | null>(null);
-  const [pdfResult, setPdfResult] = useState<{
-    title: string;
-    numPages: number;
-    summary: string;
-  } | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const commandSuggestions: CommandSuggestion[] = [
-    //    {
-    //        icon: <ImageIcon className="w-4 h-4" />,
-    //        label: "Clone UI",
-    //        description: "Generate a UI from a screenshot",
-    //        prefix: "/clone"
-    //    },
-    //    {
-    //        icon: <Figma className="w-4 h-4" />,
-    //        label: "Import Figma",
-    //        description: "Import a design from Figma",
-    //        prefix: "/figma"
-    //    },
-    //    {
-    //        icon: <MonitorIcon className="w-4 h-4" />,
-    //        label: "Create Page",
-    //        description: "Generate a new web page",
-    //        prefix: "/page"
-    //    },
-    //    {
-    //        icon: <Sparkles className="w-4 h-4" />,
-    //        label: "Improve",
-    //        description: "Improve existing UI design",
-    //        prefix: "/improve"
-    //    },
+    {
+      icon: <ImageIcon className="w-4 h-4" />,
+      label: "Clone UI",
+      description: "Generate a UI from a screenshot",
+      prefix: "/clone",
+    },
+    {
+      icon: <Figma className="w-4 h-4" />,
+      label: "Import Figma",
+      description: "Import a design from Figma",
+      prefix: "/figma",
+    },
+    {
+      icon: <MonitorIcon className="w-4 h-4" />,
+      label: "Create Page",
+      description: "Generate a new web page",
+      prefix: "/page",
+    },
+    {
+      icon: <Sparkles className="w-4 h-4" />,
+      label: "Improve",
+      description: "Improve existing UI design",
+      prefix: "/improve",
+    },
   ];
+
+  const scrollToBottom = () => {
+    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+  };
+
+  useEffect(() => {
+    scrollToBottom();
+  }, [messages]);
 
   useEffect(() => {
     if (value.startsWith("/") && !value.includes(" ")) {
@@ -213,26 +216,6 @@ export function AnimatedAIChat() {
     };
   }, []);
 
-  useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
-      const target = event.target as Node;
-      const commandButton = document.querySelector("[data-command-button]");
-
-      if (
-        commandPaletteRef.current &&
-        !commandPaletteRef.current.contains(target) &&
-        !commandButton?.contains(target)
-      ) {
-        setShowCommandPalette(false);
-      }
-    };
-
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
-  }, []);
-
   const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
     if (showCommandPalette) {
       if (e.key === "ArrowDown") {
@@ -251,9 +234,6 @@ export function AnimatedAIChat() {
           const selectedCommand = commandSuggestions[activeSuggestion];
           setValue(selectedCommand.prefix + " ");
           setShowCommandPalette(false);
-
-          setRecentCommand(selectedCommand.label);
-          setTimeout(() => setRecentCommand(null), 3500);
         }
       } else if (e.key === "Escape") {
         e.preventDefault();
@@ -261,22 +241,55 @@ export function AnimatedAIChat() {
       }
     } else if (e.key === "Enter" && !e.shiftKey) {
       e.preventDefault();
-      if (value.trim()) {
-        handleSendMessage();
+      if (value.trim() || pdfFile) {
+        pdfFile ? handleSummarizePdf() : handleSendMessage();
       }
     }
   };
 
-  const handleSendMessage = () => {
-    if (value.trim()) {
-      startTransition(() => {
-        setIsTyping(true);
-        setTimeout(() => {
-          setIsTyping(false);
-          setValue("");
-          adjustHeight(true);
-        }, 3000);
+  const handleSendMessage = async () => {
+    if (!value.trim()) return;
+
+    const userMessage: Message = {
+      id: Date.now().toString(),
+      content: value,
+      sender: "user",
+      timestamp: new Date(),
+    };
+
+    setMessages((prev) => [...prev, userMessage]);
+    setValue("");
+    adjustHeight(true);
+    setIsTyping(true);
+
+    try {
+      const response = await fetch("/api/chat", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ message: value }),
       });
+
+      const result = await response.json();
+
+      const aiMessage: Message = {
+        id: (Date.now() + 1).toString(),
+        content: result.response || "Sorry, I couldn't process your request.",
+        sender: "ai",
+        timestamp: new Date(),
+      };
+
+      setMessages((prev) => [...prev, aiMessage]);
+    } catch (error) {
+      console.error("Chat error:", error);
+      const errorMessage: Message = {
+        id: (Date.now() + 1).toString(),
+        content: "Sorry, there was an error processing your request.",
+        sender: "ai",
+        timestamp: new Date(),
+      };
+      setMessages((prev) => [...prev, errorMessage]);
+    } finally {
+      setIsTyping(false);
     }
   };
 
@@ -289,8 +302,6 @@ export function AnimatedAIChat() {
     if (file && file.type === "application/pdf") {
       setPdfFile(file);
       setAttachments([file.name]);
-      setPdfSummary(null); // Clear previous summary
-      setPdfResult(null);
     } else if (file) {
       alert("Please select a PDF file");
     }
@@ -299,7 +310,17 @@ export function AnimatedAIChat() {
   const handleSummarizePdf = async () => {
     if (!pdfFile) return;
 
+    const userMessage: Message = {
+      id: Date.now().toString(),
+      content: `📄 Uploaded: ${pdfFile.name}`,
+      sender: "user",
+      timestamp: new Date(),
+    };
+
+    setMessages((prev) => [...prev, userMessage]);
     setIsProcessingPdf(true);
+    setIsTyping(true);
+
     const formData = new FormData();
     formData.append("file", pdfFile);
 
@@ -313,53 +334,57 @@ export function AnimatedAIChat() {
       );
 
       const result = await response.json();
+
+      let aiContent = "";
       if (response.ok) {
-        setPdfResult(result);
-        setPdfSummary(result.summary);
+        aiContent = `**${result.title}** (${result.numPages} pages)\n\n${result.summary}`;
       } else {
-        console.error("Error:", result.error);
-        alert("Error processing PDF: " + result.error);
+        aiContent = "Error processing PDF: " + result.error;
       }
+
+      const aiMessage: Message = {
+        id: (Date.now() + 1).toString(),
+        content: aiContent,
+        sender: "ai",
+        timestamp: new Date(),
+      };
+
+      setMessages((prev) => [...prev, aiMessage]);
     } catch (error) {
       console.error("Upload error:", error);
-      alert("Error uploading PDF");
+      const errorMessage: Message = {
+        id: (Date.now() + 1).toString(),
+        content: "Error uploading PDF. Please try again.",
+        sender: "ai",
+        timestamp: new Date(),
+      };
+      setMessages((prev) => [...prev, errorMessage]);
     } finally {
       setIsProcessingPdf(false);
+      setIsTyping(false);
+      setPdfFile(null);
+      setAttachments([]);
     }
   };
 
   const removeAttachment = (index: number) => {
     setAttachments((prev) => prev.filter((_, i) => i !== index));
     setPdfFile(null);
-    setPdfSummary(null);
-    setPdfResult(null);
   };
 
   const selectCommandSuggestion = (index: number) => {
     const selectedCommand = commandSuggestions[index];
     setValue(selectedCommand.prefix + " ");
     setShowCommandPalette(false);
-
-    setRecentCommand(selectedCommand.label);
-    setTimeout(() => setRecentCommand(null), 2000);
-  };
-
-  const clearSummary = () => {
-    setPdfSummary(null);
-    setPdfFile(null);
-    setPdfResult(null);
-    setAttachments([]);
-    if (fileInputRef.current) {
-      fileInputRef.current.value = "";
-    }
   };
 
   return (
-    <div className="min-h-screen flex flex-col w-full items-center justify-center bg-transparent text-white p-6 relative overflow-hidden">
+    <div className="min-h-screen w-full flex flex-col bg-transparent text-white relative overflow-hidden">
+      {/* Reduced orange background circles */}
       <div className="absolute inset-0 w-full h-full overflow-hidden">
-        <div className="absolute top-0 left-1/4 w-96 h-96 bg-violet-500/10 rounded-full mix-blend-normal filter blur-[128px] animate-pulse" />
-        <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-indigo-500/10 rounded-full mix-blend-normal filter blur-[128px] animate-pulse delay-700" />
-        <div className="absolute top-1/4 right-1/3 w-64 h-64 bg-fuchsia-500/10 rounded-full mix-blend-normal filter blur-[96px] animate-pulse delay-1000" />
+        <div className="absolute top-0 left-1/4 w-96 h-96 bg-orange-500/15 rounded-full mix-blend-normal filter blur-[128px] animate-pulse" />
+        <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-orange-600/5 rounded-full mix-blend-normal filter blur-[128px] animate-pulse delay-700" />
+        <div className="absolute top-1/4 right-1/3 w-64 h-64 bg-amber-500/4 rounded-full mix-blend-normal filter blur-[96px] animate-pulse delay-1000" />
       </div>
 
       <input
@@ -370,45 +395,97 @@ export function AnimatedAIChat() {
         className="hidden"
       />
 
-      <div className="w-full max-w-2xl mx-auto relative">
-        <motion.div
-          className="relative z-10 space-y-12"
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, ease: "easeOut" }}
-        >
-          <div className="text-center space-y-3">
+      {/* Messages Area - Made much wider */}
+      <div className="flex-1 overflow-y-auto p-6 w-full">
+        <div className="max-w-7xl mx-auto">
+          {messages.length === 0 && (
             <motion.div
-              initial={{ opacity: 0, y: 10 }}
+              className="flex items-center justify-center h-[60vh] text-center"
+              initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.2, duration: 0.5 }}
-              className="inline-block"
             >
-              <h1 className="text-3xl font-medium tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-white/90 to-white/40 pb-1">
-                How can I help today?
-              </h1>
-              <motion.div
-                className="h-px bg-gradient-to-r from-transparent via-white/20 to-transparent"
-                initial={{ width: 0, opacity: 0 }}
-                animate={{ width: "100%", opacity: 1 }}
-                transition={{ delay: 0.5, duration: 0.8 }}
-              />
+              <div className="space-y-4">
+                <h1 className="text-4xl font-medium bg-clip-text text-transparent bg-gradient-to-r from-white/90 to-white/40">
+                  How can I help today?
+                </h1>
+                <p className="text-white/40">Upload a PDF or ask me anything</p>
+              </div>
             </motion.div>
-            <motion.p
-              className="text-sm text-white/40"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 0.3 }}
-            >
-              Enter a PDF for summarization
-            </motion.p>
-          </div>
+          )}
 
+          <div className="space-y-6 pb-6">
+            {messages.map((message) => (
+              <motion.div
+                key={message.id}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                className={cn(
+                  "flex gap-4",
+                  message.sender === "user" ? "justify-end" : "justify-start"
+                )}
+              >
+                {message.sender === "ai" && (
+                  <div className="w-8 h-8 rounded-full bg-orange-500/20 flex items-center justify-center flex-shrink-0 mt-1">
+                    <Bot className="w-4 h-4 text-orange-400" />
+                  </div>
+                )}
+
+                <div
+                  className={cn(
+                    "max-w-[85%] rounded-2xl px-5 py-4 text-sm leading-relaxed",
+                    message.sender === "user"
+                      ? "bg-white text-black ml-auto"
+                      : "bg-white/[0.05] text-white border border-white/[0.05]"
+                  )}
+                >
+                  {message.content.includes("**") ? (
+                    <div
+                      dangerouslySetInnerHTML={{
+                        __html: message.content
+                          .replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>")
+                          .replace(/\n\n/g, "<br><br>")
+                          .replace(/\n/g, "<br>"),
+                      }}
+                    />
+                  ) : (
+                    message.content
+                  )}
+                </div>
+
+                {message.sender === "user" && (
+                  <div className="w-8 h-8 rounded-full bg-white/20 flex items-center justify-center flex-shrink-0 mt-1">
+                    <User className="w-4 h-4 text-white" />
+                  </div>
+                )}
+              </motion.div>
+            ))}
+
+            {isTyping && (
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                className="flex gap-4 justify-start"
+              >
+                <div className="w-8 h-8 rounded-full bg-orange-500/20 flex items-center justify-center flex-shrink-0 mt-1">
+                  <Bot className="w-4 h-4 text-orange-400" />
+                </div>
+                <div className="bg-white/[0.05] rounded-2xl px-5 py-4 border border-white/[0.05]">
+                  <TypingDots />
+                </div>
+              </motion.div>
+            )}
+          </div>
+          <div ref={messagesEndRef} />
+        </div>
+      </div>
+
+      {/* Input Area - Also wider to match */}
+      <div className="border-t border-white/[0.05] bg-transparent backdrop-blur-xl p-6">
+        <div className="max-w-7xl mx-auto">
           <motion.div
             className="relative backdrop-blur-2xl bg-white/[0.02] rounded-2xl border border-white/[0.05] shadow-2xl"
             initial={{ scale: 0.98 }}
             animate={{ scale: 1 }}
-            transition={{ delay: 0.1 }}
           >
             <AnimatePresence>
               {showCommandPalette && (
@@ -418,31 +495,25 @@ export function AnimatedAIChat() {
                   initial={{ opacity: 0, y: 5 }}
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, y: 5 }}
-                  transition={{ duration: 0.15 }}
                 >
-                  <div className="py-1 bg-black/95">
+                  <div className="py-1">
                     {commandSuggestions.map((suggestion, index) => (
-                      <motion.div
+                      <div
                         key={suggestion.prefix}
                         className={cn(
-                          "flex items-center gap-2 px-3 py-2 text-xs transition-colors cursor-pointer",
+                          "flex items-center gap-2 px-3 py-2 text-xs cursor-pointer",
                           activeSuggestion === index
-                            ? "bg-white/10 text-white"
+                            ? "bg-orange-500/20 text-white"
                             : "text-white/70 hover:bg-white/5"
                         )}
                         onClick={() => selectCommandSuggestion(index)}
-                        initial={{ opacity: 0 }}
-                        animate={{ opacity: 1 }}
-                        transition={{ delay: index * 0.03 }}
                       >
-                        <div className="w-5 h-5 flex items-center justify-center text-white/60">
-                          {suggestion.icon}
-                        </div>
-                        <div className="font-medium">{suggestion.label}</div>
-                        <div className="text-white/40 text-xs ml-1">
+                        {suggestion.icon}
+                        <span className="font-medium">{suggestion.label}</span>
+                        <span className="text-white/40 text-xs ml-1">
                           {suggestion.prefix}
-                        </div>
-                      </motion.div>
+                        </span>
+                      </div>
                     ))}
                   </div>
                 </motion.div>
@@ -460,21 +531,12 @@ export function AnimatedAIChat() {
                 onKeyDown={handleKeyDown}
                 onFocus={() => setInputFocused(true)}
                 onBlur={() => setInputFocused(false)}
-                placeholder="Ask zap to summarize a pdf ..."
+                placeholder="Message ChatGPT..."
                 containerClassName="w-full"
                 className={cn(
-                  "w-full px-4 py-3",
-                  "resize-none",
-                  "bg-transparent",
-                  "border-none",
-                  "text-white/90 text-sm",
-                  "focus:outline-none",
-                  "placeholder:text-white/20",
-                  "min-h-[60px]"
+                  "w-full px-4 py-3 resize-none bg-transparent border-none",
+                  "text-white/90 text-sm focus:outline-none placeholder:text-white/20 min-h-[60px]"
                 )}
-                style={{
-                  overflow: "hidden",
-                }}
                 showRing={false}
               />
             </div>
@@ -490,16 +552,15 @@ export function AnimatedAIChat() {
                   {attachments.map((file, index) => (
                     <motion.div
                       key={index}
-                      className="flex items-center gap-2 text-xs bg-white/[0.03] py-1.5 px-3 rounded-lg text-white/70"
+                      className="flex items-center gap-2 text-xs bg-orange-500/10 py-1.5 px-3 rounded-lg text-white/70 border border-orange-500/20"
                       initial={{ opacity: 0, scale: 0.9 }}
                       animate={{ opacity: 1, scale: 1 }}
-                      exit={{ opacity: 0, scale: 0.9 }}
                     >
                       <FileUp className="w-3 h-3" />
                       <span>{file}</span>
                       <button
                         onClick={() => removeAttachment(index)}
-                        className="text-white/40 hover:text-white transition-colors"
+                        className="text-white/40 hover:text-white"
                       >
                         <XIcon className="w-3 h-3" />
                       </button>
@@ -510,20 +571,14 @@ export function AnimatedAIChat() {
             </AnimatePresence>
 
             <div className="p-4 border-t border-white/[0.05] flex items-center justify-between gap-4">
-              <div className="flex items-center gap-3">
-                <motion.button
-                  type="button"
-                  onClick={handleAttachFile}
-                  whileTap={{ scale: 0.94 }}
-                  className="p-2 text-white/40 hover:text-white/90 rounded-lg transition-colors relative group"
-                >
-                  <Paperclip className="w-4 h-4" />
-                  <motion.span
-                    className="absolute inset-0 bg-white/[0.05] rounded-lg opacity-0 group-hover:opacity-100 transition-opacity"
-                    layoutId="button-highlight"
-                  />
-                </motion.button>
-              </div>
+              <motion.button
+                type="button"
+                onClick={handleAttachFile}
+                whileTap={{ scale: 0.94 }}
+                className="p-2 text-white/40 hover:text-white/90 rounded-lg transition-colors"
+              >
+                <Paperclip className="w-4 h-4" />
+              </motion.button>
 
               <motion.button
                 type="button"
@@ -534,212 +589,45 @@ export function AnimatedAIChat() {
                   isTyping || isProcessingPdf || (!value.trim() && !pdfFile)
                 }
                 className={cn(
-                  "px-4 py-2 rounded-lg text-sm font-medium transition-all",
-                  "flex items-center gap-2",
+                  "px-4 py-2 rounded-lg text-sm font-medium transition-all flex items-center gap-2",
                   value.trim() || pdfFile
-                    ? "bg-white text-[#0A0A0B] shadow-lg shadow-white/10"
+                    ? "bg-white text-[#0A0A0B] shadow-lg"
                     : "bg-white/[0.05] text-white/40"
                 )}
               >
                 {isTyping || isProcessingPdf ? (
-                  <LoaderIcon className="w-4 h-4 animate-[spin_2s_linear_infinite]" />
+                  <LoaderIcon className="w-4 h-4 animate-spin" />
                 ) : (
                   <SendIcon className="w-4 h-4" />
                 )}
-                <span>{pdfFile ? "Summarize PDF" : "Send"}</span>
+                <span>Send</span>
               </motion.button>
             </div>
           </motion.div>
-
-          <AnimatePresence>
-            {pdfResult && (
-              <motion.div
-                className="backdrop-blur-2xl bg-white/[0.02] rounded-2xl border border-white/[0.05] shadow-2xl p-6 space-y-4"
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -20 }}
-              >
-                <div className="flex items-start justify-between">
-                  <div className="space-y-2">
-                    <h3 className="text-lg font-medium text-white/90">
-                      {pdfResult.title}
-                    </h3>
-                    <p className="text-sm text-white/50">
-                      {pdfResult.numPages} pages
-                    </p>
-                  </div>
-                  <button
-                    onClick={clearSummary}
-                    className="text-white/40 hover:text-white/70 transition-colors p-1"
-                  >
-                    <XIcon className="w-4 h-4" />
-                  </button>
-                </div>
-
-                <div className="border-t border-white/[0.05] pt-4">
-                  <h4 className="text-sm font-medium text-white/70 mb-3">
-                    Summary
-                  </h4>
-                  <div className="text-white/80 text-sm leading-relaxed">
-                    {pdfResult.summary}
-                  </div>
-                </div>
-              </motion.div>
-            )}
-          </AnimatePresence>
-
-          <div className="flex flex-wrap items-center justify-center gap-2">
-            {commandSuggestions.map((suggestion, index) => (
-              <motion.button
-                key={suggestion.prefix}
-                onClick={() => selectCommandSuggestion(index)}
-                className="flex items-center gap-2 px-3 py-2 bg-white/[0.02] hover:bg-white/[0.05] rounded-lg text-sm text-white/60 hover:text-white/90 transition-all relative group"
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: index * 0.1 }}
-              >
-                {suggestion.icon}
-                <span>{suggestion.label}</span>
-                <motion.div
-                  className="absolute inset-0 border border-white/[0.05] rounded-lg"
-                  initial={false}
-                  animate={{
-                    opacity: [0, 1],
-                    scale: [0.98, 1],
-                  }}
-                  transition={{
-                    duration: 0.3,
-                    ease: "easeOut",
-                  }}
-                />
-              </motion.button>
-            ))}
-          </div>
-        </motion.div>
+        </div>
       </div>
-
-      <AnimatePresence>
-        {(isTyping || isProcessingPdf) && (
-          <motion.div
-            className="fixed bottom-8 left-1/2 transform -translate-x-1/2 backdrop-blur-2xl bg-white/[0.02] rounded-full px-4 py-2 shadow-lg border border-white/[0.05]"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: 20 }}
-          >
-            <div className="flex items-center gap-3">
-              <div className="w-8 h-7 rounded-full bg-white/[0.05] flex items-center justify-center text-center">
-                <span className="text-xs font-medium text-white/90 mb-0.5">
-                  zap
-                </span>
-              </div>
-              <div className="flex items-center gap-2 text-sm text-white/70">
-                <span>{isProcessingPdf ? "Processing PDF" : "Thinking"}</span>
-                <TypingDots />
-              </div>
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
-
-      {inputFocused && (
-        <motion.div
-          className="fixed w-[50rem] h-[50rem] rounded-full pointer-events-none z-0 opacity-[0.02] bg-gradient-to-r from-violet-500 via-fuchsia-500 to-indigo-500 blur-[96px]"
-          animate={{
-            x: mousePosition.x - 400,
-            y: mousePosition.y - 400,
-          }}
-          transition={{
-            type: "spring",
-            damping: 25,
-            stiffness: 150,
-            mass: 0.5,
-          }}
-        />
-      )}
     </div>
   );
 }
 
 function TypingDots() {
   return (
-    <div className="flex items-center ml-1">
+    <div className="flex items-center">
       {[1, 2, 3].map((dot) => (
         <motion.div
           key={dot}
-          className="w-1.5 h-1.5 bg-white/90 rounded-full mx-0.5"
-          initial={{ opacity: 0.3 }}
+          className="w-2 h-2 bg-white/70 rounded-full mx-1"
           animate={{
-            opacity: [0.3, 0.9, 0.3],
-            scale: [0.85, 1.1, 0.85],
+            opacity: [0.3, 1, 0.3],
+            scale: [0.8, 1.2, 0.8],
           }}
           transition={{
-            duration: 1.2,
+            duration: 1.5,
             repeat: Infinity,
-            delay: dot * 0.15,
-            ease: "easeInOut",
-          }}
-          style={{
-            boxShadow: "0 0 4px rgba(255, 255, 255, 0.3)",
+            delay: dot * 0.2,
           }}
         />
       ))}
     </div>
   );
-}
-
-interface ActionButtonProps {
-  icon: React.ReactNode;
-  label: string;
-}
-
-function ActionButton({ icon, label }: ActionButtonProps) {
-  const [isHovered, setIsHovered] = useState(false);
-
-  return (
-    <motion.button
-      type="button"
-      whileHover={{ scale: 1.05, y: -2 }}
-      whileTap={{ scale: 0.97 }}
-      onHoverStart={() => setIsHovered(true)}
-      onHoverEnd={() => setIsHovered(false)}
-      className="flex items-center gap-2 px-4 py-2 bg-neutral-900 hover:bg-neutral-800 rounded-full border border-neutral-800 text-neutral-400 hover:text-white transition-all relative overflow-hidden group"
-    >
-      <div className="relative z-10 flex items-center gap-2">
-        {icon}
-        <span className="text-xs relative z-10">{label}</span>
-      </div>
-
-      <AnimatePresence>
-        {isHovered && (
-          <motion.div
-            className="absolute inset-0 bg-gradient-to-r from-violet-500/10 to-indigo-500/10"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.2 }}
-          />
-        )}
-      </AnimatePresence>
-
-      <motion.span
-        className="absolute bottom-0 left-0 w-full h-0.5 bg-gradient-to-r from-violet-500 to-indigo-500"
-        initial={{ width: 0 }}
-        whileHover={{ width: "100%" }}
-        transition={{ duration: 0.3 }}
-      />
-    </motion.button>
-  );
-}
-
-const rippleKeyframes = `
-@keyframes ripple {
- 0% { transform: scale(0.5); opacity: 0.6; }
- 100% { transform: scale(2); opacity: 0; }
-}
-`;
-
-if (typeof document !== "undefined") {
-  const style = document.createElement("style");
-  style.innerHTML = rippleKeyframes;
-  document.head.appendChild(style);
 }
