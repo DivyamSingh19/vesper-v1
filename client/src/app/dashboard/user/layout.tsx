@@ -3,7 +3,7 @@ import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
 import { Separator } from "@/components/ui/separator";
 import { SidebarTrigger } from "@/components/ui/sidebar";
 import AuthLayout from "@/components/layout/AuthLayout";
-import { UserSidebar } from "@/components/sidebar/userSidebar";
+import { UserSidebar } from "@/components/ui-elements/sidebar/userSidebar";
 export default function DashboardLayout({ children }: { children: React.ReactNode }) {
   return (
     <SidebarProvider>

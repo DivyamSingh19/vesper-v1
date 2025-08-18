@@ -26,8 +26,8 @@ import {
 
 const sidebarNav = [
   {
-    title: "Blogs",
-    basePath: "/dashboard/blogs",
+    title: "Appointment",
+    basePath: "/dashboard/lawyer/appointments",
     baseLink: null,
     items: [
       { title: "Add Blog", path: "/add-blog" },
@@ -35,41 +35,15 @@ const sidebarNav = [
     ],
   },
   {
-    title: "Events",
-    basePath: "/dashboard/events",
+    title: "Vesper-ai",
+    basePath: "/dashboard/lawyer/vesper-ai",
     baseLink: null,
     items: [
-      { title: "Add Event", path: "/add-event" },
-      { title: "All Events", path: "/all-events" },
+  
     ],
   },
-  {
-    title: "Investor Hub",
-    basePath: "/dashboard/investor-hub",
-    baseLink: null,
-    items: [
-      { title: "Add Post", path: "/add-post" },
-      { title: "All Post", path: "/all-post" },
-    ],
-  },
-  {
-    title: "Products",
-    basePath: "/dashboard/products",
-    baseLink: null, // No base link for Products
-    items: [
-      { title: "Add Products", path: "/add-products" },
-      { title: "All Products", path: "/all-products" },
-    ],
-  },
-  {
-    title: "Achievements",
-    basePath: "/dashboard/achievement",
-    baseLink: null, // No base link for Products
-    items: [
-      { title: "Add Achievement", path: "/add-achievement" },
-      { title: "All Achievements", path: "/all-achievements" },
-    ],
-  }
+   
+   
 ];
 
 export function LawyerSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {

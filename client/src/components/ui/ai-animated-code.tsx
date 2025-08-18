@@ -22,7 +22,7 @@ import {
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import * as React from "react";
-import { GenerateFlowchart } from "../buttons/generate-flowchart";
+import { GenerateFlowchart } from "@/components/ui-elements/buttons/generate-flowchart";
 
 interface Message {
   id: string;
