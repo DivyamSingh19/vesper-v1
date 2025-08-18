@@ -1,6 +1,6 @@
 import React from 'react'
 
-const IPFSUploader = () => {
+const NavbarLayout = () => {
   return (
     <div>
       
@@ -8,4 +8,4 @@ const IPFSUploader = () => {
   )
 }
 
-export default IPFSUploader
+export default NavbarLayout
