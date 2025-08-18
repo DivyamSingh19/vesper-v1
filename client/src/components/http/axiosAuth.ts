@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const axiosAuth = axios.create({
-  baseURL: process.env.NEXT_PUBLIC_API_URL + "/v1/auth",
+  baseURL: process.env.NEXT_PUBLIC_API_URL as string + "/api/v1/auth",
   headers: { "Content-Type": "application/json" },
 });
 

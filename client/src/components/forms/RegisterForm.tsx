@@ -9,32 +9,26 @@ import { User, Gavel } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { registerAdv, registerUser } from "@/components/services/authService";
 import Image from "next/image";
-import { ethers } from "ethers";
+ 
 import { toast } from "sonner";
-declare global {
-  interface Window {
-    ethereum?: any;
-  }
-}
+ 
 
 export function RegisterForm() {
   const router = useRouter();
   const [role, setRole] = useState<"user" | "lawyer">("user");
   const [loading, setLoading] = useState(false);
-  const [walletAddress, setWalletAddress] = useState("");
+ 
 
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setLoading(true);
-
     const formData = new FormData(e.currentTarget);
     const payload: Record<string, string> = {
       email: String(formData.get("email") || "").trim(),
       name: String(formData.get("name") || "").trim(),
       password: String(formData.get("password") || "").trim(),
       role,
-      walletAddress,
     };
 
     try {
@@ -62,7 +56,7 @@ export function RegisterForm() {
 
   return (
     <form onSubmit={handleSubmit} className="flex flex-col gap-6">
-      {/* Role Switch */}
+      
       <div className="flex gap-2 bg-muted p-1 rounded-lg">
         {[
           { key: "user", label: "User", icon: User },
@@ -81,14 +75,14 @@ export function RegisterForm() {
         ))}
       </div>
 
-      {/* Heading */}
+       
       <div className="text-center">
         <h1 className="text-2xl font-bold">
           Signup as <span className="text-primary">{role}</span>
         </h1>
       </div>
 
-      {/* Common Fields */}
+     
       <div className="grid gap-6">
         <div className="grid gap-3">
           <Label htmlFor="email">Email</Label>

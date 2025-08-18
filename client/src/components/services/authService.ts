@@ -53,7 +53,7 @@ export const registerUser = async (payload: any) => {
   return res.data;
 };
 
-// Login User
+ 
 export const loginUser = async (payload: any) => {
   const res = await axiosAuth.post("/login-user", payload);
   if (res.data.success) {
