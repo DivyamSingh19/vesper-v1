@@ -24,7 +24,7 @@ export const registerAdv = async (payload: any) => {
   }
 };
 
-// Login Lawyer
+ 
 export const loginAdv = async (payload: any) => {
   const res = await axiosAuth.post("/login-adv", payload);
   if (res.data.success) {
