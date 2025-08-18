@@ -1,181 +1,152 @@
-"use client"
+"use client";
+import * as React from "react";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+import { ChevronRight } from "lucide-react";
 
-import * as React from "react"
-import {
-  IconCamera,
-  IconChartBar,
-  IconDashboard,
-  IconDatabase,
-  IconFileAi,
-  IconFileDescription,
-  IconFileWord,
-  IconFolder,
-  IconHelp,
-  IconInnerShadowTop,
-  IconListDetails,
-  IconReport,
-  IconSearch,
-  IconSettings,
-  IconUsers,
-} from "@tabler/icons-react"
-
-import { NavDocuments } from "@/components/nav-documents"
-import { NavMain } from "@/components/nav-main"
-import { NavSecondary } from "@/components/nav-secondary"
-import { NavUser } from "@/components/nav-user"
 import {
   Sidebar,
   SidebarContent,
-  SidebarFooter,
+  SidebarGroup,
+  SidebarGroupContent,
+  SidebarGroupLabel,
   SidebarHeader,
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
-} from "@/components/ui/sidebar"
+  SidebarRail,
+} from "@/components/ui/sidebar";
+import {
+  Collapsible,
+  CollapsibleContent,
+  CollapsibleTrigger,
+} from "@/components/ui/collapsible";
+ 
+ 
 
-const data = {
-  user: {
-    name: "shadcn",
-    email: "m@example.com",
-    avatar: "/avatars/shadcn.jpg",
+const sidebarNav = [
+  {
+    title: "Blogs",
+    basePath: "/dashboard/blogs",
+    baseLink: null,
+    items: [
+      { title: "Add Blog", path: "/add-blog" },
+      { title: "All Blogs", path: "/all-blogs" },
+    ],
   },
-  navMain: [
-    {
-      title: "Dashboard",
-      url: "#",
-      icon: IconDashboard,
-    },
-    {
-      title: "Lifecycle",
-      url: "#",
-      icon: IconListDetails,
-    },
-    {
-      title: "Analytics",
-      url: "#",
-      icon: IconChartBar,
-    },
-    {
-      title: "Projects",
-      url: "#",
-      icon: IconFolder,
-    },
-    {
-      title: "Team",
-      url: "#",
-      icon: IconUsers,
-    },
-  ],
-  navClouds: [
-    {
-      title: "Capture",
-      icon: IconCamera,
-      isActive: true,
-      url: "#",
-      items: [
-        {
-          title: "Active Proposals",
-          url: "#",
-        },
-        {
-          title: "Archived",
-          url: "#",
-        },
-      ],
-    },
-    {
-      title: "Proposal",
-      icon: IconFileDescription,
-      url: "#",
-      items: [
-        {
-          title: "Active Proposals",
-          url: "#",
-        },
-        {
-          title: "Archived",
-          url: "#",
-        },
-      ],
-    },
-    {
-      title: "Prompts",
-      icon: IconFileAi,
-      url: "#",
-      items: [
-        {
-          title: "Active Proposals",
-          url: "#",
-        },
-        {
-          title: "Archived",
-          url: "#",
-        },
-      ],
-    },
-  ],
-  navSecondary: [
-    {
-      title: "Settings",
-      url: "#",
-      icon: IconSettings,
-    },
-    {
-      title: "Get Help",
-      url: "#",
-      icon: IconHelp,
-    },
-    {
-      title: "Search",
-      url: "#",
-      icon: IconSearch,
-    },
-  ],
-  documents: [
-    {
-      name: "Data Library",
-      url: "#",
-      icon: IconDatabase,
-    },
-    {
-      name: "Reports",
-      url: "#",
-      icon: IconReport,
-    },
-    {
-      name: "Word Assistant",
-      url: "#",
-      icon: IconFileWord,
-    },
-  ],
-}
+  {
+    title: "Events",
+    basePath: "/dashboard/events",
+    baseLink: null,
+    items: [
+      { title: "Add Event", path: "/add-event" },
+      { title: "All Events", path: "/all-events" },
+    ],
+  },
+  {
+    title: "Investor Hub",
+    basePath: "/dashboard/investor-hub",
+    baseLink: null,
+    items: [
+      { title: "Add Post", path: "/add-post" },
+      { title: "All Post", path: "/all-post" },
+    ],
+  },
+  {
+    title: "Products",
+    basePath: "/dashboard/products",
+    baseLink: null, // No base link for Products
+    items: [
+      { title: "Add Products", path: "/add-products" },
+      { title: "All Products", path: "/all-products" },
+    ],
+  },
+  {
+    title: "Achievements",
+    basePath: "/dashboard/achievement",
+    baseLink: null, // No base link for Products
+    items: [
+      { title: "Add Achievement", path: "/add-achievement" },
+      { title: "All Achievements", path: "/all-achievements" },
+    ],
+  }
+];
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
+  const pathname = usePathname();
+
   return (
-    <Sidebar collapsible="offcanvas" {...props}>
+    <Sidebar {...props}>
       <SidebarHeader>
-        <SidebarMenu>
-          <SidebarMenuItem>
-            <SidebarMenuButton
-              asChild
-              className="data-[slot=sidebar-menu-button]:!p-1.5"
-            >
-              <a href="#">
-                <IconInnerShadowTop className="!size-5" />
-                <span className="text-base font-semibold">Acme Inc.</span>
-              </a>
-            </SidebarMenuButton>
-          </SidebarMenuItem>
-        </SidebarMenu>
+        
+        <div className="pt-10" />
       </SidebarHeader>
-      <SidebarContent>
-        <NavMain items={data.navMain} />
-        <NavDocuments items={data.documents} />
-        <NavSecondary items={data.navSecondary} className="mt-auto" />
+
+      <SidebarContent className="gap-0">
+        {sidebarNav.map((group) => (
+          <Collapsible
+            key={group.title}
+            defaultOpen
+            className="group/collapsible"
+          >
+            <SidebarGroup>
+              {/* Top-level label */}
+              <SidebarGroupLabel
+                asChild
+                className="text-sidebar-foreground text-sm"
+              >
+                <CollapsibleTrigger asChild>
+                  <div className="flex items-center justify-between w-full px-3 py-2 rounded-md hover:bg-sidebar-accent hover:text-sidebar-accent-foreground">
+                    {/* Conditional rendering based on whether baseLink exists */}
+                    {group.baseLink ? (
+                      <>
+                        {/* Label as a Link for sections with base links */}
+                        <Link href={group.baseLink} className="flex-1 text-left">
+                          {group.title}
+                        </Link>
+                        {/* Chevron to toggle */}
+                        <ChevronRight className="ml-2 transition-transform group-data-[state=open]/collapsible:rotate-90" />
+                      </>
+                    ) : (
+                      <>
+                        {/* Label as plain text for sections without base links */}
+                        <span className="flex-1 text-left">
+                          {group.title}
+                        </span>
+                        {/* Chevron to toggle */}
+                        <ChevronRight className="ml-2 transition-transform group-data-[state=open]/collapsible:rotate-90" />
+                      </>
+                    )}
+                  </div>
+                </CollapsibleTrigger>
+              </SidebarGroupLabel>
+
+              {/* Submenu items */}
+              <CollapsibleContent>
+                <SidebarGroupContent>
+                  <SidebarMenu>
+                    {group.items.map((item) => {
+                      const fullPath = `${group.basePath}${item.path}`;
+                      const isActive = pathname === fullPath;
+
+                      return (
+                        <SidebarMenuItem key={item.title}>
+                          <SidebarMenuButton asChild isActive={isActive}>
+                            <Link href={fullPath}>{item.title}</Link>
+                          </SidebarMenuButton>
+                        </SidebarMenuItem>
+                      );
+                    })}
+                  </SidebarMenu>
+                </SidebarGroupContent>
+              </CollapsibleContent>
+            </SidebarGroup>
+          </Collapsible>
+        ))}
       </SidebarContent>
-      <SidebarFooter>
-        <NavUser user={data.user} />
-      </SidebarFooter>
+
+      <SidebarRail />
+      {/* <SidebarUserInfo/> */}
     </Sidebar>
-  )
+  );
 }
