@@ -1,4 +1,4 @@
-import axiosAuth from "../http/axiosAuth";
+import axiosAuth from "../../app/http/axiosAuth";
 
 // Helper function to persist authentication data
 const persistAuth = (data: any) => {

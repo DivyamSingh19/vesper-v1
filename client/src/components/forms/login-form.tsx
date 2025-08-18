@@ -10,7 +10,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { ethers } from "ethers";
 import { toast } from "sonner";
 import Image from "next/image";
-import { loginAdv, loginUser } from "@/app/services/authService";
+import { loginAdv, loginUser } from "@/components/services/authService";
 declare global {
   interface Window {
     ethereum?: any;
