@@ -19,11 +19,12 @@ export const lawyers = pgTable('lawyers', {
     password: varchar('password', { length: 300 }).notNull(),
     walletAddress: text('wallet_address'),
     stateRollNumber: text('state_roll_number').notNull().unique(),
+    specialization:text('specialization').notNull(),
     createdAt: timestamp('created_at').defaultNow().notNull(),
     updatedAt: timestamp('updated_at').defaultNow().notNull(),
 });
 
-// Updated appointments table with email references and new fields
+ 
 export const appointments = pgTable('appointments', {
     id: uuid('id').primaryKey().defaultRandom().notNull(),
     title: text('title').notNull(),

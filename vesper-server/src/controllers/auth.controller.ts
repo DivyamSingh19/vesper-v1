@@ -93,13 +93,13 @@ export const registerUser = async (c: Context) => {
 export const registerAdv = async (c: Context) => {
   try {
     const db = getDb(c.env.DATABASE_URL);
-    const { email, name, password,stateRollNumber } = await c.req.json();
+    const { email, name, password,stateRollNumber,specialization } = await c.req.json();
 
     
-    if (!email || !name || !password  ||!stateRollNumber) {
+    if (!email || !name || !password  ||!stateRollNumber ||!specialization) {
       return c.json({
         success: false,
-        message: "Email, name, password, and wallet address are required"
+        message: "Email, name, password, and specialization are required"
       }, 400);
     }
 
@@ -131,7 +131,7 @@ export const registerAdv = async (c: Context) => {
       email,
       name,
       password: hashedPassword,
-   
+      specialization,
       stateRollNumber
     }).returning();
 
@@ -144,7 +144,8 @@ export const registerAdv = async (c: Context) => {
       token,
       email: newLawyer[0].email,
       id: newLawyer[0].id,
-      stateRollNumber:newLawyer[0].stateRollNumber
+      stateRollNumber:newLawyer[0].stateRollNumber,
+      specialization:newLawyer[0].specialization
     }, 201);
 
   } catch (error) {

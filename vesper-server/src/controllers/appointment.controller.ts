@@ -478,7 +478,7 @@ export const getUserAppointments = async (c: Context) => {
       }, 400);
     }
 
-    // Verify user exists
+  
     const user = await db
       .select()
       .from(users)
@@ -534,3 +534,22 @@ export const getUserAppointments = async (c: Context) => {
     }, 500);
   }
 };
+
+
+export const getAllLawyers = async (c:Context) => {
+  try {
+    const db = getDb(c.env.DATABASE_URL);
+    const lawyerList = await db.select().from(lawyers).orderBy(lawyers.createdAt)
+    return c.json({
+      success:false,
+      data:lawyerList
+    })
+    
+  } catch (error) {
+    console.error("Error fetching lawyers",error);
+    return c.json({
+      success:false,
+      message:"Failed to fetch lawyers"
+    },500)
+  }
+}
