@@ -78,7 +78,7 @@ export function LoginForm() {
 
   return (
     <form onSubmit={handleSubmit} className="flex flex-col gap-6">
-      {/* Role Switch */}
+     
       <div className="flex gap-2 bg-muted p-1 rounded-lg">
         {[
           { key: "user", label: "User", icon: User },
@@ -147,23 +147,6 @@ export function LoginForm() {
 
         <Button type="submit" className="w-full" disabled={loading}>
           {loading ? "Logging in..." : "Login"}
-        </Button>
-
-        <Button
-          type="button"
-          variant="secondary"
-          onClick={connectMetaMask}
-          className="w-full"
-        >
-          <div className="flex items-center gap-2">
-            <span>Connect to MetaMask</span>
-            <Image
-              src="/images/metamask-icon.svg"
-              width={24}
-              height={24}
-              alt="Metamask Logo"
-            />
-          </div>
         </Button>
       </div>
 

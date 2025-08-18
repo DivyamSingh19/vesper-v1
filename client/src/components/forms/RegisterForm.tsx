@@ -68,7 +68,6 @@ export function RegisterForm() {
       } else {
         const res = await registerUser(payload);
         router.push("/dashboard/user");
-        
       }
     } catch (error) {
       console.error("Registration failed:", error);
@@ -149,6 +148,16 @@ export function RegisterForm() {
                 placeholder="Enter your state roll number"
                 required
               />
+              <div className="grid gap-3">
+                <Label htmlFor="specification">Specifications</Label>
+                <Input
+                  id="specification"
+                  name="specification"
+                  type="text"
+                  placeholder="Family Law"
+                  required
+                />
+              </div>
             </motion.div>
           )}
         </AnimatePresence>
@@ -160,23 +169,6 @@ export function RegisterForm() {
 
         <Button type="submit" className="w-full" disabled={loading}>
           {loading ? "Registering..." : "Register"}
-        </Button>
-
-        <Button
-          type="button"
-          variant="secondary"
-          onClick={connectMetaMask}
-          className="w-full"
-        >
-          <div className="flex items-center gap-2">
-            <span>Connect to MetaMask</span>
-            <Image
-              src="/images/metamask-icon.svg"
-              width={24}
-              height={24}
-              alt="Metamask Logo"
-            />
-          </div>
         </Button>
       </div>
 
