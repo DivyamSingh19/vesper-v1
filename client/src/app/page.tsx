@@ -1,11 +1,11 @@
 "use client";
-import Hero from "@/components/Landing/Hero";
+import Hero from "@/components/landing/Hero";
 import React from "react";
-import FeaturesCard from "@/components/Landing/features";
-import Analysis from "@/components/Landing/analysis";
-import Flowchart from "@/components/Landing/flowchart";
-import F from "@/components/Landing/footer";
-import Header from "@/components/Landing/header";
+import FeaturesCard from "@/components/landing/features";
+import Analysis from "@/components/landing/analysis";
+import Flowchart from "@/components/landing/flowchart";
+import F from "@/components/landing/footer";
+import Header from "@/components/landing/header";
 import { motion } from "framer-motion";
 
 const headingVariants = {

@@ -1,5 +1,5 @@
 import React from "react";
-import Header from "@/components/Landing/header";
+import Header from "@/components/landing/header";
 
 import { AboutCard } from "@/components/ui/about-card";
 

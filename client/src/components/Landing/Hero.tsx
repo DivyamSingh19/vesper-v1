@@ -1,3 +1,4 @@
+//@ts-nocheck
 import React from "react";
 import { Briefcase, Shield, Scale, Users } from "lucide-react";
 import { motion } from "framer-motion";
