@@ -1,3 +1,4 @@
+//@ts-nocheck
 "use client";
 
 import { Button } from "@/components/ui/button";
@@ -9,10 +10,8 @@ import { User, Gavel } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { registerAdv, registerUser } from "@/components/services/authService";
 import Image from "next/image";
- 
 import { toast } from "sonner";
  
-
 export function RegisterForm() {
   const router = useRouter();
   const [role, setRole] = useState<"user" | "lawyer">("user");

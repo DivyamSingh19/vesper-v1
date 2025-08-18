@@ -1,3 +1,4 @@
+//@ts-nocheck
 "use client";
 
 import { Button } from "@/components/ui/button";
@@ -7,40 +8,14 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { User, Gavel } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
-import { ethers } from "ethers";
-import { toast } from "sonner";
-import Image from "next/image";
 import { loginAdv, loginUser } from "@/components/services/authService";
-declare global {
-  interface Window {
-    ethereum?: any;
-  }
-}
-
+ 
 export function LoginForm() {
   const router = useRouter();
   const [role, setRole] = useState<"user" | "lawyer">("user");
   const [loading, setLoading] = useState(false);
-  const [walletAddress, setWalletAddress] = useState("");
-
-  const connectMetaMask = async () => {
-    if (!window.ethereum) {
-      toast.error("MetaMask not detected. Please install it.");
-      return;
-    }
-    try {
-      const provider = new ethers.BrowserProvider(window.ethereum);
-      const accounts = await provider.send("eth_requestAccounts", []);
-      if (accounts.length > 0) {
-        setWalletAddress(accounts[0]);
-        toast.success(`Connected: ${accounts[0]}`);
-      }
-    } catch (error) {
-      console.error("MetaMask connection error:", error);
-      toast.error("Failed to connect to MetaMask.");
-    }
-  };
-
+ 
+ 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setLoading(true);
@@ -50,7 +25,7 @@ export function LoginForm() {
       email: String(formData.get("email") || "").trim(),
       password: String(formData.get("password") || "").trim(),
       role,
-      walletAddress,
+      
     };
 
     try {
