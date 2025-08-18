@@ -338,7 +338,7 @@ export function AnimatedAIChat() {
       );
 
       const result = await response.json();
-
+     
       let aiContent = "";
       if (response.ok) {
         aiContent = `${result.summary}`;
@@ -382,31 +382,47 @@ export function AnimatedAIChat() {
     setShowCommandPalette(false);
   };
 
-  const createFlowchart = async () => {
-    try {
-      const response = await axios.post(
-        "https://model.morpheus4077.workers.dev/api/v1/flowchart",
-        {
-          summary: value,
-        },
-        {
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      );
-      // mermaid syntax milega usse flowchart me convert karna hai
-      if (response.data.success) {
-        const flowchartData = response.data.flowchart;
-        setFlowchart(flowchartData);
-        console.log("Flowchart generated:", flowchartData);
-      } else {
-        console.error("Failed to generate flowchart:", response.data.error);
-      }
-    } catch (error) {
-      console.error("Error generating flowchart:", error);
-    }
-  };
+  // const createFlowchart = async () => {
+  //   alert("Button was clicked!");
+  //   if (!summary) {
+  //     console.log("summary is required");
+  //     return;
+  //   }
+
+  //   try {
+  //     const response = await axios.post(
+  //       "https://model.morpheus4077.workers.dev/api/v1/flowchart",
+  //       {
+  //         summary: summary, // Changed from `value` to `summary`
+  //       },
+  //       {
+  //         headers: {
+  //           "Content-Type": "application/json",
+  //         },
+  //       }
+  //     );
+
+  //     if (response.data.success) {
+  //       const flowchartData = response.data.flowchart;
+  //       setFlowchart(flowchartData);
+  //       console.log("Flowchart generated:", flowchartData);
+
+  //       // Add the flowchart as a new AI message
+  //       const flowchartMessage: Message = {
+  //         id: (Date.now() + 1).toString(),
+  //         content: `## Generated Flowchart\n\n\`\`\`mermaid\n${flowchartData}\n\`\`\``,
+  //         sender: "ai",
+  //         timestamp: new Date(),
+  //       };
+  //       setMessages((prev) => [...prev, flowchartMessage]);
+  //     } else {
+  //       console.error("Failed to generate flowchart:", response.data.error);
+  //     }
+  //   } catch (error) {
+  //     console.error("Error generating flowchart:", error);
+  //   }
+  // };
+
   return (
     <div className="min-h-screen w-full flex flex-col bg-transparent text-white relative overflow-hidden">
       {/* Reduced orange background circles */}
@@ -488,14 +504,17 @@ export function AnimatedAIChat() {
                   </div>
 
                   {/* Generate Flowchart Button - Only for AI messages */}
-                  {message.sender === "ai" && (
+                  {/* {message.sender === "ai" && (
                     <div className="flex justify-start">
                       <GenerateFlowchart
                         messageContent={message.content}
-                        onClick={createFlowchart}
+                        onClick={() => {
+                          setSummary(message.content);
+                          createFlowchart();
+                        }}
                       />
                     </div>
-                  )}
+                  )} */}
                 </div>
 
                 {message.sender === "user" && (
