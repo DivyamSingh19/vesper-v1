@@ -1,12 +1,12 @@
-import React from 'react'
-import { HeroSection } from '../hero-section-1'
-
-const TrialHero = () => {
-  return (
-    <div>
-      <HeroSection/>
-    </div>
-  )
-}
-
-export default TrialHero
+ import React from 'react'
+ 
+ const TrialHero = () => {
+   return (
+     <div>
+        
+     </div>
+   )
+ }
+ 
+ export default TrialHero
+ 
