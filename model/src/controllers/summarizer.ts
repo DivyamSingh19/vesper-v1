@@ -37,7 +37,7 @@ export const summarizePdf = async (c: Context) => {
     return c.json({
       success: true,
       // title: title || "Untitled",
-      // numPages,
+      numPages,
       summary,
     });
   } catch (error) {
