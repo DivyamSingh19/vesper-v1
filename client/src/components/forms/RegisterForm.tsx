@@ -112,7 +112,7 @@ export function RegisterForm() {
           />
         </div>
 
-        {/* Lawyer Field */}
+         
         <AnimatePresence>
           {role === "lawyer" && (
             <motion.div
@@ -155,7 +155,7 @@ export function RegisterForm() {
         </Button>
       </div>
 
-      {/* Footer */}
+       
       <div className="text-center text-sm">
         Already have an account?{" "}
         <span
