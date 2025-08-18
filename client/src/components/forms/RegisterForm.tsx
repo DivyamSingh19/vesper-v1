@@ -23,23 +23,6 @@ export function RegisterForm() {
   const [loading, setLoading] = useState(false);
   const [walletAddress, setWalletAddress] = useState("");
 
-  const connectMetaMask = async () => {
-    if (!window.ethereum) {
-      toast.error("MetaMask not detected. Please install it.");
-      return;
-    }
-    try {
-      const provider = new ethers.BrowserProvider(window.ethereum);
-      const accounts = await provider.send("eth_requestAccounts", []);
-      if (accounts.length > 0) {
-        setWalletAddress(accounts[0]);
-        toast.success(`Connected: ${accounts[0]}`);
-      }
-    } catch (error) {
-      console.error("MetaMask connection error:", error);
-      toast.error("Failed to connect to MetaMask.");
-    }
-  };
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();

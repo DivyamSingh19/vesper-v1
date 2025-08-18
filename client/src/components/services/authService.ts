@@ -1,6 +1,5 @@
 import axiosAuth from "../http/axiosAuth";
-
-// Helper function to persist authentication data
+ 
 const persistAuth = (data: any) => {
   localStorage.setItem("auth", JSON.stringify(data));
 };
