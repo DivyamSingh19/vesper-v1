@@ -541,7 +541,7 @@ export const getAllLawyers = async (c:Context) => {
     const db = getDb(c.env.DATABASE_URL);
     const lawyerList = await db.select().from(lawyers).orderBy(lawyers.createdAt)
     return c.json({
-      success:false,
+      success:true,
       data:lawyerList
     })
     
