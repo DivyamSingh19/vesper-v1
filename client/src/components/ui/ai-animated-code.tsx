@@ -153,6 +153,10 @@ export function AnimatedAIChat() {
   const [isProcessingPdf, setIsProcessingPdf] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
+  const [summary, setSummary] = useState("");
+  const [showFlowchartButton, setShowFlowchartButton] = useState(false);
+  const [flowchart, setFlowchart] = useState("");
+
   const commandSuggestions: CommandSuggestion[] = [
     {
       icon: <Image className="w-4 h-4" />,
@@ -379,8 +383,30 @@ export function AnimatedAIChat() {
   };
 
   const createFlowchart = async () => {
-    
-  }
+    try {
+      const response = await axios.post(
+        "https://model.morpheus4077.workers.dev/api/v1/flowchart",
+        {
+          summary: value,
+        },
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      // mermaid syntax milega usse flowchart me convert karna hai
+      if (response.data.success) {
+        const flowchartData = response.data.flowchart;
+        setFlowchart(flowchartData);
+        console.log("Flowchart generated:", flowchartData);
+      } else {
+        console.error("Failed to generate flowchart:", response.data.error);
+      }
+    } catch (error) {
+      console.error("Error generating flowchart:", error);
+    }
+  };
   return (
     <div className="min-h-screen w-full flex flex-col bg-transparent text-white relative overflow-hidden">
       {/* Reduced orange background circles */}
