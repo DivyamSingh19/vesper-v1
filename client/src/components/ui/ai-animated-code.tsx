@@ -22,7 +22,7 @@ import {
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import * as React from "react";
-import { log } from "console";
+import { GenerateFlowchart } from "../buttons/generate-flowchart";
 
 interface Message {
   id: string;
@@ -152,6 +152,10 @@ export function AnimatedAIChat() {
   const [pdfFile, setPdfFile] = useState<File | null>(null);
   const [isProcessingPdf, setIsProcessingPdf] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
+
+  const [summary, setSummary] = useState("");
+  const [showFlowchartButton, setShowFlowchartButton] = useState(false);
+  const [flowchart, setFlowchart] = useState("");
 
   const commandSuggestions: CommandSuggestion[] = [
     {
@@ -334,7 +338,7 @@ export function AnimatedAIChat() {
       );
 
       const result = await response.json();
-
+     
       let aiContent = "";
       if (response.ok) {
         aiContent = `${result.summary}`;
@@ -378,6 +382,47 @@ export function AnimatedAIChat() {
     setShowCommandPalette(false);
   };
 
+  // const createFlowchart = async () => {
+  //   alert("Button was clicked!");
+  //   if (!summary) {
+  //     console.log("summary is required");
+  //     return;
+  //   }
+
+  //   try {
+  //     const response = await axios.post(
+  //       "https://model.morpheus4077.workers.dev/api/v1/flowchart",
+  //       {
+  //         summary: summary, // Changed from `value` to `summary`
+  //       },
+  //       {
+  //         headers: {
+  //           "Content-Type": "application/json",
+  //         },
+  //       }
+  //     );
+
+  //     if (response.data.success) {
+  //       const flowchartData = response.data.flowchart;
+  //       setFlowchart(flowchartData);
+  //       console.log("Flowchart generated:", flowchartData);
+
+  //       // Add the flowchart as a new AI message
+  //       const flowchartMessage: Message = {
+  //         id: (Date.now() + 1).toString(),
+  //         content: `## Generated Flowchart\n\n\`\`\`mermaid\n${flowchartData}\n\`\`\``,
+  //         sender: "ai",
+  //         timestamp: new Date(),
+  //       };
+  //       setMessages((prev) => [...prev, flowchartMessage]);
+  //     } else {
+  //       console.error("Failed to generate flowchart:", response.data.error);
+  //     }
+  //   } catch (error) {
+  //     console.error("Error generating flowchart:", error);
+  //   }
+  // };
+
   return (
     <div className="min-h-screen w-full flex flex-col bg-transparent text-white relative overflow-hidden">
       {/* Reduced orange background circles */}
@@ -406,7 +451,7 @@ export function AnimatedAIChat() {
             >
               <div className="space-y-4">
                 <h1 className="text-4xl font-medium bg-clip-text text-transparent bg-gradient-to-r from-white/90 to-white/40">
-                  How can I help today?
+                  How can I assist you today?
                 </h1>
                 <p className="text-white/40">Upload a PDF or ask me anything</p>
               </div>
@@ -432,24 +477,44 @@ export function AnimatedAIChat() {
 
                 <div
                   className={cn(
-                    "max-w-[85%] rounded-2xl px-5 py-4 text-sm whitespace-pre-wrap leading-relaxed",
-                    message.sender === "user"
-                      ? "bg-white/[0.05] text-white border border-white/[0.05] ml-auto"
-                      : "bg-white/[0.05] text-white border border-white/[0.05]"
+                    "max-w-[85%] flex flex-col gap-3",
+                    message.sender === "user" ? "ml-auto" : ""
                   )}
                 >
-                  {message.content && message.content.includes("**") ? (
-                    <div
-                      dangerouslySetInnerHTML={{
-                        __html: message.content
-                          .replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>")
-                          .replace(/\n\n/g, "<br><br>")
-                          .replace(/\n/g, "<br>"),
-                      }}
-                    />
-                  ) : (
-                    message.content || "No content"
-                  )}
+                  <div
+                    className={cn(
+                      "rounded-2xl px-5 py-4 text-sm whitespace-pre-wrap leading-relaxed",
+                      message.sender === "user"
+                        ? "bg-white/[0.05] text-white border border-white/[0.05]"
+                        : "bg-white/[0.05] text-white border border-white/[0.05]"
+                    )}
+                  >
+                    {message.content && message.content.includes("**") ? (
+                      <div
+                        dangerouslySetInnerHTML={{
+                          __html: message.content
+                            .replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>")
+                            .replace(/\n\n/g, "<br><br>")
+                            .replace(/\n/g, "<br>"),
+                        }}
+                      />
+                    ) : (
+                      message.content || "No content"
+                    )}
+                  </div>
+
+                  {/* Generate Flowchart Button - Only for AI messages */}
+                  {/* {message.sender === "ai" && (
+                    <div className="flex justify-start">
+                      <GenerateFlowchart
+                        messageContent={message.content}
+                        onClick={() => {
+                          setSummary(message.content);
+                          createFlowchart();
+                        }}
+                      />
+                    </div>
+                  )} */}
                 </div>
 
                 {message.sender === "user" && (

@@ -136,3 +136,58 @@ Recommend immediate professional consultation for:
 
 Now analyze and respond to: "${text}"`;
 };
+
+export const mermaidPrompt = ({ summary }: { summary: string }) => {
+  return `You are a legal flowchart generator. Convert the following legal summary into a valid Mermaid flowchart syntax.
+
+RULES:
+1. FORMAT: Must start with "flowchart TD". No explanations, no markdown, only raw Mermaid code.
+2. NODE TYPES:
+   - Process: A[Legal Action]
+   - Decision: A{Legal Question?}
+   - Document: A(Document)
+   - Outcome: A([Result])
+   - Entity: A((Party/Court))
+   - Condition: A{Condition?}
+3. PATTERNS:
+   - Sequential: A --> B --> C
+   - Decisions: A{Test?} -->|Yes| B; A -->|No| C
+   - Appeals: A -->|Appeal| B
+   - Conditional: A{Condition?} -->|Yes| B; A -->|No| C
+4. STYLE:
+   - Max 25 chars per node
+   - Use legal terms/abbreviations
+   - Show burdens of proof & key standards
+   - Show all decision points + alternative outcomes
+   - Always end with a conclusion/outcome node
+
+EXAMPLES:
+Summary: "Contract dispute with SOL defense"
+Output:
+flowchart TD
+    A((Plaintiff)) --> B[Files Complaint]
+    B --> C(Breach Claim)
+    C --> D{SOL Defense Valid?}
+    D -->|Yes| E([Case Dismissed])
+    D -->|No| F{Breach Proven?}
+    F -->|Yes| G[Calculate Damages]
+    F -->|No| H([Defendant Wins])
+    G --> I([Award Damages])
+
+Summary: "Criminal procedure with Miranda rights"
+Output:
+flowchart TD
+    A((Defendant)) --> B[Arrest]
+    B --> C[Miranda Warning]
+    C --> D{Rights Waived?}
+    D -->|Yes| E[Interrogation]
+    D -->|No| F[Stop Questioning]
+    E --> G(Statement Obtained)
+    F --> H[Limited Evidence]
+    G --> I[Trial Evidence]
+    H --> I
+
+TASK:
+Convert this legal summary into a precise Mermaid flowchart syntax:
+Summary: ${summary}`;
+};

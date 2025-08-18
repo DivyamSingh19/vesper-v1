@@ -3,6 +3,7 @@ import { Briefcase, Shield, Scale, Users } from "lucide-react";
 import { motion } from "framer-motion";
 import ButtonPrime from "../buttons/buttonPrime";
 import AboutVesper from "../buttons/about-vesper";
+import { useRouter } from "next/navigation";
 
 // Animation Variants
 const containerVariants = {
@@ -38,6 +39,7 @@ const lineAnimation = {
 };
 
 export default function Hero() {
+  const router = useRouter();
   return (
     <section className="relative min-h-screen flex flex-col justify-center items-center bg-[#1f1f1f] text-center px-6 overflow-hidden">
       {/* Softer Glow Above Heading */}
@@ -81,7 +83,13 @@ export default function Hero() {
           className="mt-8 flex gap-4 flex-wrap justify-center"
           variants={itemVariants}
         >
-          <ButtonPrime>Get Started</ButtonPrime>
+          <ButtonPrime
+            onClick={() => {
+              router.push("/vesper-ai");
+            }}
+          >
+            Get Started
+          </ButtonPrime>
           <AboutVesper />
         </motion.div>
 
