@@ -1,7 +1,7 @@
 "use client";
 import React from "react";
 import { Heart} from "lucide-react";
-import { Button } from "../ui/button";
+import { Button } from "@/components/ui/button";
 
 interface props {
   onClick: () => void;

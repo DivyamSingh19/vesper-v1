@@ -1,6 +1,6 @@
 "use client";
 import React from "react";
-import { InteractiveHoverButton } from "../magicui/interactive-hover-button";
+import { InteractiveHoverButton } from "@/components/magicui/interactive-hover-button";
 
 interface NextProps {
   onClick: () => void;

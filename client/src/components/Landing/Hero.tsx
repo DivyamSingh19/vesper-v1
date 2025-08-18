@@ -3,8 +3,8 @@
 import React from "react";
 import { Briefcase, Shield, Scale, Users } from "lucide-react";
 import { motion } from "framer-motion";
-import ButtonPrime from "../buttons/buttonPrime";
-import AboutVesper from "../buttons/about-vesper";
+import ButtonPrime from "@/components/ui-elements/buttons/buttonPrime";
+import AboutVesper from "@/components/ui-elements/buttons/about-vesper";
 import { useRouter } from "next/navigation";
 
 // Animation Variants

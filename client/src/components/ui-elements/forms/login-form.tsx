@@ -8,7 +8,7 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { User, Gavel } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
-import { loginAdv, loginUser } from "@/components/services/authService";
+import { loginAdv, loginUser } from "@/components/functions/services/authService";
  
 export function LoginForm() {
   const router = useRouter();

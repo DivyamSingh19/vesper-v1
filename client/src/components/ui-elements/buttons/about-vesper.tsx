@@ -1,6 +1,6 @@
 "use client";
 import React from "react";
-import { RippleButton } from "../magicui/ripple-button";
+import { RippleButton } from "@/components/magicui/ripple-button";
 import { useRouter } from "next/navigation";
 
 interface Props {

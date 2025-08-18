@@ -1,6 +1,6 @@
 "use client";
 import React, { useState } from "react";
-import { ShinyButton } from "../magicui/shiny-button";
+import { ShinyButton } from "@/components/magicui/shiny-button";
 import Next from "./next-button";
 
 const twelvehr = [

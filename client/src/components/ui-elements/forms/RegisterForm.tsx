@@ -7,7 +7,7 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { User, Gavel } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
-import { registerAdv, registerUser } from "@/components/services/authService";
+import { registerAdv, registerUser } from "@/components/functions/services/authService";
 import Image from "next/image";
 import { toast } from "sonner";
  

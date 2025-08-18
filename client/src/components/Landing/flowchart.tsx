@@ -14,7 +14,7 @@ import {
   CardDescription,
   CardContent,
 } from "@/components/ui/card";
-import ButtonPrime from "../buttons/buttonPrime";
+import ButtonPrime from "@/components/ui-elements/buttons/buttonPrime";
 
 const flowchartExample = [
   {

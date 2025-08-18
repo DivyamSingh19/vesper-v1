@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
-import { postAppointmentAsync } from "../services/dashServices";
+import { postAppointmentAsync } from "@/components/functions/services/dashServices";
 
 const AppointmentForm = ({ lawyer, onBack }: any) => {
   const [formData, setFormData] = useState({

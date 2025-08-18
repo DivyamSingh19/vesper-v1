@@ -1,6 +1,6 @@
 "use client";
 import React from "react";
-import ViewRepo from "../buttons/view-repo";
+import ViewRepo from "@/components/ui-elements/buttons/view-repo";
 import { motion } from "framer-motion";
 
 interface Props {
