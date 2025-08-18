@@ -1,6 +1,7 @@
 "use client";
 
 import * as React from "react";
+import{Book} from 'lucide-react'
 import {
   IconCamera,
   IconChartBar,
@@ -44,36 +45,42 @@ const data = {
     avatar: "/avatars/shadcn.jpg",
   },
   navMain: [
-    {
-      title: "Dashboard",
-      url: `/dashboard/${role}`,
-      icon: IconDashboard,
-    },
+    // {
+    //   title: "Dashboard",
+    //   url: `/dashboard/${role}`,
+    //   icon: IconDashboard,
+    // },
     {
       title: "Appointments",
       url: `/dashboard/${role}/appointments`,
       icon: IconListDetails,
-    },
+    }
+    
+    ,
     {
-      title: "Documents",
-      url: `/dashboard/${role}/documents`,
-      icon: IconChartBar,
+      title: "View Lawyers",
+      url: "/dashboard/user/view-lawyers"
     },
-    {
-      title: "Flowchart",
-      url: `/dashboard/${role}/flowchart`,
-      icon: IconFolder,
-    },
-    {
-      title: "Profile",
-      url: `/dashboard/${role}/profile`,
-      icon: IconUsers,
-    },
-    {
-      title: "Settings",
-      url: `/dashboard/${role}/access-control`,
-      icon: IconSettings,
-    },
+    // {
+    //   title: "Documents",
+    //   url: `/dashboard/${role}/documents`,
+    //   icon: IconChartBar,
+    // },
+    // {
+    //   title: "Flowchart",
+    //   url: `/dashboard/${role}/flowchart`,
+    //   icon: IconFolder,
+    // },
+    // {
+    //   title: "Profile",
+    //   url: `/dashboard/${role}/profile`,
+    //   icon: IconUsers,
+    // },
+    // {
+    //   title: "Settings",
+    //   url: `/dashboard/${role}/access-control`,
+    //   icon: IconSettings,
+    // },
   ],
 };
 
@@ -95,11 +102,11 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
             </SidebarMenuButton>
           </SidebarMenuItem>
         </SidebarMenu>
-        <SearchBar
+        {/* <SearchBar
           searchTerm={searchTerm}
           setSearchTerm={setSearchTerm}
           placeholder="Search..."
-        />
+        /> */}
       </SidebarHeader>
       <SidebarContent>
         <NavMain items={data.navMain} />
