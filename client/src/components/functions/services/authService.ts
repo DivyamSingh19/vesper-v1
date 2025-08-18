@@ -1,5 +1,4 @@
 import axiosAuth from "../http/axiosAuth";
- 
 interface ApiResponse {
   success: boolean;
   token: string;
