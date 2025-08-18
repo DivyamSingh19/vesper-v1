@@ -1,4 +1,4 @@
-import { addAppointment,getAllAppointments,getAppointmentById,editAppointment,removeAppointment ,getLawyerAppointments,getUserAppointments } from "../controllers/appointment.controller";
+import { addAppointment,getAllAppointments,getAppointmentById,editAppointment,removeAppointment ,getLawyerAppointments,getUserAppointments ,getAllLawyers} from "../controllers/appointment.controller";
 import { Hono } from "hono";
 
 
@@ -18,6 +18,8 @@ appointmentRoutes.delete("/remove-appointment/:id",removeAppointment)
 appointmentRoutes.get("/user/:email",getUserAppointments)
 
 appointmentRoutes.get("/lawyer/:email",getLawyerAppointments)
+
+appointmentRoutes.get("/all-lawyers",getAllLawyers)
 
 
 export default appointmentRoutes
