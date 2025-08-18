@@ -29,44 +29,44 @@ const Header: React.FC<HeaderProps> = ({
   const navItems: NavItem[] = [
     {
       label: "Getting Started",
-      href: "/getting-started",
+      href: "#",
       hasDropdown: true,
       dropdownItems: [
         {
           label: "Quick Start Guide",
-          href: "/guide",
+          href: "#",
           description: "Get up and running in minutes",
         },
         {
           label: "Documentation",
-          href: "/docs",
+          href: "#",
           description: "Comprehensive API documentation",
         },
         {
           label: "Tutorials",
-          href: "/tutorials",
+          href: "#",
           description: "Step-by-step tutorials",
         },
       ],
     },
     {
       label: "Our Features",
-      href: "/features",
+      href: "#",
       hasDropdown: true,
       dropdownItems: [
         {
           label: "AI Analysis",
-          href: "/features/ai",
+          href: "#",
           description: "Advanced document analysis",
         },
         {
           label: "Blockchain Security",
-          href: "/features/security",
+          href: "#",
           description: "Tamper-proof storage",
         },
         {
           label: "Team Collaboration",
-          href: "/features/collaboration",
+          href: "#",
           description: "Work together seamlessly",
         },
       ],

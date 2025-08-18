@@ -3,7 +3,6 @@ import Hero from "@/components/Landing/Hero";
 import React from "react";
 import FeaturesCard from "@/components/Landing/features";
 import Analysis from "@/components/Landing/analysis";
-// import Testimonials from "@/components/Landing/testimonials";
 import Flowchart from "@/components/Landing/flowchart";
 import F from "@/components/Landing/footer";
 import Header from "@/components/Landing/header";
@@ -47,7 +46,6 @@ function page() {
       </div>
       <Flowchart />
       <FeaturesCard />
-      {/* <Testimonials /> */}
       <F />
     </>
   );
