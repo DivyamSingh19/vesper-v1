@@ -1,15 +1,16 @@
-import { AppSidebar } from "@/components/app-sidebar";
+ 
 import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
 import { Separator } from "@/components/ui/separator";
 import { SidebarTrigger } from "@/components/ui/sidebar";
-import AuthLayout from "@/layout/AuthLayout";
+import AuthLayout from "@/components/layout/AuthLayout";
+import { LawyerSidebar } from "@/components/sidebar/lawyerSidebar";
 export default function DashboardLayout({ children }: { children: React.ReactNode }) {
   return (
     <SidebarProvider>
       <AuthLayout> 
       <div className="flex min-h-screen">
         
-        <AppSidebar />
+        <LawyerSidebar />
 
         {/* Content Area */}
         <div className="flex-1">
