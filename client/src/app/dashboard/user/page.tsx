@@ -5,6 +5,7 @@ import Link from "next/link"
 import { Plus, FileText, CalendarPlus, Boxes, Briefcase } from "lucide-react"
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
+import DashboardLayout from "@/components/functions/layout/DashboardLayout"
 
 const sections = [
   {
@@ -39,6 +40,7 @@ const sections = [
 
 const DashboardPage = () => {
   return (
+    <DashboardLayout> 
     <div className="px-6 py-4 space-y-6">
       <div className="border-b pb-2">
         <h1 className="text-2xl font-semibold tracking-tight">Dashboard</h1>
@@ -74,6 +76,7 @@ const DashboardPage = () => {
         ))}
       </div>
     </div>
+    </DashboardLayout>
   )
 }
 
