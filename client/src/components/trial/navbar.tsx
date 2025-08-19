@@ -1,6 +1,7 @@
 "use client"
 import React, { useState, useEffect } from "react";
-import { Menu, X } from "lucide-react"; // modern icons
+import { Menu, X } from "lucide-react";
+import { useRouter } from "next/navigation";
 
 interface AuthState {
   isAuthenticated: boolean;
@@ -17,19 +18,13 @@ const Navbar: React.FC = () => {
 
   const [mobileOpen, setMobileOpen] = useState(false);
 
-  // Mock router for demo - in real app you'd use: const router = useRouter()
-  const router = {
-    push: (path: string) => {
-      console.log(`Navigating to: ${path}`);
-      // In real app: router.push(path)
-    }
-  };
+  const router = useRouter();
 
   useEffect(() => {
     const checkAuth = (): void => {
-      // Mock data for demo - in real app you'd check localStorage
-      const role = "user"; 
-      const email = "user@example.com"; 
+      // Mock data for demo - replace with localStorage/session check
+      const role = "user";
+      const email = "user@example.com";
       const isAuthenticated = !!(role && email);
 
       setAuthState({
@@ -44,12 +39,11 @@ const Navbar: React.FC = () => {
 
   const clearAuth = (): void => {
     try {
-      // In real app, uncomment these lines:
-      // localStorage.removeItem("token");
-      // localStorage.removeItem("id");
-      // localStorage.removeItem("email");
-      // localStorage.removeItem("name");
-      // localStorage.removeItem("role");
+      localStorage.removeItem("token");
+      localStorage.removeItem("id");
+      localStorage.removeItem("email");
+      localStorage.removeItem("name");
+      localStorage.removeItem("role");
       console.log("Auth data cleared from localStorage");
     } catch (error) {
       console.error("Failed to clear authentication data:", error);
@@ -57,51 +51,45 @@ const Navbar: React.FC = () => {
   };
 
   const handleLogin = (): void => {
-    console.log("Redirecting to login...");
-    router.push('/login');
+    router.push("/login");
   };
-  
+
   const handleLogout = (): void => {
     clearAuth();
     setAuthState({ isAuthenticated: false, role: null, email: null });
-    console.log("Logged out and redirecting to home...");
     router.push("/");
   };
-  
+
   const handleSignUp = (): void => {
-    console.log("Redirecting to register...");
     router.push("/register");
   };
-  
+
   const handleDashboard = (): void => {
     if (authState.role === "user") {
-      console.log("Redirecting to user dashboard...");
       router.push("/dashboard/user");
     } else if (authState.role === "lawyer") {
-      console.log("Redirecting to lawyer dashboard...");
       router.push("/dashboard/lawyer");
     }
   };
 
   const navLinks = [
-    { href: "#features", label: "Features" },
-    { href: "#solution", label: "Solution" },
-    { href: "#pricing", label: "Pricing" },
-    { href: "#about", label: "About" },
+    { href: "#analysis", label: "Features" },
+    { href: "#flowchart", label: "Flowcharts" },
+    { href: "#features", label: "About" },
   ];
 
   return (
     <nav className="w-full bg-white/95 backdrop-blur-sm border-b border-gray-200/50 px-6 py-4 fixed top-0 z-50 shadow-sm">
-      <div className="max-w-7xl mx-auto flex items-center justify-between">
-        {/* Logo */}
+      <div className="max-w-7xl mx-auto flex items-center justify-between relative">
+        {/* Logo (Left) */}
         <div className="flex items-center space-x-2">
           <span className="text-gray-900 font-bold text-xl tracking-tight">
             Vesper AI
           </span>
         </div>
 
-        {/* Desktop Links */}
-        <div className="hidden md:flex items-center space-x-8">
+        {/* Centered navLinks */}
+        <div className="hidden md:flex items-center space-x-8 absolute left-1/2 transform -translate-x-1/2">
           {navLinks.map((link) => (
             <a
               key={link.href}
@@ -114,7 +102,7 @@ const Navbar: React.FC = () => {
           ))}
         </div>
 
-        {/* Auth Buttons */}
+        {/* Auth Buttons (Right) */}
         <div className="hidden md:flex items-center space-x-4">
           {authState.isAuthenticated ? (
             <>
@@ -156,11 +144,19 @@ const Navbar: React.FC = () => {
             className="text-gray-600 hover:text-blue-600 p-2 rounded-lg hover:bg-gray-100 transition-all duration-300 relative"
           >
             <div className="relative w-6 h-6 flex items-center justify-center">
-              <Menu 
-                className={`w-6 h-6 transition-all duration-300 ${mobileOpen ? 'opacity-0 rotate-180 scale-75' : 'opacity-100 rotate-0 scale-100'}`} 
+              <Menu
+                className={`w-6 h-6 transition-all duration-300 ${
+                  mobileOpen
+                    ? "opacity-0 rotate-180 scale-75"
+                    : "opacity-100 rotate-0 scale-100"
+                }`}
               />
-              <X 
-                className={`w-6 h-6 absolute transition-all duration-300 ${mobileOpen ? 'opacity-100 rotate-0 scale-100' : 'opacity-0 rotate-180 scale-75'}`} 
+              <X
+                className={`w-6 h-6 absolute transition-all duration-300 ${
+                  mobileOpen
+                    ? "opacity-100 rotate-0 scale-100"
+                    : "opacity-0 rotate-180 scale-75"
+                }`}
               />
             </div>
           </button>

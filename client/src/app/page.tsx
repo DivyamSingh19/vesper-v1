@@ -25,7 +25,10 @@ function page() {
     <>
       <Navbar />
       <Hero />
-      <Analysis />
+      <section id="analysis">
+          <Analysis />
+      </section>
+      
       <div className="flex flex-col gap-5 justify-center items-center text-gray-500 text-center mt-29">
         <motion.h3
           className="text-4xl md:text-6xl font-playfair font-semibold text-gray-500 inline-block relative"
@@ -46,8 +49,14 @@ function page() {
           </motion.p>
         </motion.h3>
       </div>
-      <Flowchart />
-      <FeaturesCard />
+      
+      <section id="flowchart">
+        <Flowchart />
+       </section>
+      <section id="features">
+        <FeaturesCard />
+      </section>
+       
       <F />
     </>
   );
