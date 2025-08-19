@@ -22,9 +22,9 @@ const Navbar: React.FC = () => {
 
   useEffect(() => {
     const checkAuth = (): void => {
-      // Mock data for demo - replace with localStorage/session check
-      const role = "user";
-      const email = "user@example.com";
+      
+      const role = localStorage.getItem('role')
+      const email = localStorage.getItem('email')
       const isAuthenticated = !!(role && email);
 
       setAuthState({
@@ -44,6 +44,11 @@ const Navbar: React.FC = () => {
       localStorage.removeItem("email");
       localStorage.removeItem("name");
       localStorage.removeItem("role");
+      localStorage.removeItem("adminData")
+      localStorage.removeItem("adminId")
+      localStorage.removeItem("adminToken");
+      localStorage.removeItem("theme")
+ 
       console.log("Auth data cleared from localStorage");
     } catch (error) {
       console.error("Failed to clear authentication data:", error);
