@@ -1,31 +1,33 @@
-import  UserSidebar  from "@/components/ui-elements/sidebar/userSidebar";
+import UserSidebar from "@/components/ui-elements/sidebar/userSidebar";
 import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
 import { Separator } from "@/components/ui/separator";
 import { SidebarTrigger } from "@/components/ui/sidebar";
- 
-export default function DashboardLayout({ children }: { children: React.ReactNode }) {
+import DashboardAuthLayout from "@/components/functions/layout/DashboardLayout";
+
+export default function DashboardLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   return (
     <SidebarProvider>
-       
-      <div className="flex min-h-screen">
-        
-        <UserSidebar/>
- 
-        <div className="flex-1">
-          <SidebarInset>
-            <header className="bg-background sticky top-0 flex h-16 shrink-0 items-center gap-2 border-b px-4">
-              <SidebarTrigger className="-ml-1" />
-              <Separator orientation="vertical" className="mr-2 h-4" />
-              {/* Add breadcrumb or other header content here */}
-            </header>
+      <DashboardAuthLayout>
+        <div className="flex min-h-screen">
+          <UserSidebar />
 
-            <main className="p-4">
-              {children}
-            </main>
-          </SidebarInset>
+          <div className="flex-1">
+            <SidebarInset>
+              <header className="bg-background sticky top-0 flex h-16 shrink-0 items-center gap-2 border-b px-4">
+                <SidebarTrigger className="-ml-1" />
+                <Separator orientation="vertical" className="mr-2 h-4" />
+                
+              </header>
+
+              <main className="p-4">{children}</main>
+            </SidebarInset>
+          </div>
         </div>
-      </div>
-      
+      </DashboardAuthLayout>
     </SidebarProvider>
   );
 }

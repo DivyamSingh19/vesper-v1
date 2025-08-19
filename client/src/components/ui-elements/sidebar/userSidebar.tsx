@@ -32,8 +32,8 @@ import { Button } from "@/components/ui/button";
 const sidebarNav = [
   {
     title: "Appointments",
-    basePath: "/dashboard/user/appointments",
-    baseLink: "/dashboard/user",
+    basePath: "/dashboard/user/",
+    baseLink:null,
     items: [
       { title: "Add Appointment", path: "/add-appointments" },
       { title: "All Appointments", path: "/all-appointments" },

@@ -1,8 +1,10 @@
 import { GalleryVerticalEnd } from "lucide-react"
 import { RegisterForm } from "@/components/ui-elements/forms/RegisterForm"
+import LoginLayout from "@/components/functions/layout/LoginLayout"
 
 export default function LoginPage() {
   return (
+    <LoginLayout> 
     <div className="flex min-h-screen items-center justify-center p-6">
       <div className="w-full max-w-xs flex flex-col gap-6">
        
@@ -19,6 +21,7 @@ export default function LoginPage() {
         <RegisterForm />
       </div>
     </div>
+    </LoginLayout>
   )
 }
 
