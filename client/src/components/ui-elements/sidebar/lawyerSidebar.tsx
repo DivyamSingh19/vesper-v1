@@ -37,16 +37,11 @@ const sidebarNav = [
     basePath: "/dashboard/lawyer/appointments",
     baseLink: null,
     items: [
-      { title: "Add Blog", path: "/add-blog" },
-      { title: "All Blogs", path: "/all-blogs" },
+      
+      { title: "All Appointments", path: "/appointments" },
     ],
   },
-  {
-    title: "Vesper-ai",
-    basePath: "/dashboard/lawyer/vesper-ai",
-    baseLink: null,
-    items: [],
-  },
+   
 ];
 
 export default function LawyerSidebar({

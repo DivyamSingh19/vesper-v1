@@ -14,12 +14,11 @@ export const users = pgTable('users', {
 
 export const lawyers = pgTable('lawyers', {
     id: uuid('id').primaryKey().defaultRandom(),
-    email: varchar('email', { length: 255 }).notNull().unique(),
-    name: varchar('name', { length: 255 }).notNull(),
-    password: varchar('password', { length: 300 }).notNull(),
-    walletAddress: text('wallet_address'),
+    email: varchar('email', { length: 5000 }).notNull().unique(),
+    name: varchar('name', { length: 5000 }).notNull(),
+    password: varchar('password', { length: 5000 }).notNull(),
     stateRollNumber: text('state_roll_number').notNull().unique(),
-    specialization:text('specialization').notNull(),
+    specialization:text('specialization') ,
     createdAt: timestamp('created_at').defaultNow().notNull(),
     updatedAt: timestamp('updated_at').defaultNow().notNull(),
 });
