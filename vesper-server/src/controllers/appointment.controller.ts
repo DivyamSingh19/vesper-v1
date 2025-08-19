@@ -128,7 +128,7 @@ export const getAllAppointments = async (c: Context) => {
         userName: users.name,
         userWalletAddress: users.walletAddress,
         lawyerName: lawyers.name,
-        lawyerWalletAddress: lawyers.walletAddress
+       
       })
       .from(appointments)
       .leftJoin(users, eq(appointments.userEmail, users.email))
@@ -187,7 +187,7 @@ export const getAppointmentById = async (c: Context) => {
           id: lawyers.id,
           name: lawyers.name,
           email: lawyers.email,
-          walletAddress: lawyers.walletAddress
+          
         }
       })
       .from(appointments)
@@ -508,7 +508,7 @@ export const getUserAppointments = async (c: Context) => {
         lawyer: {
           name: lawyers.name,
           email: lawyers.email,
-          walletAddress: lawyers.walletAddress
+           
         }
       })
       .from(appointments)
