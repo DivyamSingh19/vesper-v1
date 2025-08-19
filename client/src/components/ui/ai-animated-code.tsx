@@ -382,8 +382,8 @@ export default function AnimatedAIChat() {
                   <div
                     className={`rounded-2xl px-5 py-4 text-sm whitespace-pre-wrap leading-relaxed shadow-sm ${
                       message.sender === "user"
-                        ? "bg-blue-300 text-white"
-                        : "bg-white text-gray-800 border border-gray-200"
+                        ? "bg-blue-400 text-white"
+                        : "bg-white text-gray-900 border border-gray-200"
                     }`}
                   >
                     {message.content && message.content.includes("**") ? (
@@ -402,8 +402,8 @@ export default function AnimatedAIChat() {
                 </div>
 
                 {message.sender === "user" && (
-                  <div className="w-8 h-8 rounded-full bg-main-blue flex items-center justify-center flex-shrink-0 mt-1">
-                    <User className="w-4 h-4 text-main-blue" />
+                  <div className="w-8 h-8 rounded-full bg-blue-400 flex items-center justify-center flex-shrink-0 mt-1">
+                    <User className="w-4 h-4 text-blue-200" />
                   </div>
                 )}
               </div>
@@ -417,7 +417,7 @@ export default function AnimatedAIChat() {
                 }}
               >
                 <div className="w-8 h-8 rounded-full bg-main-blue flex items-center justify-center flex-shrink-0 mt-1">
-                  <Bot className="w-4 h-4 text-main-blue" />
+                  <Bot className="w-4 h-4 text-blue-200" />
                 </div>
                 <div className="bg-white rounded-2xl px-5 py-4 border border-gray-200 shadow-sm">
                   <TypingDots />
@@ -491,13 +491,13 @@ export default function AnimatedAIChat() {
                 {attachments.map((file, index) => (
                   <div
                     key={index}
-                    className="flex items-center gap-2 text-xs bg-main-blue py-1.5 px-3 rounded-lg text-orange-700 border border-orange-200 transform scale-90 transition-transform duration-200 hover:scale-100"
+                    className="flex items-center gap-2 text-xs bg-white py-1.5 px-3 rounded-lg text-blue-900 border border-blue-200 transform scale-90 transition-transform duration-200 hover:scale-100"
                   >
                     <FileUp className="w-3 h-3" />
                     <span>{file}</span>
                     <button
                       onClick={() => removeAttachment(index)}
-                      className="text-orange-500 hover:text-orange-700 transition-colors"
+                      className="text-blue-200 hover:text-blue-900 transition-colors"
                     >
                       <X className="w-3 h-3" />
                     </button>
@@ -523,7 +523,7 @@ export default function AnimatedAIChat() {
                 }
                 className={`px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 flex items-center gap-2 transform hover:scale-105 ${
                   value.trim() || pdfFile
-                    ? "bg-orange-500 text-white shadow-lg hover:bg-orange-600 hover:shadow-xl"
+                    ? "bg-blue-500 text-white shadow-lg hover:bg-blue-600 hover:shadow-xl"
                     : "bg-gray-200 text-gray-400 cursor-not-allowed"
                 }`}
               >
