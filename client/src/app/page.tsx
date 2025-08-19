@@ -1,12 +1,14 @@
 "use client";
-import Hero from "@/components/landing/Hero";
+
 import React from "react";
 import FeaturesCard from "@/components/landing/features";
 import Analysis from "@/components/landing/analysis";
 import Flowchart from "@/components/landing/flowchart";
 import F from "@/components/landing/footer";
-import Header from "@/components/landing/header";
+ 
 import { motion } from "framer-motion";
+import Hero from "@/components/trial/hero";
+import Navbar from "@/components/trial/navbar";
 
 const headingVariants = {
   hidden: { opacity: 0, y: -20 },
@@ -21,12 +23,12 @@ const lineVariants = {
 function page() {
   return (
     <>
-      <Header />
+      <Navbar />
       <Hero />
       <Analysis />
-      <div className="flex flex-col gap-5 justify-center items-center text-[#d1cfc0] text-center mt-29">
+      <div className="flex flex-col gap-5 justify-center items-center text-gray-500 text-center mt-29">
         <motion.h3
-          className="text-4xl md:text-6xl font-playfair font-semibold text-[#d1cfc0] inline-block relative"
+          className="text-4xl md:text-6xl font-playfair font-semibold text-gray-500 inline-block relative"
           variants={headingVariants}
           initial="hidden"
           whileInView="visible"
@@ -34,7 +36,7 @@ function page() {
         >
           Legal Flowcharts
           <motion.span
-            className="block h-[3px] bg-orange-500 mx-auto mt-5 rounded-full"
+            className="block h-[3px] bg-blue-400 mx-auto mt-5 rounded-full"
             variants={lineVariants}
           />
           <motion.p className="text-xl text-muted-foreground max-w-3xl mt-4">

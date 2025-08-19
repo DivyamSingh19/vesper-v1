@@ -58,7 +58,7 @@ const FeaturesCard = () => {
       {/* Heading */}
       <div className="text-center mb-16">
         <motion.h3
-          className="text-4xl md:text-6xl font-playfair font-semibold text-[#d1cfc0] inline-block relative"
+          className="text-4xl md:text-6xl font-playfair font-semibold text-gray-800 inline-block relative"
           variants={headingVariants}
           initial="hidden"
           whileInView="visible"
@@ -66,7 +66,7 @@ const FeaturesCard = () => {
         >
           Our Features
           <motion.span
-            className="block h-[3px] bg-orange-500 mx-auto mt-2 rounded-full"
+            className="block h-[3px] bg-blue-400 mx-auto mt-2 rounded-full"
             variants={lineVariants}
           />
         </motion.h3>
@@ -84,17 +84,9 @@ const FeaturesCard = () => {
           <motion.div
             key={i}
             variants={cardItemVariants}
-            className="relative w-full max-w-sm text-center rounded-2xl p-6 bg-[#2d2d2d]/80 border border-white/10 shadow-lg hover:scale-[1.03] hover:shadow-[0_0_30px_rgba(249,115,22,0.5)] transition-all duration-300"
+            className="relative w-full max-w-sm text-center rounded-2xl p-6 bg-white/95 border border-blue-400/20 shadow-lg hover:scale-[1.03] hover:shadow-[0_0_30px_rgba(59,130,246,0.3)] transition-all duration-300 backdrop-blur-sm"
           >
-            <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-orange-400 via-orange-500 to-orange-600 opacity-0 hover:opacity-100 blur-xl transition-opacity duration-300 pointer-events-none"></div>
-
-            {/* <motion.div
-            key={i}
-            variants={cardItemVariants}
-            className="relative w-full max-w-sm text-center rounded-2xl p-6 bg-[#2d2d2d]/80 border border-white/10 shadow-lg hover:scale-[1.03] transition-all duration-300"
-          >
-             Hover Glow
-            <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-white/5 via-transparent to-transparent opacity-0 hover:opacity-100 transition-opacity duration-300 pointer-events-none"></div> */}
+            <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-blue-400 via-blue-main to-blue-500 opacity-0 hover:opacity-10 blur-xl transition-opacity duration-300 pointer-events-none"></div>
 
             {/* Icon */}
             <div
@@ -104,26 +96,17 @@ const FeaturesCard = () => {
             </div>
 
             {/* Title */}
-            <h3 className="relative z-10 text-xl font-semibold text-[#f3f3f3]">
+            <h3 className="relative z-10 text-xl font-semibold text-gray-800">
               {feature.title}
             </h3>
 
             {/* Description */}
-            <p className="relative z-10 mt-2 text-gray-400 text-base leading-relaxed">
+            <p className="relative z-10 mt-2 text-gray-600 text-base leading-relaxed">
               {feature.description}
             </p>
 
-            {/* Bullet Points */}
-            {/* <ul className="mt-4 text-left space-y-1 text-sm text-gray-300">
-              {feature.points.map((point, idx) => (
-                <li key={idx} className="flex items-center gap-2">
-                  <span className="text-cyan-300">•</span> {point}
-                </li>
-              ))}
-            </ul> */}
-
             {/* Learn More */}
-            <button className="mt-4 text-cyan-300 hover:text-cyan-200 text-sm transition-colors">
+            <button className="mt-4 text-blue-main hover:text-blue-400 text-sm transition-colors font-medium">
               Learn more →
             </button>
           </motion.div>
