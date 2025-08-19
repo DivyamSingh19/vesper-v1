@@ -1,21 +1,28 @@
-"use client"
+"use client";
+import axios from "axios";
 import { useEffect, useRef, useCallback, useTransition } from "react";
 import { useState } from "react";
+import { cn } from "@/lib/utils";
 import {
   Image,
   FileUp,
   Figma,
   Monitor,
+  CircleUserRound,
+  ArrowUp,
   Paperclip,
+  Plus,
   Send,
   X,
   Loader,
   Sparkles,
+  Command,
   User,
   Bot,
 } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
 import * as React from "react";
-import axios from "axios";
+import { GenerateFlowchart } from "@/components/ui-elements/buttons/generate-flowchart";
 
 interface Message {
   id: string;
@@ -90,9 +97,18 @@ const Textarea = React.forwardRef<HTMLTextAreaElement, TextareaProps>(
     const [isFocused, setIsFocused] = React.useState(false);
 
     return (
-      <div className={`relative ${containerClassName || ""}`}>
+      <div className={cn("relative", containerClassName)}>
         <textarea
-          className={`flex min-h-[80px] w-full rounded-md border border-gray-300 bg-white px-3 py-2 text-sm text-gray-900 transition-all duration-200 ease-in-out placeholder:text-gray-500 disabled:cursor-not-allowed disabled:opacity-50 ${showRing ? "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange-500 focus-visible:ring-offset-0" : ""} ${className || ""}`}
+          className={cn(
+            "flex min-h-[80px] w-full rounded-md border border-input bg-background px-3 py-2 text-sm",
+            "transition-all duration-200 ease-in-out",
+            "placeholder:text-muted-foreground",
+            "disabled:cursor-not-allowed disabled:opacity-50",
+            showRing
+              ? "focus-visible:outline-none focus-visible:ring-0 focus-visible:ring-offset-0"
+              : "",
+            className
+          )}
           ref={ref}
           onFocus={() => setIsFocused(true)}
           onBlur={() => setIsFocused(false)}
@@ -100,9 +116,12 @@ const Textarea = React.forwardRef<HTMLTextAreaElement, TextareaProps>(
         />
 
         {showRing && isFocused && (
-          <span
-            className="absolute inset-0 rounded-md pointer-events-none ring-2 ring-offset-0 ring-main-blue opacity-100 transition-opacity duration-200"
-            style={{ animation: "fadeIn 0.2s ease-in-out" }}
+          <motion.span
+            className="absolute inset-0 rounded-md pointer-events-none ring-2 ring-offset-0 ring-orange-500/30"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.2 }}
           />
         )}
       </div>
@@ -111,7 +130,7 @@ const Textarea = React.forwardRef<HTMLTextAreaElement, TextareaProps>(
 );
 Textarea.displayName = "Textarea";
 
-export default function AnimatedAIChat() {
+export function AnimatedAIChat() {
   const [value, setValue] = useState("");
   const [messages, setMessages] = useState<Message[]>([]);
   const [attachments, setAttachments] = useState<string[]>([]);
@@ -363,22 +382,54 @@ export default function AnimatedAIChat() {
     setShowCommandPalette(false);
   };
 
+  // const createFlowchart = async () => {
+  //   alert("Button was clicked!");
+  //   if (!summary) {
+  //     console.log("summary is required");
+  //     return;
+  //   }
+
+  //   try {
+  //     const response = await axios.post(
+  //       "https://model.morpheus4077.workers.dev/api/v1/flowchart",
+  //       {
+  //         summary: summary, // Changed from `value` to `summary`
+  //       },
+  //       {
+  //         headers: {
+  //           "Content-Type": "application/json",
+  //         },
+  //       }
+  //     );
+
+  //     if (response.data.success) {
+  //       const flowchartData = response.data.flowchart;
+  //       setFlowchart(flowchartData);
+  //       console.log("Flowchart generated:", flowchartData);
+
+  //       // Add the flowchart as a new AI message
+  //       const flowchartMessage: Message = {
+  //         id: (Date.now() + 1).toString(),
+  //         content: `## Generated Flowchart\n\n\`\`\`mermaid\n${flowchartData}\n\`\`\``,
+  //         sender: "ai",
+  //         timestamp: new Date(),
+  //       };
+  //       setMessages((prev) => [...prev, flowchartMessage]);
+  //     } else {
+  //       console.error("Failed to generate flowchart:", response.data.error);
+  //     }
+  //   } catch (error) {
+  //     console.error("Error generating flowchart:", error);
+  //   }
+  // };
+
   return (
-    <div className="h-screen w-full flex flex-col bg-gray-50 text-gray-900 relative overflow-hidden">
-      {/* Background decorative elements */}
-      <div className="absolute inset-0 w-full h-full overflow-hidden pointer-events-none">
-        <div 
-          className="absolute top-0 left-1/4 w-96 h-96 bg-main-blue rounded-full mix-blend-normal filter blur-[128px]"
-          style={{ animation: "pulse 2s infinite" }}
-        />
-        <div 
-          className="absolute bottom-0 right-1/4 w-96 h-96 bg-main-blue rounded-full mix-blend-normal filter blur-[128px]"
-          style={{ animation: "pulse 2s infinite", animationDelay: "0.7s" }}
-        />
-        <div 
-          className="absolute top-1/4 right-1/3 w-64 h-64 bg-main-blue rounded-full mix-blend-normal filter blur-[96px]"
-          style={{ animation: "pulse 2s infinite", animationDelay: "1s" }}
-        />
+    <div className="min-h-screen w-full flex flex-col bg-transparent text-white relative overflow-hidden">
+      {/* Reduced orange background circles */}
+      <div className="absolute inset-0 w-full h-full overflow-hidden">
+        <div className="absolute top-0 left-1/4 w-96 h-96 bg-orange-500/15 rounded-full mix-blend-normal filter blur-[128px] animate-pulse" />
+        <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-orange-600/5 rounded-full mix-blend-normal filter blur-[128px] animate-pulse delay-700" />
+        <div className="absolute top-1/4 right-1/3 w-64 h-64 bg-amber-500/4 rounded-full mix-blend-normal filter blur-[96px] animate-pulse delay-1000" />
       </div>
 
       <input
@@ -389,55 +440,54 @@ export default function AnimatedAIChat() {
         className="hidden"
       />
 
-      {/* Messages Area - Fixed height with independent scrolling */}
-      <div className="flex-1 overflow-y-auto p-6 w-full pb-48" style={{ height: "calc(100vh - 200px)" }}>
-        <div className="max-w-7xl mx-auto h-full">
+      {/* Messages Area - Made much wider */}
+      <div className="flex-1 overflow-y-auto p-6 w-full">
+        <div className="max-w-7xl mx-auto">
           {messages.length === 0 && (
-            <div 
-              className="flex items-center justify-center h-[60vh] text-center opacity-0"
-              style={{ 
-                animation: "fadeInUp 0.5s ease-out forwards",
-                animationDelay: "0.1s"
-              }}
+            <motion.div
+              className="flex items-center justify-center h-[60vh] text-center"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
             >
               <div className="space-y-4">
-                <h1 className="text-4xl font-medium text-gray-800">
+                <h1 className="text-4xl font-medium bg-clip-text text-transparent bg-gradient-to-r from-white/90 to-white/40">
                   How can I assist you today?
                 </h1>
-                <p className="text-gray-600">Upload a PDF or ask me anything</p>
+                <p className="text-white/40">Upload a PDF or ask me anything</p>
               </div>
-            </div>
+            </motion.div>
           )}
 
           <div className="space-y-6 pb-6">
-            {messages.map((message, index) => (
-              <div
+            {messages.map((message) => (
+              <motion.div
                 key={message.id}
-                className={`flex gap-4 opacity-0 ${
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                className={cn(
+                  "flex gap-4",
                   message.sender === "user" ? "justify-end" : "justify-start"
-                }`}
-                style={{
-                  animation: "fadeInUp 0.3s ease-out forwards",
-                  animationDelay: `${index * 0.1}s`
-                }}
+                )}
               >
                 {message.sender === "ai" && (
-                  <div className="w-8 h-8 rounded-full bg-blue-100 flex items-center justify-center flex-shrink-0 mt-1">
-                    <Bot className="w-4 h-4 text-gray-800" />
+                  <div className="w-8 h-8 rounded-full bg-orange-500/20 flex items-center justify-center flex-shrink-0 mt-1">
+                    <Bot className="w-4 h-4 text-orange-400" />
                   </div>
                 )}
 
                 <div
-                  className={`max-w-[85%] flex flex-col gap-3 ${
+                  className={cn(
+                    "max-w-[85%] flex flex-col gap-3",
                     message.sender === "user" ? "ml-auto" : ""
-                  }`}
+                  )}
                 >
                   <div
-                    className={`rounded-2xl px-5 py-4 text-sm whitespace-pre-wrap leading-relaxed shadow-sm ${
+                    className={cn(
+                      "rounded-2xl px-5 py-4 text-sm whitespace-pre-wrap leading-relaxed",
                       message.sender === "user"
-                        ? "bg-blue-400 text-white"
-                        : "bg-white text-gray-900 border border-gray-200"
-                    }`}
+                        ? "bg-white/[0.05] text-white border border-white/[0.05]"
+                        : "bg-white/[0.05] text-white border border-white/[0.05]"
+                    )}
                   >
                     {message.content && message.content.includes("**") ? (
                       <div
@@ -452,70 +502,88 @@ export default function AnimatedAIChat() {
                       message.content || "No content"
                     )}
                   </div>
+
+                  {/* Generate Flowchart Button - Only for AI messages */}
+                  {/* {message.sender === "ai" && (
+                    <div className="flex justify-start">
+                      <GenerateFlowchart
+                        messageContent={message.content}
+                        onClick={() => {
+                          setSummary(message.content);
+                          createFlowchart();
+                        }}
+                      />
+                    </div>
+                  )} */}
                 </div>
 
                 {message.sender === "user" && (
-                  <div className="w-8 h-8 rounded-full bg-blue-400 flex items-center justify-center flex-shrink-0 mt-1">
-                    <User className="w-4 h-4 text-blue-200" />
+                  <div className="w-8 h-8 rounded-full bg-orange-500/20 flex items-center justify-center flex-shrink-0 mt-1">
+                    <User className="w-4 h-4 text-white" />
                   </div>
                 )}
-              </div>
+              </motion.div>
             ))}
 
             {isTyping && (
-              <div
-                className="flex gap-4 justify-start opacity-0"
-                style={{
-                  animation: "fadeInUp 0.3s ease-out forwards"
-                }}
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                className="flex gap-4 justify-start"
               >
-                <div className="w-8 h-8 rounded-full bg-main-blue flex items-center justify-center flex-shrink-0 mt-1">
-                  <Bot className="w-4 h-4 text-blue-200" />
+                <div className="w-8 h-8 rounded-full bg-orange-500/20 flex items-center justify-center flex-shrink-0 mt-1">
+                  <Bot className="w-4 h-4 text-orange-400" />
                 </div>
-                <div className="bg-white rounded-2xl px-5 py-4 border border-gray-200 shadow-sm">
+                <div className="bg-white/[0.05] rounded-2xl px-5 py-4 border border-white/[0.05]">
                   <TypingDots />
                 </div>
-              </div>
+              </motion.div>
             )}
           </div>
           <div ref={messagesEndRef} />
         </div>
       </div>
 
-      {/* Input Area - Fixed at bottom */}
-      <div className="fixed bottom-0 left-0 right-0 border-t border-gray-200 bg-white/95 backdrop-blur-xl p-6 z-10">
+      {/* Input Area - Also wider to match */}
+      <div className="border-t border-white/[0.05] bg-transparent backdrop-blur-xl p-6">
         <div className="max-w-7xl mx-auto">
-          <div
-            className="relative backdrop-blur-sm bg-white rounded-2xl border border-gray-200 shadow-lg transform scale-98 transition-transform duration-200 hover:scale-100"
+          <motion.div
+            className="relative backdrop-blur-2xl bg-white/[0.02] rounded-2xl border border-white/[0.05] shadow-2xl"
+            initial={{ scale: 0.98 }}
+            animate={{ scale: 1 }}
           >
-            {showCommandPalette && (
-              <div
-                ref={commandPaletteRef}
-                className={`absolute left-4 right-4 bottom-full mb-2 backdrop-blur-xl bg-white rounded-lg z-50 shadow-lg border border-gray-200 overflow-hidden transition-all duration-200 ${
-                  showCommandPalette ? "opacity-100 translate-y-0" : "opacity-0 translate-y-1"
-                }`}
-              >
-                <div className="py-1">
-                  {commandSuggestions.map((suggestion, index) => (
-                    <div
-                      key={suggestion.prefix}
-                      className={`flex items-center gap-2 px-3 py-2 text-xs cursor-pointer transition-colors ${
-                        activeSuggestion === index
-                          ? "bg-orange-500/10 text-main-blue"
-                          : "text-gray-600 hover:bg-gray-50"
-                      }`}
-                      onClick={() => selectCommandSuggestion(index)}
-                    >
-                      {suggestion.icon}
-                      <span className="font-medium">{suggestion.label}</span>
-                      <span className="text-gray-400 text-xs ml-1">
-                        {suggestion.prefix}
-                      </span>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            )}
+            <AnimatePresence>
+              {showCommandPalette && (
+                <motion.div
+                  ref={commandPaletteRef}
+                  className="absolute left-4 right-4 bottom-full mb-2 backdrop-blur-xl bg-black/90 rounded-lg z-50 shadow-lg border border-white/10 overflow-hidden"
+                  initial={{ opacity: 0, y: 5 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: 5 }}
+                >
+                  <div className="py-1">
+                    {commandSuggestions.map((suggestion, index) => (
+                      <div
+                        key={suggestion.prefix}
+                        className={cn(
+                          "flex items-center gap-2 px-3 py-2 text-xs cursor-pointer",
+                          activeSuggestion === index
+                            ? "bg-orange-500/20 text-white"
+                            : "text-white/70 hover:bg-white/5"
+                        )}
+                        onClick={() => selectCommandSuggestion(index)}
+                      >
+                        {suggestion.icon}
+                        <span className="font-medium">{suggestion.label}</span>
+                        <span className="text-white/40 text-xs ml-1">
+                          {suggestion.prefix}
+                        </span>
+                      </div>
+                    ))}
+                  </div>
+                </motion.div>
+              )}
+            </AnimatePresence>
 
             <div className="p-4">
               <Textarea
@@ -530,55 +598,67 @@ export default function AnimatedAIChat() {
                 onBlur={() => setInputFocused(false)}
                 placeholder="Message Vesper-AI to answer your legal queries"
                 containerClassName="w-full"
-                className="w-full px-4 py-3 resize-none bg-transparent border-none text-gray-900 text-sm focus:outline-none placeholder:text-gray-500 min-h-[60px]"
+                className={cn(
+                  "w-full px-4 py-3 resize-none bg-transparent border-none",
+                  "text-white/90 text-sm focus:outline-none placeholder:text-white/20 min-h-[60px]"
+                )}
                 showRing={false}
               />
             </div>
 
-            {attachments.length > 0 && (
-              <div
-                className={`px-4 pb-3 flex gap-2 flex-wrap transition-all duration-300 ${
-                  attachments.length > 0 ? "opacity-100 max-h-20" : "opacity-0 max-h-0"
-                }`}
-              >
-                {attachments.map((file, index) => (
-                  <div
-                    key={index}
-                    className="flex items-center gap-2 text-xs bg-white py-1.5 px-3 rounded-lg text-blue-900 border border-blue-200 transform scale-90 transition-transform duration-200 hover:scale-100"
-                  >
-                    <FileUp className="w-3 h-3" />
-                    <span>{file}</span>
-                    <button
-                      onClick={() => removeAttachment(index)}
-                      className="text-blue-200 hover:text-blue-900 transition-colors"
+            <AnimatePresence>
+              {attachments.length > 0 && (
+                <motion.div
+                  className="px-4 pb-3 flex gap-2 flex-wrap"
+                  initial={{ opacity: 0, height: 0 }}
+                  animate={{ opacity: 1, height: "auto" }}
+                  exit={{ opacity: 0, height: 0 }}
+                >
+                  {attachments.map((file, index) => (
+                    <motion.div
+                      key={index}
+                      className="flex items-center gap-2 text-xs bg-orange-500/10 py-1.5 px-3 rounded-lg text-white/70 border border-orange-500/20"
+                      initial={{ opacity: 0, scale: 0.9 }}
+                      animate={{ opacity: 1, scale: 1 }}
                     >
-                      <X className="w-3 h-3" />
-                    </button>
-                  </div>
-                ))}
-              </div>
-            )}
+                      <FileUp className="w-3 h-3" />
+                      <span>{file}</span>
+                      <button
+                        onClick={() => removeAttachment(index)}
+                        className="text-white/40 hover:text-white"
+                      >
+                        <X className="w-3 h-3" />
+                      </button>
+                    </motion.div>
+                  ))}
+                </motion.div>
+              )}
+            </AnimatePresence>
 
-            <div className="p-4 border-t border-gray-100 flex items-center justify-between gap-4">
-              <button
+            <div className="p-4 border-t border-white/[0.05] flex items-center justify-between gap-4">
+              <motion.button
                 type="button"
                 onClick={handleAttachFile}
-                className="p-2 text-gray-500 hover:text-gray-700 rounded-lg transition-all duration-200 hover:bg-gray-100 transform hover:scale-105"
+                whileTap={{ scale: 0.94 }}
+                className="p-2 text-white/40 hover:text-white/90 rounded-lg transition-colors"
               >
                 <Paperclip className="w-4 h-4" />
-              </button>
+              </motion.button>
 
-              <button
+              <motion.button
                 type="button"
                 onClick={pdfFile ? handleSummarizePdf : handleSendMessage}
+                whileHover={{ scale: 1.01 }}
+                whileTap={{ scale: 0.98 }}
                 disabled={
                   isTyping || isProcessingPdf || (!value.trim() && !pdfFile)
                 }
-                className={`px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 flex items-center gap-2 transform hover:scale-105 ${
+                className={cn(
+                  "px-4 py-2 rounded-lg text-sm font-medium transition-all flex items-center gap-2",
                   value.trim() || pdfFile
-                    ? "bg-blue-500 text-white shadow-lg hover:bg-blue-600 hover:shadow-xl"
-                    : "bg-gray-200 text-gray-400 cursor-not-allowed"
-                }`}
+                    ? "bg-white text-[#0A0A0B] shadow-lg"
+                    : "bg-white/[0.05] text-white/40"
+                )}
               >
                 {isTyping || isProcessingPdf ? (
                   <Loader className="w-4 h-4 animate-spin" />
@@ -586,42 +666,11 @@ export default function AnimatedAIChat() {
                   <Send className="w-4 h-4" />
                 )}
                 <span>Send</span>
-              </button>
+              </motion.button>
             </div>
-          </div>
+          </motion.div>
         </div>
       </div>
-
-      <style jsx>{`
-        @keyframes fadeInUp {
-          from {
-            opacity: 0;
-            transform: translateY(20px);
-          }
-          to {
-            opacity: 1;
-            transform: translateY(0);
-          }
-        }
-        
-        @keyframes fadeIn {
-          from {
-            opacity: 0;
-          }
-          to {
-            opacity: 1;
-          }
-        }
-        
-        @keyframes pulse {
-          0%, 100% {
-            opacity: 1;
-          }
-          50% {
-            opacity: 0.5;
-          }
-        }
-      `}</style>
     </div>
   );
 }
@@ -630,27 +679,20 @@ function TypingDots() {
   return (
     <div className="flex items-center">
       {[1, 2, 3].map((dot) => (
-        <div
+        <motion.div
           key={dot}
-          className="w-2 h-2 bg-gray-400 rounded-full mx-1"
-          style={{
-            animation: `typingDot 1.5s infinite`,
-            animationDelay: `${dot * 0.2}s`
+          className="w-2 h-2 bg-white/70 rounded-full mx-1"
+          animate={{
+            opacity: [0.3, 1, 0.3],
+            scale: [0.8, 1.2, 0.8],
+          }}
+          transition={{
+            duration: 1.5,
+            repeat: Infinity,
+            delay: dot * 0.2,
           }}
         />
       ))}
-      <style jsx>{`
-        @keyframes typingDot {
-          0%, 60%, 100% {
-            opacity: 0.3;
-            transform: scale(0.8);
-          }
-          30% {
-            opacity: 1;
-            transform: scale(1.2);
-          }
-        }
-      `}</style>
     </div>
   );
 }

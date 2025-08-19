@@ -26,50 +26,16 @@ import {
 
 const sidebarNav = [
   {
-    title: "Blogs",
-    basePath: "/dashboard/blogs",
-    baseLink: null,
+    title: "Appointments",
+    basePath: "/dashboard/user/appointments",
+    baseLink: "/dashboard/user",
     items: [
-      { title: "Add Blog", path: "/add-blog" },
-      { title: "All Blogs", path: "/all-blogs" },
+      { title: "Add Appointment", path: "/dashboard/user/add-appointments" },
+      { title: "All Appointments", path: "/dashboard/user/all-appointments" },
     ],
   },
-  {
-    title: "Events",
-    basePath: "/dashboard/events",
-    baseLink: null,
-    items: [
-      { title: "Add Event", path: "/add-event" },
-      { title: "All Events", path: "/all-events" },
-    ],
-  },
-  {
-    title: "Investor Hub",
-    basePath: "/dashboard/investor-hub",
-    baseLink: null,
-    items: [
-      { title: "Add Post", path: "/add-post" },
-      { title: "All Post", path: "/all-post" },
-    ],
-  },
-  {
-    title: "Products",
-    basePath: "/dashboard/products",
-    baseLink: null, // No base link for Products
-    items: [
-      { title: "Add Products", path: "/add-products" },
-      { title: "All Products", path: "/all-products" },
-    ],
-  },
-  {
-    title: "Achievements",
-    basePath: "/dashboard/achievement",
-    baseLink: null, // No base link for Products
-    items: [
-      { title: "Add Achievement", path: "/add-achievement" },
-      { title: "All Achievements", path: "/all-achievements" },
-    ],
-  }
+
+  
 ];
 
 export default function UserSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
