@@ -1,10 +1,11 @@
+"use client"
 import React, { ReactNode, useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 
 interface DashboardLayoutProps {
   children: ReactNode;
 }
-const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children }) => {
+const AuthDashboardLayout: React.FC<DashboardLayoutProps> = ({ children }) => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const router = useRouter();
@@ -58,4 +59,4 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children }) => {
   return <div className="min-h-screen">{children}</div>;
 };
 
-export default DashboardLayout;
+export default AuthDashboardLayout;

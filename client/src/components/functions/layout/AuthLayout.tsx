@@ -1,6 +1,6 @@
 "use client"
 import React, { useState, useEffect, ReactNode } from 'react';
-import {  Lock } from 'lucide-react';
+ 
 import { useRouter } from 'next/navigation';
 interface AuthLayoutProps {
   children: ReactNode;
@@ -16,12 +16,12 @@ const AuthLayout: React.FC<AuthLayoutProps> = ({ children }) => {
 
   const checkAuthentication = () => {
     try {
-      // Check if email and token exist in localStorage
+     
       const email = localStorage.getItem('email');
       const token = localStorage.getItem('token');
       
       if (email && token) {
-        // Both email and token are present
+        
         setIsAuthenticated(true);
       } else {
      

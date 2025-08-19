@@ -2,7 +2,7 @@ import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
 import { Separator } from "@/components/ui/separator";
 import { SidebarTrigger } from "@/components/ui/sidebar";
 import AuthLayout from "@/components/functions/layout/AuthLayout";
-import { LawyerSidebar } from "@/components/ui-elements/sidebar/lawyerSidebar";
+import  LawyerSidebar  from "@/components/ui-elements/sidebar/lawyerSidebar";
 import DashboardLayout from "@/components/functions/layout/DashboardLayout";
 export default function LawyerDashboardLayout({
   children,

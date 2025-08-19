@@ -46,7 +46,7 @@ const sidebarNav = [
    
 ];
 
-export function LawyerSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
+export default function LawyerSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   const pathname = usePathname();
 
   return (

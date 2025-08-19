@@ -72,7 +72,7 @@ const sidebarNav = [
   }
 ];
 
-export function UserSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
+export default function UserSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   const pathname = usePathname();
 
   return (
