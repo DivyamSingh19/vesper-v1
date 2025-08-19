@@ -1,62 +1,42 @@
-"use client"
-import React, { ReactNode, useEffect, useState } from "react";
+"use client";
+import { useEffect } from "react";
 import { useRouter } from "next/navigation";
 
-interface DashboardLayoutProps {
-  children: ReactNode;
+interface AuthData {
+  token: string | null;
+  email: string | null;
+  role: "user" | "lawyer" | null;
 }
-const AuthDashboardLayout: React.FC<DashboardLayoutProps> = ({ children }) => {
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [isLoading, setIsLoading] = useState(true);
+
+export default function DashboardLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   const router = useRouter();
+
   useEffect(() => {
-    checkAuthentication;
-  }, []);
-  const email = localStorage.getItem("email");
-  const role = localStorage.getItem("token");
-  const token = localStorage.getItem("token");
-  const checkAuthentication = () => {
-    try {
-      if (email || token || role) {
-        setIsAuthenticated(true);
-        rediretToDashboard();
-      } else {
-        setIsAuthenticated(false);
-        redirectToLogin();
-      }
-    } catch (error) {
-      console.error("Error checking authentication", error);
-      setIsAuthenticated(false);
-      redirectToLogin();
-    } finally {
-      setIsLoading(false);
+    const token = localStorage.getItem("token");
+    const email = localStorage.getItem("email");
+    const role = localStorage.getItem("role") as "user" | "lawyer" | null;
+
+    const authData: AuthData = { token, email, role };
+
+    if (!authData.token || !authData.email || !authData.role) {
+      router.replace("/login");  
+      return;
     }
-  };
-  const redirectToLogin = () => {
-    router.push("/login");
-  };
-  const rediretToDashboard = () => {
-    if (role == "user") {
-      router.push("/dashboard/user");
+
+ 
+    if (authData.role === "user") {
+      router.replace("/dashboard/user");
+    } else if (authData.role === "lawyer") {
+      router.replace("/dashboard/lawyer");
     } else {
-      router.push("/dashboard/lawyer");
+      router.replace("/login"); 
     }
-  };
-  if (isLoading) {
-    return (
-      <div className="min-h-screen flex items-center justify-center bg-gray-50">
-        <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-500 mx-auto"></div>
-          <p className="mt-4 text-gray-600">Checking authentication...</p>
-        </div>
-      </div>
-    );
-  }
+  }, [router]);
 
-  if (isAuthenticated) {
-    return null;
-  }
-  return <div className="min-h-screen">{children}</div>;
-};
-
-export default AuthDashboardLayout;
+   
+  return <>{children}</>;
+}
