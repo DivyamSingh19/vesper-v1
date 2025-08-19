@@ -26,6 +26,7 @@ export function RegisterForm() {
       email: String(formData.get("email") || "").trim(),
       name: String(formData.get("name") || "").trim(),
       password: String(formData.get("password") || "").trim(),
+      
       role,
     };
 
@@ -34,8 +35,13 @@ export function RegisterForm() {
         let stateRollNumber = String(
           formData.get("stateRollNumber") || ""
         ).trim();
+        let specialization = String (
+          formData.get("specialization") || ""
+        ).trim()
         stateRollNumber = stateRollNumber.replace(/\//g, "");
+        specialization = specialization.replace(/\//g, "")
         payload.stateRollNumber = stateRollNumber;
+        payload.specailization = specialization;
 
         const res = await registerAdv(payload);
 
@@ -124,10 +130,10 @@ export function RegisterForm() {
                 required
               />
               <div className="grid gap-3">
-                <Label htmlFor="specification">Specifications</Label>
+                <Label htmlFor="specialization">Specialization</Label>
                 <Input
-                  id="specification"
-                  name="specification"
+                  id="specialization"
+                  name="specialization"
                   type="text"
                   placeholder="Family Law"
                   required

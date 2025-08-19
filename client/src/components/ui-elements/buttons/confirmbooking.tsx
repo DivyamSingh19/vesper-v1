@@ -1,6 +1,6 @@
 "use client";
 import React from "react";
-import { AnimatedSubscribeButton } from "../magicui/animated-subscribe-button";
+import { AnimatedSubscribeButton } from "@/components/magicui/animated-subscribe-button";
 
 interface props {
   className?: string;

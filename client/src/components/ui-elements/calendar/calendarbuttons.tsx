@@ -2,7 +2,7 @@
 
 import { AriaButtonProps, useButton } from "@react-aria/button";
 import { CalendarState } from "@react-stately/calendar";
-import { Button } from "../ui/button";
+import { Button } from "@/components/ui/button";
 import { mergeProps } from "@react-aria/utils";
 import { useRef } from "react";
 import { useFocusRing } from "@react-aria/focus";
