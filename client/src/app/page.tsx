@@ -1,10 +1,10 @@
 "use client";
 
 import React from "react";
-import FeaturesCard from "@/components/landing/features";
-import Analysis from "@/components/landing/analysis";
-import Flowchart from "@/components/landing/flowchart";
-import F from "@/components/landing/flowchart";
+import FeaturesCard from "@/components/hero/features";
+import Analysis from "@/components/hero/analysis";
+import Flowchart from "@/components/hero/flowchart";
+import F from "@/components/hero/flowchart";
  
 import { motion } from "framer-motion";
 import Hero from "@/components/trial/hero";
