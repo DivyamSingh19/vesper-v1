@@ -17,10 +17,19 @@ const Navbar: React.FC = () => {
 
   const [mobileOpen, setMobileOpen] = useState(false);
 
+  // Mock router for demo - in real app you'd use: const router = useRouter()
+  const router = {
+    push: (path: string) => {
+      console.log(`Navigating to: ${path}`);
+      // In real app: router.push(path)
+    }
+  };
+
   useEffect(() => {
     const checkAuth = (): void => {
-      const role = localStorage.getItem("role");
-      const email = localStorage.getItem("email");
+      // Mock data for demo - in real app you'd check localStorage
+      const role = "user"; 
+      const email = "user@example.com"; 
       const isAuthenticated = !!(role && email);
 
       setAuthState({
@@ -31,25 +40,46 @@ const Navbar: React.FC = () => {
     };
 
     checkAuth();
-    window.addEventListener("storage", checkAuth);
-    return () => {
-      window.removeEventListener("storage", checkAuth);
-    };
   }, []);
 
-  const handleLogin = (): string => (window.location.href = "/login");
-  const handleLogout = (): void => {
-    localStorage.removeItem("role");
-    localStorage.removeItem("email");
-    setAuthState({ isAuthenticated: false, role: null, email: null });
-    window.location.href = "/";
+  const clearAuth = (): void => {
+    try {
+      // In real app, uncomment these lines:
+      // localStorage.removeItem("token");
+      // localStorage.removeItem("id");
+      // localStorage.removeItem("email");
+      // localStorage.removeItem("name");
+      // localStorage.removeItem("role");
+      console.log("Auth data cleared from localStorage");
+    } catch (error) {
+      console.error("Failed to clear authentication data:", error);
+    }
   };
-  const handleSignUp = (): string => (window.location.href = "/register");
+
+  const handleLogin = (): void => {
+    console.log("Redirecting to login...");
+    router.push('/login');
+  };
+  
+  const handleLogout = (): void => {
+    clearAuth();
+    setAuthState({ isAuthenticated: false, role: null, email: null });
+    console.log("Logged out and redirecting to home...");
+    router.push("/");
+  };
+  
+  const handleSignUp = (): void => {
+    console.log("Redirecting to register...");
+    router.push("/register");
+  };
+  
   const handleDashboard = (): void => {
     if (authState.role === "user") {
-      window.location.href = "/dashboard/user";
+      console.log("Redirecting to user dashboard...");
+      router.push("/dashboard/user");
     } else if (authState.role === "lawyer") {
-      window.location.href = "/dashboard/lawyer";
+      console.log("Redirecting to lawyer dashboard...");
+      router.push("/dashboard/lawyer");
     }
   };
 
@@ -61,15 +91,12 @@ const Navbar: React.FC = () => {
   ];
 
   return (
-    <nav className="w-full bg-transparent px-6 py-4 fixed top-0 z-50">
+    <nav className="w-full bg-white/95 backdrop-blur-sm border-b border-gray-200/50 px-6 py-4 fixed top-0 z-50 shadow-sm">
       <div className="max-w-7xl mx-auto flex items-center justify-between">
         {/* Logo */}
         <div className="flex items-center space-x-2">
-          <div className="w-9 h-9 bg-blue-600 rounded-xl flex items-center justify-center shadow-md">
-            <span className="text-white font-bold text-sm">TT</span>
-          </div>
           <span className="text-gray-900 font-bold text-xl tracking-tight">
-            tailark
+            Vesper AI
           </span>
         </div>
 
@@ -79,9 +106,10 @@ const Navbar: React.FC = () => {
             <a
               key={link.href}
               href={link.href}
-              className="text-gray-700 hover:text-blue-600 font-medium transition-colors duration-200"
+              className="text-gray-600 hover:text-blue-600 font-medium transition-colors duration-200 relative group"
             >
               {link.label}
+              <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-blue-600 transition-all duration-200 group-hover:w-full"></span>
             </a>
           ))}
         </div>
@@ -92,13 +120,13 @@ const Navbar: React.FC = () => {
             <>
               <button
                 onClick={handleDashboard}
-                className="px-5 py-2 rounded-xl bg-gradient-to-r from-blue-500 to-blue-700 text-white font-semibold shadow-md hover:shadow-lg transition-all duration-200"
+                className="px-5 py-2 rounded-xl bg-gradient-to-r from-blue-600 to-blue-700 text-white font-semibold shadow-md hover:shadow-lg hover:from-blue-700 hover:to-blue-800 transition-all duration-200 transform hover:-translate-y-0.5"
               >
                 Dashboard
               </button>
               <button
                 onClick={handleLogout}
-                className="px-5 py-2 rounded-xl border border-gray-300 text-gray-700 hover:bg-gray-100 transition-all duration-200"
+                className="px-5 py-2 rounded-xl border border-gray-300 text-gray-700 hover:bg-gray-50 hover:border-gray-400 transition-all duration-200"
               >
                 Logout
               </button>
@@ -107,13 +135,13 @@ const Navbar: React.FC = () => {
             <>
               <button
                 onClick={handleLogin}
-                className="px-5 py-2 rounded-xl border border-gray-300 text-gray-700 hover:bg-gray-100 transition-all duration-200"
+                className="px-5 py-2 rounded-xl border border-gray-300 text-gray-700 hover:bg-gray-50 hover:border-gray-400 transition-all duration-200"
               >
                 Login
               </button>
               <button
                 onClick={handleSignUp}
-                className="px-5 py-2 rounded-xl bg-gradient-to-r from-blue-500 to-purple-600 text-white font-semibold shadow-md hover:shadow-lg transition-all duration-200"
+                className="px-5 py-2 rounded-xl bg-gradient-to-r from-blue-600 to-purple-600 text-white font-semibold shadow-md hover:shadow-lg hover:from-blue-700 hover:to-purple-700 transition-all duration-200 transform hover:-translate-y-0.5"
               >
                 Sign Up
               </button>
@@ -125,37 +153,45 @@ const Navbar: React.FC = () => {
         <div className="md:hidden">
           <button
             onClick={() => setMobileOpen(!mobileOpen)}
-            className="text-gray-700 hover:text-blue-600"
+            className="text-gray-600 hover:text-blue-600 p-2 rounded-lg hover:bg-gray-100 transition-all duration-300 relative"
           >
-            {mobileOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+            <div className="relative w-6 h-6 flex items-center justify-center">
+              <Menu 
+                className={`w-6 h-6 transition-all duration-300 ${mobileOpen ? 'opacity-0 rotate-180 scale-75' : 'opacity-100 rotate-0 scale-100'}`} 
+              />
+              <X 
+                className={`w-6 h-6 absolute transition-all duration-300 ${mobileOpen ? 'opacity-100 rotate-0 scale-100' : 'opacity-0 rotate-180 scale-75'}`} 
+              />
+            </div>
           </button>
         </div>
       </div>
 
       {/* Mobile Menu */}
       {mobileOpen && (
-        <div className="md:hidden mt-4 space-y-4 bg-white rounded-lg shadow-md p-4">
+        <div className="md:hidden mt-4 space-y-4 bg-white/95 backdrop-blur-sm rounded-xl shadow-lg border border-gray-200/50 p-6 mx-4">
           {navLinks.map((link) => (
             <a
               key={link.href}
               href={link.href}
-              className="block text-gray-700 hover:text-blue-600 font-medium"
+              className="block text-gray-600 hover:text-blue-600 font-medium py-2 px-3 rounded-lg hover:bg-blue-50 transition-all duration-200"
+              onClick={() => setMobileOpen(false)}
             >
               {link.label}
             </a>
           ))}
-          <div className="flex flex-col space-y-3 pt-4 border-t">
+          <div className="flex flex-col space-y-3 pt-4 border-t border-gray-200">
             {authState.isAuthenticated ? (
               <>
                 <button
                   onClick={handleDashboard}
-                  className="w-full px-5 py-2 rounded-xl bg-gradient-to-r from-blue-500 to-blue-700 text-white font-semibold shadow-md hover:shadow-lg transition-all duration-200"
+                  className="w-full px-5 py-3 rounded-xl bg-gradient-to-r from-blue-600 to-blue-700 text-white font-semibold shadow-md hover:shadow-lg hover:from-blue-700 hover:to-blue-800 transition-all duration-200"
                 >
                   Dashboard
                 </button>
                 <button
                   onClick={handleLogout}
-                  className="w-full px-5 py-2 rounded-xl border border-gray-300 text-gray-700 hover:bg-gray-100 transition-all duration-200"
+                  className="w-full px-5 py-3 rounded-xl border border-gray-300 text-gray-700 hover:bg-gray-50 hover:border-gray-400 transition-all duration-200"
                 >
                   Logout
                 </button>
@@ -164,13 +200,13 @@ const Navbar: React.FC = () => {
               <>
                 <button
                   onClick={handleLogin}
-                  className="w-full px-5 py-2 rounded-xl border border-gray-300 text-gray-700 hover:bg-gray-100 transition-all duration-200"
+                  className="w-full px-5 py-3 rounded-xl border border-gray-300 text-gray-700 hover:bg-gray-50 hover:border-gray-400 transition-all duration-200"
                 >
                   Login
                 </button>
                 <button
                   onClick={handleSignUp}
-                  className="w-full px-5 py-2 rounded-xl bg-gradient-to-r from-blue-500 to-purple-600 text-white font-semibold shadow-md hover:shadow-lg transition-all duration-200"
+                  className="w-full px-5 py-3 rounded-xl bg-gradient-to-r from-blue-600 to-purple-600 text-white font-semibold shadow-md hover:shadow-lg hover:from-blue-700 hover:to-purple-700 transition-all duration-200"
                 >
                   Sign Up
                 </button>

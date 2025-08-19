@@ -1,20 +1,17 @@
 "use client";
 import React from "react";
-import { motion } from "framer-motion";
-
+import { useRouter } from "next/navigation"; 
+import { Button } from "../ui/button";
 const Hero = () => {
-  const lineVariants = {
-    hidden: { width: 0 },
-    visible: { width: "85%", transition: { duration: 0.8, delay: 0.2 } },
-  };
-
+   
+  const router = useRouter()
   return (
     <div className="relative h-screen w-full bg-white bg-[radial-gradient(100%_50%_at_50%_0%,rgba(0,163,255,0.13)_0,rgba(0,163,255,0)_50%,rgba(0,163,255,0)_100%)]">
       <div className="flex flex-col items-center justify-center h-full px-4">
         <div className="text-center max-w-4xl">
           {/* Top label - close to main text */}
-          <div className="inline-flex items-center px-4 py-2 bg-gray-900 text-white text-sm rounded-full border border-gray-700 mb-6">
-            <span>Introducing Support for AI Models</span>
+          <div className="inline-flex items-center px-4 py-2 bg-gray-900 text-white text-sm rounded-full border border-gray-700 mb-6 hover:cursor-pointer">
+            <span onClick={()=>{router.push("/vesper-ai")}} >Vesper AI</span>
             <svg
               className="ml-2 w-4 h-4"
               fill="none"
@@ -47,22 +44,15 @@ const Hero = () => {
 
           {/* Action buttons */}
           <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-8">
-            <button className="px-8 py-3 bg-white text-gray-900 font-semibold rounded-lg border border-gray-300 hover:bg-gray-50 transition-colors duration-200">
+            <Button onClick={()=>{router.push("/login")}} className="px-8 py-3 bg-white text-gray-900 font-semibold rounded-lg border border-gray-300 hover:bg-gray-50 transition-colors duration-200 hover:cursor-pointer">
               Get Started
-            </button>
-            <button className="px-8 py-3 text-gray-700 font-semibold hover:text-gray-900 transition-colors duration-200">
+            </Button>
+            <Button onClick={()=>router.push("/vesper-ai")}className="px-8 py-3 text-white font-semibold transition-colors duration-200 hover:cursor-pointer hover:bg-black hover:text-white">
               About Vesper
-            </button>
+            </Button>
           </div>
 
-          <p className="text-gray-500 text-sm mb-4">
-            Trusted by 500+ lawyers and professionals worldwide
-          </p>
-
-          <motion.span
-            className="block h-[3px] bg-blue-400 mx-auto mt-5 rounded-full"
-            variants={lineVariants}
-          />
+          
         </div>
       </div>
     </div>
