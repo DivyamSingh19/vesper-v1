@@ -1,4 +1,4 @@
-import { dash } from "../functions/http/axiosDash";
+import { dash } from "../http/axiosDash";
 
 export const postAppointmentAsync = async (payload: any) => {
   try {
