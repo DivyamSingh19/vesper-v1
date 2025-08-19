@@ -1,34 +1,61 @@
-import { AppSidebar } from "@/components/app-sidebar";
-import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
-import { Separator } from "@/components/ui/separator";
-import { SidebarTrigger } from "@/components/ui/sidebar";
+import React, { ReactNode, useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 
-export default function DashboardLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
-  return (
-    <>
-      <SidebarProvider >
-      <div className="flex min-h-screen w-full">
-        <AppSidebar />
-
-        {/* Content Area */}
-        <div className="flex-1 ">
-          
-            <header className="bg-background sticky top-0 flex h-16 shrink-0 items-center gap-2 border-b px-4">
-              <SidebarTrigger className="-ml-1" />
-              <Separator orientation="vertical" className="mr-2 h-4" />
-              HELLOOOO
-              {/* Add breadcrumb or other header content here */}
-            </header>
-
-            <main className="p-4">{children}</main>
-         
+interface DashboardLayoutProps {
+  children: ReactNode;
+}
+const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children }) => {
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
+  const router = useRouter();
+  useEffect(() => {
+    checkAuthentication;
+  }, []);
+  const email = localStorage.getItem("email");
+  const role = localStorage.getItem("token");
+  const token = localStorage.getItem("token");
+  const checkAuthentication = () => {
+    try {
+      if (email || token || role) {
+        setIsAuthenticated(true);
+        rediretToDashboard();
+      } else {
+        setIsAuthenticated(false);
+        redirectToLogin();
+      }
+    } catch (error) {
+      console.error("Error checking authentication", error);
+      setIsAuthenticated(false);
+      redirectToLogin();
+    } finally {
+      setIsLoading(false);
+    }
+  };
+  const redirectToLogin = () => {
+    router.push("/login");
+  };
+  const rediretToDashboard = () => {
+    if (role == "user") {
+      router.push("/dashboard/user");
+    } else {
+      router.push("/dashboard/lawyer");
+    }
+  };
+  if (isLoading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-gray-50">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-500 mx-auto"></div>
+          <p className="mt-4 text-gray-600">Checking authentication...</p>
         </div>
       </div>
-    </SidebarProvider>
-    </>
-  );
-}
+    );
+  }
+
+  if (isAuthenticated) {
+    return null;
+  }
+  return <div className="min-h-screen">{children}</div>;
+};
+
+export default DashboardLayout;

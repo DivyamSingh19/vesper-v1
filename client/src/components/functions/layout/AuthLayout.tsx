@@ -17,16 +17,16 @@ const AuthLayout: React.FC<AuthLayoutProps> = ({ children }) => {
   const checkAuthentication = () => {
     try {
       // Check if email and token exist in localStorage
-      const email = localStorage.getItem('adminData');
-      const token = localStorage.getItem('adminToken');
+      const email = localStorage.getItem('email');
+      const token = localStorage.getItem('token');
       
       if (email && token) {
         // Both email and token are present
         setIsAuthenticated(true);
       } else {
-        // Either email or token is missing
+     
         setIsAuthenticated(false);
-        // Redirect to login page
+     
         redirectToLogin();
       }
     } catch (error) {
@@ -42,14 +42,7 @@ const AuthLayout: React.FC<AuthLayoutProps> = ({ children }) => {
     router.push("/login")
   };
 
-  const handleLogout = () => {
-   
-    localStorage.removeItem('adminData');
-    localStorage.removeItem('adminToken');
-    redirectToLogin();
-  };
-
-  // Loading state while checking authentication
+ 
   if (isLoading) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-gray-50">
