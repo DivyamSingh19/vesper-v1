@@ -4,7 +4,7 @@ import React from "react";
 import FeaturesCard from "@/components/landing/features";
 import Analysis from "@/components/landing/analysis";
 import Flowchart from "@/components/landing/flowchart";
-import F from "@/components/landing/footer";
+import F from "@/components/landing/flowchart";
  
 import { motion } from "framer-motion";
 import Hero from "@/components/trial/hero";
