@@ -1,6 +1,6 @@
 @import "tailwindcss";
 @import "tw-animate-css";
-
+/* 
 @custom-variant dark (&:is(.dark *));
 
 @theme inline {
@@ -43,7 +43,7 @@
   --radius-lg: var(--radius);
   --radius-xl: calc(var(--radius) + 4px);
   /* for infinite moving cards */
-  --animate-scroll: scroll var(--animation-duration, 40s)
+  /* --animate-scroll: scroll var(--animation-duration, 40s)
     var(--animation-direction, forwards) linear infinite;
   @keyframes scroll {
     to {
@@ -194,4 +194,4 @@
       transform: translate(-50%, -50%) scale(1);
       opacity: 0;
     }
-  }
+  } */ 
