@@ -8,7 +8,7 @@ interface AuthData {
   role: "user" | "lawyer" | null;
 }
 
-export default function DashboardLayout({
+export default function DashboardAuthLayout({
   children,
 }: {
   children: React.ReactNode;

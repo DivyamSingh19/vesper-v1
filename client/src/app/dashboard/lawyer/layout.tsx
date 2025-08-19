@@ -2,11 +2,12 @@ import  LawyerSidebar  from "@/components/ui-elements/sidebar/lawyerSidebar";
 import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
 import { Separator } from "@/components/ui/separator";
 import { SidebarTrigger } from "@/components/ui/sidebar";
+import DashboardAuthLayout from "@/components/functions/layout/DashboardLayout";
  
 export default function DashboardLayout({ children }: { children: React.ReactNode }) {
   return (
     <SidebarProvider>
-       
+       <DashboardAuthLayout> 
       <div className="flex min-h-screen">
         
         <LawyerSidebar/>
@@ -26,7 +27,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
           </SidebarInset>
         </div>
       </div>
-      
+      </DashboardAuthLayout>
     </SidebarProvider>
   );
 }
